@@ -1,6156 +1,4783 @@
-<!DOCTYPE html>
-<html lang="th">
+<!DOCTYPE html><html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#02070a">
-
-<title>MY OCEAN — Supitchaya Portfolio</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<meta name="viewport" content="width=device-width,initial-scale=1.0"><title>MY OCEAN — Supitchaya Portfolio</title><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>
 
 /* =========================================================
-   MY OCEAN — ULTRA DEEP SEA EDITION
+   RESET
 ========================================================= */
 
-:root{
-  --bg:#02070a;
-  --deep:#02131b;
-  --text:#edfdff;
-  --muted:#7399a5;
-
-  --cyan:#72f3ff;
-  --cyan2:#00bcd4;
-  --white:#eaffff;
-
-  --green:#00ff9d;
-  --green2:#baffdf;
-
-  --line:rgba(114,243,255,.30);
-  --glass:rgba(2,16,23,.70);
-
-  --ease:cubic-bezier(.2,.8,.2,1);
-}
-
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-html,
+html{
+    scroll-behavior:smooth;
+}
+
+:root{
+    --bg:#021018;
+    --deep:#031923;
+    --text:#eaffff;
+    --muted:#83aeb8;
+    --cyan:#69efff;
+    --cyan2:#00bdd8;
+    --white:#fff;
+    --green:#00ff91;
+    --green2:#8affd0;
+    --line:rgba(105,239,255,.25);
+    --glass:rgba(3,21,29,.72);
+    --ease:cubic-bezier(.2,.8,.2,1);
+}
+
 body{
-  width:100%;
-  height:100%;
-  background:#010507;
+    min-height:100vh;
+    overflow:hidden;
+    color:var(--text);
+    font-family:
+        "Noto Sans Thai",
+        "DM Mono",
+        sans-serif;
+    cursor:none;
+
+    background:
+        radial-gradient(
+            circle at 50% 15%,
+            #12627a 0%,
+            transparent 35%
+        ),
+        linear-gradient(
+            #02141d,
+            #020b12 60%,
+            #01070b
+        );
+
+    transition:
+        background 1s ease,
+        color 1s ease;
 }
 
-body{
-  min-height:100vh;
-  color:var(--text);
-  font-family:"Noto Sans Thai",sans-serif;
-  overflow:hidden;
-  cursor:none;
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+#cursor{
+    position:fixed;
+    left:0;
+    top:0;
+
+    width:44px;
+    height:44px;
+
+    border:1px solid rgba(255,255,255,.8);
+    border-radius:50%;
+
+    transform:translate(-50%,-50%);
+
+    pointer-events:none;
+    z-index:99999;
+
+    transition:
+        width .25s,
+        height .25s,
+        border-color .3s,
+        box-shadow .3s;
+
+    mix-blend-mode:screen;
 }
 
-body.scan{
-  --cyan:#00ff9d;
-  --cyan2:#00d978;
-  --line:rgba(0,255,157,.35);
-  --glass:rgba(1,17,11,.76);
+#cursor::before,
+#cursor::after{
+    content:"";
+    position:absolute;
+    background:rgba(255,255,255,.8);
 }
 
-button,
-a{
-  font:inherit;
-  color:inherit;
+#cursor::before{
+    width:1px;
+    height:65px;
+    left:50%;
+    top:-11px;
 }
 
-button{
-  border:0;
-  background:none;
+#cursor::after{
+    width:65px;
+    height:1px;
+    top:50%;
+    left:-11px;
 }
 
-a{
-  text-decoration:none;
+#dot{
+    position:fixed;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+    background:#fff;
+
+    box-shadow:
+        0 0 10px #fff,
+        0 0 25px var(--cyan);
+
+    transform:translate(-50%,-50%);
+
+    pointer-events:none;
+    z-index:100000;
 }
 
-::selection{
-  background:var(--cyan);
-  color:#00100b;
+/* =========================================================
+   WATER LIGHT
+========================================================= */
+
+.water-light{
+    position:fixed;
+
+    width:250px;
+    height:250px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+    z-index:3;
+
+    transform:translate(-50%,-50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(190,255,255,.18),
+            rgba(50,220,255,.07) 30%,
+            transparent 70%
+        );
+
+    filter:blur(5px);
+    mix-blend-mode:screen;
 }
 
+/* =========================================================
+   MOUSE WATER EFFECT
+========================================================= */
+
+.mouse-wave{
+    position:fixed;
+
+    width:20px;
+    height:20px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(210,255,255,.9);
+
+    transform:translate(-50%,-50%);
+
+    pointer-events:none;
+    z-index:9990;
+
+    animation:
+        waveExpand 1.5s
+        cubic-bezier(.15,.7,.25,1)
+        forwards;
+
+    box-shadow:
+        0 0 10px rgba(80,230,255,.5),
+        inset 0 0 10px rgba(255,255,255,.15);
+}
+
+.mouse-wave::before,
+.mouse-wave::after{
+    content:"";
+    position:absolute;
+
+    inset:-8px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(110,245,255,.35);
+}
+
+.mouse-wave::after{
+    inset:-18px;
+
+    border-color:
+        rgba(255,255,255,.13);
+}
+
+@keyframes waveExpand{
+
+    0%{
+        width:8px;
+        height:8px;
+        opacity:0;
+    }
+
+    12%{
+        opacity:1;
+    }
+
+    100%{
+        width:150px;
+        height:150px;
+        opacity:0;
+    }
+}
+
+/* secondary wave */
+
+.mouse-wave.small{
+    animation-duration:1s;
+}
+
+.mouse-spark{
+    position:fixed;
+
+    width:3px;
+    height:3px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 8px #fff,
+        0 0 16px var(--cyan);
+
+    pointer-events:none;
+    z-index:9991;
+
+    animation:
+        sparkFloat 1s ease-out forwards;
+}
+
+@keyframes sparkFloat{
+
+    0%{
+        transform:
+            translate(0,0)
+            scale(.4);
+
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    100%{
+        transform:
+            translate(
+                var(--sx),
+                var(--sy)
+            )
+            scale(0);
+
+        opacity:0;
+    }
+}
+
+/* bubbles */
+
+.mouse-bubble{
+    position:fixed;
+
+    width:var(--bs);
+    height:var(--bs);
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(225,255,255,.8);
+
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            rgba(255,255,255,.8),
+            rgba(100,230,255,.08) 40%,
+            transparent 70%
+        );
+
+    box-shadow:
+        0 0 8px rgba(100,235,255,.25);
+
+    pointer-events:none;
+    z-index:9992;
+
+    animation:
+        bubbleMouse
+        var(--bd)
+        ease-out
+        forwards;
+}
+
+@keyframes bubbleMouse{
+
+    0%{
+        transform:
+            translate(-50%,-50%)
+            scale(.2);
+
+        opacity:0;
+    }
+
+    15%{
+        opacity:.85;
+    }
+
+    100%{
+        transform:
+            translate(
+                calc(-50% + var(--bx)),
+                calc(-50% - var(--by))
+            )
+            scale(1.3);
+
+        opacity:0;
+    }
+}
 
 /* =========================================================
    LOADER
 ========================================================= */
 
 #loader{
-  position:fixed;
-  inset:0;
-  z-index:999999;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  background:#010608;
-  transition:
-    opacity 1s ease,
-    visibility 1s ease;
+    position:fixed;
+    inset:0;
+
+    z-index:200000;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            #07546b 0%,
+            #021c2a 42%,
+            #01090e 100%
+        );
+
+    transition:
+        opacity 1.2s ease,
+        visibility 1.2s ease;
 }
 
 #loader.hide{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
-
-.loader-ocean{
-  position:absolute;
-  inset:0;
-
-  background:
-    radial-gradient(
-      ellipse at 50% 25%,
-      rgba(111,244,255,.20),
-      transparent 28%
-    ),
-    radial-gradient(
-      ellipse at 50% 100%,
-      rgba(0,120,150,.18),
-      transparent 45%
-    ),
-    linear-gradient(
-      180deg,
-      #082a36 0%,
-      #031820 45%,
-      #010609 100%
-    );
-}
-
-.loader-light{
-  position:absolute;
-  width:800px;
-  height:800px;
-  left:50%;
-  top:42%;
-  transform:translate(-50%,-50%);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(224,255,255,.18),
-      rgba(76,231,250,.08) 28%,
-      transparent 65%
-    );
-
-  filter:blur(10px);
-  animation:loaderLight 5s ease-in-out infinite alternate;
-}
-
-.loader-ray{
-  position:absolute;
-  top:-20%;
-  width:230px;
-  height:120%;
-  clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(236,255,255,.15),
-      rgba(81,225,247,.035),
-      transparent
-    );
-
-  filter:blur(12px);
-  transform-origin:top center;
-  animation:loaderRay 7s ease-in-out infinite alternate;
-}
-
-.lr1{
-  left:13%;
-  transform:rotate(-14deg);
-}
-
-.lr2{
-  left:42%;
-  width:330px;
-  animation-delay:-2s;
-}
-
-.lr3{
-  left:72%;
-  transform:rotate(13deg);
-  animation-delay:-4s;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
 }
 
 .loader-grid{
-  position:absolute;
-  inset:-20%;
+    position:absolute;
+    inset:0;
 
-  background-image:
-    linear-gradient(rgba(117,243,255,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(117,243,255,.035) 1px,transparent 1px);
+    opacity:.22;
 
-  background-size:45px 45px;
+    background-image:
+        linear-gradient(
+            rgba(105,239,255,.2) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(105,239,255,.2) 1px,
+            transparent 1px
+        );
 
-  transform:
-    perspective(700px)
-    rotateX(65deg)
-    scale(1.4)
-    translateY(28%);
+    background-size:55px 55px;
 
-  transform-origin:center bottom;
+    transform:
+        perspective(500px)
+        rotateX(62deg)
+        scale(1.5);
+
+    transform-origin:center bottom;
+
+    animation:
+        gridMove 8s linear infinite;
 }
 
-.loader-rings{
-  position:absolute;
+@keyframes gridMove{
+    to{
+        background-position:
+            0 55px,
+            55px 0;
+    }
+}
 
-  width:min(90vw,90vh);
-  height:min(90vw,90vh);
+.loader-light{
+    position:absolute;
 
-  max-width:850px;
-  max-height:850px;
+    width:650px;
+    height:650px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(90,242,255,.2),
+            transparent 65%
+        );
+
+    filter:blur(20px);
+
+    animation:
+        loaderPulse 3s
+        ease-in-out
+        infinite;
+}
+
+@keyframes loaderPulse{
+
+    50%{
+        transform:scale(1.15);
+        opacity:.55;
+    }
 }
 
 .loader-ring{
-  position:absolute;
-  inset:0;
+    position:absolute;
 
-  border-radius:50%;
-  border:1px solid rgba(121,242,255,.13);
+    width:430px;
+    height:430px;
 
-  box-shadow:
-    0 0 50px rgba(91,238,255,.025),
-    inset 0 0 50px rgba(91,238,255,.015);
+    border:
+        1px solid
+        rgba(137,246,255,.28);
+
+    border-radius:50%;
+
+    animation:
+        spin 8s linear infinite;
 }
 
-.loader-ring.r2{
-  inset:8%;
+.loader-ring::before,
+.loader-ring::after{
+    content:"";
+
+    position:absolute;
+
+    inset:30px;
+
+    border:
+        1px dashed
+        rgba(255,255,255,.2);
+
+    border-radius:50%;
 }
 
-.loader-ring.r3{
-  inset:18%;
+.loader-ring::after{
+    inset:80px;
+    border-color:
+        rgba(0,255,145,.3);
 }
 
-.loader-ring.r4{
-  inset:31%;
-}
-
-.loader-ring.r5{
-  inset:43%;
-
-  border-style:dashed;
-
-  animation:
-    spin 12s linear infinite reverse;
-}
-
-.loader-ring.r6{
-  inset:48%;
-
-  border-color:rgba(255,255,255,.16);
-
-  animation:
-    spin 8s linear infinite;
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 .loader-sweep{
-  position:absolute;
-  left:50%;
-  top:50%;
+    position:absolute;
 
-  width:50%;
-  height:2px;
+    width:430px;
+    height:430px;
 
-  transform-origin:left center;
+    border-radius:50%;
 
-  background:
-    linear-gradient(
-      90deg,
-      #fff,
-      var(--cyan),
-      transparent
-    );
+    background:
+        conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            transparent 285deg,
+            rgba(125,250,255,.45) 330deg,
+            transparent 350deg
+        );
 
-  box-shadow:
-    0 0 10px #fff,
-    0 0 30px var(--cyan);
+    animation:
+        spin 2.8s linear infinite;
 
-  animation:spin 2.4s linear infinite;
+    mask-image:
+        radial-gradient(
+            circle,
+            transparent 59%,
+            #000 60%,
+            #000 61%,
+            transparent 62%
+        );
 }
 
 .loader-core{
-  position:absolute;
-  left:50%;
-  top:50%;
+    width:115px;
+    height:115px;
 
-  width:115px;
-  height:115px;
+    border-radius:50%;
 
-  transform:translate(-50%,-50%);
+    position:relative;
 
-  border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-  display:grid;
-  place-items:center;
+    border:
+        1px solid
+        rgba(255,255,255,.75);
 
-  border:
-    1px solid rgba(224,255,255,.75);
+    box-shadow:
+        0 0 20px rgba(105,239,255,.7),
+        0 0 80px rgba(0,200,255,.35),
+        inset 0 0 35px rgba(255,255,255,.12);
 
-  background:
-    radial-gradient(
-      circle,
-      white 0 2%,
-      rgba(118,244,255,.48) 8%,
-      rgba(73,224,246,.10) 35%,
-      transparent 70%
-    );
-
-  box-shadow:
-    0 0 25px rgba(255,255,255,.25),
-    0 0 80px rgba(84,236,255,.28),
-    inset 0 0 35px rgba(84,236,255,.18);
-
-  animation:
-    corePulse 2s ease-in-out infinite;
+    animation:
+        corePulse 2s
+        ease-in-out
+        infinite;
 }
 
-.loader-core:before,
-.loader-core:after{
-  content:"";
-  position:absolute;
+.loader-core::before{
+    content:"";
 
-  border-radius:50%;
-  border:1px solid var(--cyan);
+    position:absolute;
+
+    inset:15px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(0,255,145,.65);
 }
 
-.loader-core:before{
-  inset:18px;
+.loader-core::after{
+    content:"";
+
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    background:#fff;
+    border-radius:50%;
+
+    box-shadow:
+        0 0 15px #fff,
+        0 0 35px var(--cyan);
 }
 
-.loader-core:after{
-  inset:35px;
+@keyframes corePulse{
+
+    50%{
+        transform:scale(1.08);
+
+        box-shadow:
+            0 0 40px rgba(105,239,255,.9),
+            0 0 120px rgba(0,200,255,.4);
+    }
+}
+
+.loader-text{
+    position:absolute;
+
+    text-align:center;
+
+    top:calc(50% + 105px);
+}
+
+.loader-title{
+    font-family:"DM Mono",monospace;
+
+    font-size:18px;
+
+    letter-spacing:7px;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 10px #fff,
+        0 0 25px var(--cyan);
+}
+
+.loader-status{
+    margin-top:13px;
+
+    font-size:10px;
+
+    letter-spacing:3px;
+
+    color:var(--cyan);
 }
 
 .loader-percent{
-  position:relative;
-  z-index:5;
+    margin-top:8px;
 
-  font:
-    500 18px "DM Mono";
+    font-family:"DM Mono",monospace;
 
-  text-shadow:
-    0 0 12px var(--cyan),
-    0 0 25px var(--cyan);
+    font-size:13px;
+
+    color:#fff;
 }
-
-.boot{
-  position:relative;
-  z-index:20;
-
-  width:min(760px,88vw);
-
-  text-align:center;
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-.boot-title{
-  margin-top:min(45vh,380px);
-
-  font:
-    500 clamp(30px,5vw,58px)
-    "DM Mono";
-
-  letter-spacing:.28em;
-
-  color:#f2ffff;
-
-  text-shadow:
-    0 0 8px white,
-    0 0 20px var(--cyan),
-    0 0 55px var(--cyan),
-    0 0 100px rgba(70,230,255,.5);
-
-  animation:titleGlow 2s ease-in-out infinite alternate;
-}
-
-.boot-sub{
-  margin-top:10px;
-
-  color:#78a6b0;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.18em;
-}
-
-.boot-bar{
-  width:min(460px,72vw);
-  height:4px;
-
-  margin:20px auto 12px;
-
-  overflow:hidden;
-
-  border-radius:20px;
-
-  background:rgba(255,255,255,.06);
-
-  box-shadow:
-    0 0 15px rgba(97,238,255,.08);
-}
-
-.boot-bar i{
-  display:block;
-
-  width:0;
-  height:100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--cyan2),
-      #fff,
-      var(--cyan),
-      transparent
-    );
-
-  box-shadow:
-    0 0 15px var(--cyan),
-    0 0 35px var(--cyan);
-
-  animation:boot 3.2s forwards;
-}
-
-.boot-status{
-  display:flex;
-  gap:20px;
-
-  color:#587d87;
-
-  font:
-    7px "DM Mono";
-
-  letter-spacing:.12em;
-}
-
-.loader-corner{
-  position:absolute;
-
-  color:#638893;
-
-  font:
-    7px "DM Mono";
-
-  letter-spacing:.11em;
-}
-
-.lc1{
-  left:25px;
-  top:24px;
-}
-
-.lc2{
-  right:25px;
-  top:24px;
-}
-
-.lc3{
-  left:25px;
-  bottom:55px;
-}
-
-.lc4{
-  right:25px;
-  bottom:55px;
-}
-
-.loader-readout{
-  position:absolute;
-
-  left:25px;
-  right:25px;
-  bottom:23px;
-
-  display:flex;
-  justify-content:space-between;
-
-  color:#52737c;
-
-  font:
-    7px "DM Mono";
-
-  letter-spacing:.12em;
-}
-
-
-/* loader bubbles */
-
-.loader-bubbles{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-
-.loader-bubble{
-  position:absolute;
-
-  width:var(--size);
-  height:var(--size);
-
-  left:var(--left);
-  bottom:-30px;
-
-  border:
-    1px solid rgba(210,252,255,.35);
-
-  border-radius:50%;
-
-  box-shadow:
-    inset 2px 2px 5px rgba(255,255,255,.12),
-    0 0 12px rgba(105,238,255,.08);
-
-  animation:
-    loaderBubble var(--duration) linear infinite;
-
-  animation-delay:var(--delay);
-}
-
-
-/* black fish shadows */
-
-.loader-shadow-fish{
-  position:absolute;
-
-  color:#000;
-
-  opacity:.48;
-
-  filter:
-    blur(3px)
-    drop-shadow(0 0 10px rgba(0,0,0,.8));
-
-  animation:
-    shadowSwim var(--speed) linear infinite;
-
-  white-space:nowrap;
-}
-
-.lsf1{
-  top:24%;
-  left:-15%;
-  font-size:60px;
-  --speed:17s;
-}
-
-.lsf2{
-  top:61%;
-  left:-20%;
-  font-size:34px;
-  --speed:24s;
-  animation-delay:-7s;
-}
-
-.lsf3{
-  top:43%;
-  left:110%;
-  font-size:85px;
-  --speed:21s;
-  animation-direction:reverse;
-}
-
 
 /* =========================================================
-   OCEAN BACKGROUND
+   OCEAN
 ========================================================= */
 
-#ocean{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  overflow:hidden;
+.ocean{
+    position:fixed;
+    inset:0;
 
-  background:
-    radial-gradient(
-      ellipse at 50% -4%,
-      rgba(205,255,255,.22),
-      transparent 27%
-    ),
-    radial-gradient(
-      ellipse at 8% 43%,
-      rgba(0,137,166,.15),
-      transparent 28%
-    ),
-    radial-gradient(
-      ellipse at 90% 60%,
-      rgba(0,93,125,.12),
-      transparent 30%
-    ),
-    linear-gradient(
-      180deg,
-      #06232e 0%,
-      #041923 31%,
-      #021017 58%,
-      #010508 100%
-    );
+    overflow:hidden;
 
-  transition:
-    background 1s ease;
+    z-index:0;
 }
 
-body.scan #ocean{
-  background:
-    radial-gradient(
-      ellipse at 50% 0%,
-      rgba(0,255,157,.11),
-      transparent 28%
-    ),
-    radial-gradient(
-      ellipse at 15% 45%,
-      rgba(0,255,157,.055),
-      transparent 30%
-    ),
-    linear-gradient(
-      180deg,
-      #042018 0%,
-      #02130e 40%,
-      #010a07 75%,
-      #010403 100%
-    );
+.sky-gradient{
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            ellipse at 50% -10%,
+            rgba(114,244,255,.42),
+            transparent 40%
+        ),
+        linear-gradient(
+            to bottom,
+            #0a657d 0%,
+            #063f55 28%,
+            #032938 58%,
+            #01131c 100%
+        );
+
+    transition:1.2s;
 }
 
+.light-rays{
+    position:absolute;
 
-/* sun */
+    inset:-20%;
 
-.sun{
-  position:absolute;
+    background:
+        conic-gradient(
+            from 250deg at 50% 0%,
+            transparent 0deg,
+            rgba(180,255,255,.13) 15deg,
+            transparent 35deg,
+            rgba(255,255,255,.08) 48deg,
+            transparent 72deg
+        );
 
-  left:50%;
-  top:-90px;
+    filter:blur(2px);
 
-  width:620px;
-  height:280px;
+    animation:
+        rayMove 15s
+        ease-in-out
+        infinite alternate;
 
-  transform:translateX(-50%);
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      ellipse,
-      rgba(235,255,255,.42),
-      rgba(100,228,246,.13) 35%,
-      transparent 72%
-    );
-
-  filter:blur(15px);
-
-  animation:
-    sunPulse 6s ease-in-out infinite alternate;
+    opacity:.8;
 }
 
-body.scan .sun{
-  background:
-    radial-gradient(
-      ellipse,
-      rgba(0,255,157,.18),
-      transparent 70%
-    );
+@keyframes rayMove{
+
+    to{
+        transform:
+            translateX(8%)
+            rotate(4deg);
+    }
 }
-
-
-/* light rays */
-
-.ray{
-  position:absolute;
-
-  top:-10%;
-
-  width:260px;
-  height:95%;
-
-  clip-path:
-    polygon(42% 0,58% 0,100% 100%,0 100%);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(235,255,255,.13),
-      rgba(86,230,249,.035),
-      transparent
-    );
-
-  filter:blur(10px);
-
-  animation:
-    rayMove 10s ease-in-out infinite alternate;
-}
-
-.r1{
-  left:8%;
-  transform:rotate(-12deg);
-}
-
-.r2{
-  left:38%;
-  width:350px;
-  animation-delay:-3s;
-}
-
-.r3{
-  left:70%;
-  transform:rotate(12deg);
-  opacity:.48;
-  animation-delay:-6s;
-}
-
-body.scan .ray{
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0,255,157,.09),
-      transparent
-    );
-}
-
-
-/* caustics */
 
 .caustics{
-  position:absolute;
-  inset:-15%;
+    position:absolute;
+    inset:0;
 
-  opacity:.22;
+    opacity:.28;
 
-  background:
-    radial-gradient(
-      ellipse at 20% 0%,
-      transparent 0 10%,
-      rgba(255,255,255,.17) 11%,
-      transparent 14%
-    ),
-    radial-gradient(
-      ellipse at 75% 2%,
-      transparent 0 13%,
-      rgba(255,255,255,.15) 14%,
-      transparent 18%
-    ),
-    radial-gradient(
-      ellipse at 45% 0%,
-      transparent 0 17%,
-      rgba(255,255,255,.10) 18%,
-      transparent 22%
-    );
+    background-image:
+        repeating-radial-gradient(
+            ellipse at 30% 20%,
+            transparent 0 20px,
+            rgba(170,255,255,.12) 21px 22px,
+            transparent 23px 50px
+        );
 
-  filter:blur(16px);
+    background-size:
+        280px 220px;
 
-  animation:
-    causticMove 9s ease-in-out infinite alternate;
+    mix-blend-mode:screen;
+
+    animation:
+        causticMove 18s
+        linear
+        infinite;
 }
 
+@keyframes causticMove{
 
-/* depth haze */
+    50%{
+        background-position:
+            80px -50px;
+    }
 
-.depth-haze{
-  position:absolute;
-  inset:0;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      transparent 10%,
-      rgba(0,20,28,.04) 45%,
-      rgba(0,0,0,.62) 100%
-    );
-
-  pointer-events:none;
+    100%{
+        background-position:
+            -100px 80px;
+    }
 }
 
+.water-haze{
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 40%,
+            transparent 15%,
+            rgba(0,10,20,.08) 55%,
+            rgba(0,5,10,.45) 100%
+        );
+}
 
 /* =========================================================
-   SEA FLOOR
+   PARTICLES
 ========================================================= */
 
-.seafloor{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
+#particles,
+#bubbles{
+    position:absolute;
+    inset:0;
 
-  height:32%;
-
-  background:
-    radial-gradient(
-      ellipse at 20% 20%,
-      rgba(93,142,125,.16),
-      transparent 25%
-    ),
-    radial-gradient(
-      ellipse at 70% 30%,
-      rgba(55,112,101,.10),
-      transparent 30%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(5,25,28,.25),
-      #020707 72%
-    );
-
-  clip-path:
-    polygon(
-      0 28%,
-      10% 18%,
-      21% 27%,
-      31% 15%,
-      42% 25%,
-      53% 13%,
-      65% 28%,
-      76% 16%,
-      87% 27%,
-      100% 13%,
-      100% 100%,
-      0 100%
-    );
+    pointer-events:none;
 }
 
+.particle{
+    position:absolute;
+
+    width:2px;
+    height:2px;
+
+    border-radius:50%;
+
+    background:
+        rgba(220,255,255,.8);
+
+    box-shadow:
+        0 0 7px rgba(100,240,255,.8);
+
+    animation:
+        particleFloat
+        var(--t)
+        linear
+        infinite;
+}
+
+@keyframes particleFloat{
+
+    0%{
+        transform:translateY(30px);
+        opacity:0;
+    }
+
+    20%{
+        opacity:.7;
+    }
+
+    100%{
+        transform:translateY(-100vh);
+        opacity:0;
+    }
+}
+
+.bubble{
+    position:absolute;
+
+    bottom:-30px;
+
+    width:var(--size);
+    height:var(--size);
+
+    border:
+        1px solid
+        rgba(200,250,255,.38);
+
+    border-radius:50%;
+
+    animation:
+        bubbleUp
+        var(--time)
+        linear
+        infinite;
+
+    left:var(--left);
+
+    box-shadow:
+        inset 2px 2px 4px rgba(255,255,255,.25),
+        0 0 8px rgba(100,240,255,.12);
+}
+
+@keyframes bubbleUp{
+
+    0%{
+        transform:
+            translate(0,0)
+            scale(.7);
+
+        opacity:0;
+    }
+
+    10%{
+        opacity:.55;
+    }
+
+    100%{
+        transform:
+            translate(
+                var(--drift),
+                -110vh
+            )
+            scale(1.25);
+
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   SHADOW FISH
+========================================================= */
+
+.shadow-school{
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+}
+
+.shadow-fish{
+    position:absolute;
+
+    left:-15vw;
+
+    top:var(--top);
+
+    font-size:var(--size);
+
+    opacity:var(--opacity);
+
+    filter:
+        brightness(0)
+        grayscale(1)
+        blur(var(--blur));
+
+    animation:
+        shadowSwim
+        var(--speed)
+        linear
+        infinite;
+
+    animation-delay:
+        var(--delay);
+}
+
+.shadow-fish.reverse{
+    left:auto;
+    right:-15vw;
+
+    animation-name:
+        shadowSwimReverse;
+}
+
+@keyframes shadowSwim{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(130vw);
+    }
+}
+
+@keyframes shadowSwimReverse{
+
+    from{
+        transform:
+            translateX(0)
+            scaleX(-1);
+    }
+
+    to{
+        transform:
+            translateX(-130vw)
+            scaleX(-1);
+    }
+}
+
+/* =========================================================
+   DAY RUINS
+========================================================= */
+
+.day-art{
+    position:absolute;
+    inset:0;
+
+    opacity:1;
+
+    transition:
+        opacity 1s,
+        filter 1s;
+
+    pointer-events:none;
+}
+
+/* castle */
+
+.castle-day{
+    position:absolute;
+
+    bottom:8%;
+    left:7%;
+
+    width:290px;
+    height:240px;
+
+    opacity:.95;
+
+    filter:
+        drop-shadow(
+            0 12px 10px
+            rgba(0,0,0,.35)
+        );
+}
+
+.castle-day .tower{
+    position:absolute;
+
+    bottom:0;
+
+    width:70px;
+    height:155px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #35484a,
+            #71888a,
+            #29393b
+        );
+
+    clip-path:
+        polygon(
+            0 12%,
+            18% 0,
+            30% 12%,
+            50% 0,
+            70% 12%,
+            82% 0,
+            100% 12%,
+            100% 100%,
+            0 100%
+        );
+}
+
+.castle-day .tower:nth-child(1){
+    left:0;
+}
+
+.castle-day .tower:nth-child(2){
+    right:0;
+    height:180px;
+}
+
+.castle-day .wall{
+    position:absolute;
+
+    left:48px;
+    right:48px;
+    bottom:0;
+
+    height:110px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #415457,
+            #73878a,
+            #334447
+        );
+}
+
+.castle-day .door{
+    position:absolute;
+
+    width:36px;
+    height:65px;
+
+    background:#172629;
+
+    left:50%;
+    bottom:0;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        20px 20px 0 0;
+}
+
+.castle-day .window{
+    position:absolute;
+
+    width:12px;
+    height:25px;
+
+    background:#06171c;
+
+    border-radius:
+        10px 10px 0 0;
+
+    box-shadow:
+        0 0 7px
+        rgba(100,220,220,.15);
+}
+
+/* whale */
+
+.whale-day{
+    position:absolute;
+
+    right:4%;
+    bottom:11%;
+
+    width:420px;
+    height:170px;
+
+    opacity:.58;
+
+    transform:rotate(-5deg);
+}
+
+.whale-body{
+    position:absolute;
+
+    width:300px;
+    height:105px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #6b7779,
+            #354448
+        );
+
+    border-radius:
+        70% 50% 50% 60%;
+
+    left:60px;
+    top:30px;
+}
+
+.whale-tail{
+    position:absolute;
+
+    left:0;
+    top:38px;
+
+    width:90px;
+    height:80px;
+}
+
+.whale-tail::before,
+.whale-tail::after{
+    content:"";
+
+    position:absolute;
+
+    width:70px;
+    height:40px;
+
+    background:#4c5d60;
+
+    border-radius:
+        70% 10% 70% 10%;
+}
+
+.whale-tail::before{
+    transform:rotate(25deg);
+    top:0;
+}
+
+.whale-tail::after{
+    transform:rotate(-25deg);
+    top:38px;
+}
+
+.whale-fin{
+    position:absolute;
+
+    width:100px;
+    height:25px;
+
+    background:#45575a;
+
+    right:60px;
+    bottom:0;
+
+    transform:rotate(28deg);
+
+    border-radius:
+        80% 20%;
+}
+
+.whale-rib{
+    position:absolute;
+
+    width:4px;
+    height:75px;
+
+    background:
+        rgba(210,225,225,.35);
+
+    top:42px;
+
+    border-radius:50%;
+}
+
+.whale-rib:nth-child(1){
+    left:110px;
+    transform:rotate(5deg)
+}
+
+.whale-rib:nth-child(2){
+    left:135px;
+    transform:rotate(4deg)
+}
+
+.whale-rib:nth-child(3){
+    left:160px;
+    transform:rotate(3deg)
+}
+
+.whale-rib:nth-child(4){
+    left:185px;
+    transform:rotate(2deg)
+}
+
+.whale-rib:nth-child(5){
+    left:210px;
+    transform:rotate(1deg)
+}
+
+/* =========================================================
+   SHIP
+========================================================= */
+
+.shipwreck{
+    position:absolute;
+
+    left:39%;
+    bottom:8%;
+
+    width:300px;
+    height:190px;
+
+    transform:rotate(-8deg);
+
+    opacity:.92;
+}
+
+.ship-hull{
+    position:absolute;
+
+    bottom:0;
+
+    width:300px;
+    height:85px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #4b4035,
+            #211d19
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            82% 80%,
+            15% 100%
+        );
+
+    border-bottom:
+        5px solid #111;
+}
+
+.ship-deck{
+    position:absolute;
+
+    width:220px;
+    height:20px;
+
+    background:#67594b;
+
+    left:35px;
+    bottom:75px;
+}
+
+.ship-mast{
+    position:absolute;
+
+    width:8px;
+    height:155px;
+
+    background:#302820;
+
+    left:125px;
+    bottom:65px;
+
+    transform:rotate(5deg);
+}
+
+.ship-sail{
+    position:absolute;
+
+    width:80px;
+    height:100px;
+
+    left:132px;
+    bottom:95px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(200,205,190,.55),
+            rgba(75,77,65,.2)
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 40%,
+            0 100%
+        );
+}
+
+/* =========================================================
+   EXTRA RUINS
+========================================================= */
+
+.ruin-pillar{
+    position:absolute;
+
+    bottom:7%;
+
+    left:55%;
+
+    width:70px;
+    height:170px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #283d40,
+            #657d7e,
+            #26383a
+        );
+
+    opacity:.85;
+
+    transform:
+        rotate(6deg);
+
+    clip-path:
+        polygon(
+            8% 0,
+            92% 6%,
+            100% 100%,
+            0 100%
+        );
+}
+
+.ruin-pillar::before,
+.ruin-pillar::after{
+    content:"";
+
+    position:absolute;
+
+    width:25px;
+    height:25px;
+
+    border:
+        3px solid
+        rgba(20,45,48,.8);
+
+    border-radius:50%;
+
+    left:22px;
+}
+
+.ruin-pillar::before{
+    top:35px;
+}
+
+.ruin-pillar::after{
+    top:85px;
+}
+
+.ruin-arch{
+    position:absolute;
+
+    right:27%;
+
+    bottom:6%;
+
+    width:190px;
+    height:130px;
+
+    border:
+        20px solid
+        #455b5e;
+
+    border-bottom:0;
+
+    border-radius:
+        100px 100px 0 0;
+
+    opacity:.72;
+
+    filter:
+        drop-shadow(
+            0 8px 5px
+            rgba(0,0,0,.3)
+        );
+}
+
+.ruin-statue{
+    position:absolute;
+
+    left:30%;
+
+    bottom:5%;
+
+    width:85px;
+    height:150px;
+
+    opacity:.55;
+
+    filter:
+        drop-shadow(
+            0 8px 5px
+            rgba(0,0,0,.4)
+        );
+}
+
+.ruin-statue::before{
+    content:"";
+
+    position:absolute;
+
+    width:60px;
+    height:100px;
+
+    left:12px;
+    top:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #33484b,
+            #718082,
+            #293a3c
+        );
+
+    clip-path:
+        polygon(
+            50% 0,
+            72% 18%,
+            67% 50%,
+            90% 100%,
+            10% 100%,
+            33% 50%,
+            28% 18%
+        );
+}
+
+.ruin-statue::after{
+    content:"";
+
+    position:absolute;
+
+    width:85px;
+    height:22px;
+
+    left:0;
+    bottom:0;
+
+    background:#283b3d;
+
+    border-radius:
+        10px 10px 2px 2px;
+}
 
 /* =========================================================
    ROCKS
 ========================================================= */
 
+.rocks-day{
+    position:absolute;
+
+    bottom:0;
+    left:0;
+    right:0;
+
+    height:180px;
+}
+
 .rock{
-  position:absolute;
-  bottom:7%;
+    position:absolute;
 
-  background:
-    linear-gradient(
-      145deg,
-      #294548,
-      #142b2e 45%,
-      #050d0f 90%
-    );
+    bottom:0;
 
-  border-radius:
-    55% 45% 35% 45% /
-    50% 55% 45% 50%;
+    background:
+        linear-gradient(
+            135deg,
+            #4d6668,
+            #243b3f
+        );
 
-  box-shadow:
-    inset 12px 8px 20px rgba(108,160,158,.12),
-    0 20px 45px rgba(0,0,0,.6);
+    border-radius:
+        60% 40% 20% 30%;
 
-  opacity:.9;
+    box-shadow:
+        inset -15px -15px 20px
+        rgba(0,0,0,.25);
 }
 
-.rock:after{
-  content:"";
-
-  position:absolute;
-  inset:15%;
-
-  border-top:
-    2px solid rgba(108,151,151,.12);
-
-  border-radius:50%;
-  transform:rotate(-15deg);
+.rock:nth-child(1){
+    left:-20px;
+    width:240px;
+    height:130px;
 }
 
-.rock1{
-  left:-2%;
-  width:260px;
-  height:180px;
-  transform:rotate(-8deg);
+.rock:nth-child(2){
+    left:18%;
+    width:170px;
+    height:95px;
 }
 
-.rock2{
-  left:13%;
-  bottom:4%;
-  width:170px;
-  height:125px;
+.rock:nth-child(3){
+    right:14%;
+    width:220px;
+    height:125px;
 }
 
-.rock3{
-  left:31%;
-  bottom:3%;
-  width:210px;
-  height:130px;
+.rock:nth-child(4){
+    right:-20px;
+    width:260px;
+    height:150px;
 }
-
-.rock4{
-  right:16%;
-  bottom:5%;
-  width:250px;
-  height:170px;
-}
-
-.rock5{
-  right:-2%;
-  bottom:2%;
-  width:330px;
-  height:210px;
-}
-
 
 /* =========================================================
-   SHIPWRECK
+   CORAL
 ========================================================= */
 
-.shipwreck{
-  position:absolute;
+.coral-field{
+    position:absolute;
 
-  left:47%;
-  bottom:12%;
+    bottom:45px;
 
-  width:330px;
-  height:130px;
+    left:0;
+    right:0;
 
-  transform:
-    translateX(-50%)
-    rotate(-6deg);
-
-  opacity:.82;
-
-  filter:
-    drop-shadow(0 0 12px rgba(0,0,0,.8));
+    height:180px;
 }
-
-.ship-body{
-  position:absolute;
-
-  left:0;
-  bottom:0;
-
-  width:100%;
-  height:55px;
-
-  clip-path:
-    polygon(
-      0 0,
-      100% 12%,
-      86% 100%,
-      14% 100%
-    );
-
-  background:
-    linear-gradient(
-      145deg,
-      #5a5145,
-      #292b27 48%,
-      #080b0c
-    );
-
-  border:
-    1px solid rgba(157,142,116,.35);
-}
-
-.ship-cabin{
-  position:absolute;
-
-  left:95px;
-  bottom:47px;
-
-  width:105px;
-  height:50px;
-
-  border:
-    2px solid #3c4541;
-
-  background:#101c1d;
-}
-
-.ship-window{
-  position:absolute;
-
-  width:13px;
-  height:9px;
-
-  top:12px;
-
-  background:#7ceaf1;
-
-  box-shadow:
-    0 0 10px rgba(107,237,247,.5);
-
-  opacity:.25;
-}
-
-.sw1{left:13px}
-.sw2{left:42px}
-.sw3{left:71px}
-
-.ship-mast{
-  position:absolute;
-
-  left:145px;
-  bottom:95px;
-
-  width:4px;
-  height:105px;
-
-  background:#384442;
-}
-
-.ship-mast:after{
-  content:"";
-
-  position:absolute;
-
-  top:13px;
-  left:2px;
-
-  width:100px;
-  height:2px;
-
-  background:#4a5753;
-
-  transform:rotate(18deg);
-}
-
-.ship-rope{
-  position:absolute;
-
-  left:148px;
-  bottom:83px;
-
-  width:92px;
-  height:1px;
-
-  background:#4d5752;
-
-  transform:rotate(20deg);
-}
-
-
-/* =========================================================
-   CORALS + SPONGES
-========================================================= */
 
 .coral{
-  position:absolute;
+    position:absolute;
 
-  bottom:7%;
+    bottom:0;
 
-  width:12px;
+    width:14px;
 
-  border-radius:
-    60% 40% 60% 40%;
+    border-radius:
+        10px 10px 0 0;
 
-  transform-origin:bottom;
+    background:
+        linear-gradient(
+            90deg,
+            #ef6870,
+            #ffb077,
+            #c55cff
+        );
 
-  box-shadow:
-    0 0 14px currentColor;
+    box-shadow:
+        0 0 10px
+        rgba(255,90,150,.35);
 }
 
-.coral:before,
-.coral:after{
-  content:"";
+.coral::before,
+.coral::after{
+    content:"";
 
-  position:absolute;
+    position:absolute;
 
-  bottom:35%;
+    bottom:45%;
 
-  width:8px;
+    width:11px;
+    height:70px;
 
-  height:45%;
+    border-radius:10px;
 
-  border-radius:50%;
-
-  background:currentColor;
+    background:inherit;
 }
 
-.coral:before{
-  left:-4px;
-  transform:rotate(-30deg);
+.coral::before{
+    left:-8px;
+    transform:rotate(-25deg);
 }
 
-.coral:after{
-  right:-4px;
-  transform:rotate(30deg);
+.coral::after{
+    right:-8px;
+    transform:rotate(25deg);
 }
 
-.coral.red{
-  color:#ff4d70;
-  background:#c9345c;
+.coral:nth-child(1){
+    left:5%;
+    height:95px
 }
 
-.coral.orange{
-  color:#ffae55;
-  background:#e47931;
+.coral:nth-child(2){
+    left:11%;
+    height:125px
 }
 
-.coral.purple{
-  color:#c977ff;
-  background:#7e45ae;
+.coral:nth-child(3){
+    left:24%;
+    height:80px
 }
 
-.coral.green{
-  color:#55e0a0;
-  background:#279b6d;
+.coral:nth-child(4){
+    left:31%;
+    height:145px
 }
 
-.c1{left:24%;height:90px}
-.c2{left:27%;height:125px;transform:scale(.8)}
-.c3{left:62%;height:110px}
-.c4{left:66%;height:75px}
-.c5{right:27%;height:140px}
-.c6{right:23%;height:100px}
-.c7{left:6%;height:120px}
-.c8{right:7%;height:130px}
+.coral:nth-child(5){
+    left:55%;
+    height:110px
+}
 
+.coral:nth-child(6){
+    left:63%;
+    height:150px
+}
 
-/* sponge */
+.coral:nth-child(7){
+    left:76%;
+    height:100px
+}
+
+.coral:nth-child(8){
+    left:87%;
+    height:135px
+}
+
+/* =========================================================
+   SPONGES
+========================================================= */
 
 .sponge{
-  position:absolute;
+    position:absolute;
 
-  bottom:8%;
+    bottom:50px;
 
-  width:65px;
-  height:75px;
+    width:45px;
+    height:65px;
 
-  border-radius:
-    48% 52% 42% 58%;
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            #ffca52 0 8%,
+            transparent 9%
+        ),
+        radial-gradient(
+            circle at 65% 50%,
+            #ffca52 0 10%,
+            transparent 11%
+        ),
+        linear-gradient(
+            90deg,
+            #e07a25,
+            #8e451b
+        );
 
-  background:
-    radial-gradient(
-      circle at 35% 30%,
-      #ffb85e 0 8%,
-      transparent 9%
-    ),
-    radial-gradient(
-      circle at 65% 25%,
-      #e98a40 0 9%,
-      transparent 10%
-    ),
-    radial-gradient(
-      circle at 50% 60%,
-      #c66e36 0 12%,
-      transparent 13%
-    ),
-    linear-gradient(
-      145deg,
-      #e79848,
-      #7b432d
-    );
+    border-radius:
+        50% 45% 35% 40%;
 
-  box-shadow:
-    0 0 22px rgba(245,138,68,.15),
-    inset 8px 10px 15px rgba(255,208,139,.12);
+    filter:
+        drop-shadow(
+            0 5px 4px
+            rgba(0,0,0,.35)
+        );
 }
 
-.sponge:after{
-  content:"";
-
-  position:absolute;
-
-  width:22px;
-  height:28px;
-
-  left:22px;
-  top:-17px;
-
-  border-radius:50%;
-
-  background:#8e4c30;
+.sponge:nth-child(1){
+    left:16%;
+    transform:scale(1.2);
 }
 
-.sp1{left:18%;transform:scale(.7)}
-.sp2{left:72%;transform:scale(.85)}
-.sp3{right:12%;transform:scale(.55)}
-.sp4{left:4%;transform:scale(.5)}
-
+.sponge:nth-child(2){
+    right:22%;
+    transform:scale(.8);
+}
 
 /* =========================================================
-   BACKGROUND FISH SHADOWS
+   JELLYFISH
 ========================================================= */
-
-.fish-shadow{
-  position:absolute;
-
-  z-index:3;
-
-  color:#000;
-
-  opacity:.28;
-
-  filter:
-    blur(4px)
-    drop-shadow(0 0 14px #000);
-
-  white-space:nowrap;
-
-  pointer-events:none;
-
-  animation:
-    shadowSwim var(--speed) linear infinite;
-
-  animation-delay:var(--delay);
-}
-
-.fs1{
-  top:17%;
-  left:-10%;
-  font-size:100px;
-  --speed:31s;
-}
-
-.fs2{
-  top:28%;
-  left:-20%;
-  font-size:45px;
-  --speed:18s;
-}
-
-.fs3{
-  top:46%;
-  left:-25%;
-  font-size:75px;
-  --speed:27s;
-}
-
-.fs4{
-  top:61%;
-  left:-10%;
-  font-size:35px;
-  --speed:15s;
-}
-
-.fs5{
-  top:21%;
-  left:105%;
-  font-size:58px;
-  --speed:23s;
-  animation-direction:reverse;
-}
-
-.fs6{
-  top:37%;
-  left:108%;
-  font-size:110px;
-  --speed:34s;
-  animation-direction:reverse;
-}
-
-.fs7{
-  top:55%;
-  left:108%;
-  font-size:46px;
-  --speed:19s;
-  animation-direction:reverse;
-}
-
-.fs8{
-  top:67%;
-  left:108%;
-  font-size:80px;
-  --speed:28s;
-  animation-direction:reverse;
-}
-
-
-/* =========================================================
-   MANY SEA CREATURES
-========================================================= */
-
-.creature{
-  position:absolute;
-
-  z-index:7;
-
-  white-space:nowrap;
-
-  filter:
-    drop-shadow(0 0 12px rgba(104,235,255,.25));
-
-  pointer-events:auto;
-
-  animation:
-    creatureSwim var(--speed) linear infinite;
-
-  animation-delay:var(--delay);
-}
-
-.creature.reverse{
-  animation-name:creatureReverse;
-}
-
-.cf1{top:15%;left:-10%;font-size:30px;--speed:17s}
-.cf2{top:24%;left:-14%;font-size:24px;--speed:21s;--delay:-4s}
-.cf3{top:34%;left:-17%;font-size:34px;--speed:26s;--delay:-10s}
-.cf4{top:47%;left:-11%;font-size:26px;--speed:18s;--delay:-7s}
-.cf5{top:57%;left:-15%;font-size:43px;--speed:29s;--delay:-14s}
-.cf6{top:67%;left:-12%;font-size:23px;--speed:16s;--delay:-3s}
-
-.cf7{top:19%;left:108%;font-size:32px;--speed:20s}
-.cf8{top:31%;left:110%;font-size:26px;--speed:24s;--delay:-5s}
-.cf9{top:42%;left:108%;font-size:46px;--speed:30s;--delay:-12s}
-.cf10{top:54%;left:110%;font-size:27px;--speed:17s;--delay:-8s}
-.cf11{top:63%;left:110%;font-size:35px;--speed:25s;--delay:-15s}
-.cf12{top:73%;left:110%;font-size:21px;--speed:19s;--delay:-3s}
-
-
-/* jellyfish */
 
 .jelly{
-  position:absolute;
+    position:absolute;
 
-  z-index:8;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 
-  font-size:clamp(30px,3.5vw,55px);
+    animation:
+        jellyFloat
+        var(--speed)
+        ease-in-out
+        infinite alternate;
 
-  filter:
-    drop-shadow(0 0 8px rgba(144,244,255,.8))
-    drop-shadow(0 0 30px rgba(100,235,255,.3));
+    filter:
+        drop-shadow(
+            0 0 12px
+            rgba(255,180,255,.35)
+        );
 
-  animation:
-    jellyFloat 7s ease-in-out infinite;
-
-  pointer-events:auto;
+    z-index:4;
 }
 
-.j1{left:72%;top:15%}
-.j2{left:83%;top:34%;font-size:34px;animation-delay:-3s}
-.j3{left:14%;top:29%;font-size:42px;animation-delay:-5s}
-.j4{left:58%;top:27%;font-size:29px;animation-delay:-1s}
-.j5{left:34%;top:16%;font-size:25px;animation-delay:-4s}
-.j6{left:91%;top:22%;font-size:25px;animation-delay:-6s}
+.jelly-cap{
+    width:65px;
+    height:38px;
 
+    border-radius:
+        50% 50% 35% 35%;
+
+    background:
+        radial-gradient(
+            circle at 35% 25%,
+            rgba(255,255,255,.8),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            rgba(255,140,240,.75),
+            rgba(80,190,255,.65)
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(220,120,255,.45);
+}
+
+.jelly-tentacles{
+    display:flex;
+    gap:7px;
+}
+
+.jelly-tentacles i{
+    display:block;
+
+    width:3px;
+    height:65px;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            transparent,
+            #bafaff
+        );
+
+    animation:
+        tenta 1.8s
+        ease-in-out
+        infinite alternate;
+}
+
+.jelly-tentacles i:nth-child(2){
+    height:82px;
+    animation-delay:.2s;
+}
+
+.jelly-tentacles i:nth-child(3){
+    height:55px;
+    animation-delay:.4s;
+}
+
+.jelly-tentacles i:nth-child(4){
+    height:75px;
+    animation-delay:.1s;
+}
+
+@keyframes tenta{
+
+    to{
+        transform:
+            rotate(8deg)
+            translateY(8px);
+    }
+}
+
+@keyframes jellyFloat{
+
+    to{
+        transform:
+            translateY(-35px)
+            translateX(20px);
+    }
+}
 
 /* =========================================================
-   STARS / METEORS
+   MANY FISH
+========================================================= */
+
+.fish-stream{
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+}
+
+.swimmer{
+    position:absolute;
+
+    top:var(--top);
+    left:-120px;
+
+    font-size:var(--size);
+
+    filter:
+        drop-shadow(
+            0 0 7px
+            rgba(0,220,255,.22)
+        );
+
+    animation:
+        swimAcross
+        var(--speed)
+        linear
+        infinite;
+
+    animation-delay:
+        var(--delay);
+
+    white-space:nowrap;
+
+    z-index:5;
+}
+
+.swimmer.reverse{
+    left:auto;
+    right:-120px;
+
+    animation-name:
+        swimBack;
+}
+
+@keyframes swimAcross{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:
+            translateX(
+                calc(100vw + 250px)
+            );
+    }
+}
+
+@keyframes swimBack{
+
+    from{
+        transform:
+            translateX(0)
+            scaleX(-1);
+    }
+
+    to{
+        transform:
+            translateX(
+                calc(-100vw - 250px)
+            )
+            scaleX(-1);
+    }
+}
+
+/* =========================================================
+   METEORS
 ========================================================= */
 
 .meteor{
-  position:absolute;
+    position:absolute;
 
-  z-index:12;
+    width:3px;
+    height:80px;
 
-  width:3px;
-  height:3px;
+    background:
+        linear-gradient(
+            transparent,
+            rgba(255,255,255,.95),
+            rgba(83,232,255,.1)
+        );
 
-  border-radius:50%;
+    transform:rotate(35deg);
 
-  background:#fff;
+    filter:
+        drop-shadow(0 0 8px #fff)
+        drop-shadow(0 0 18px #55eaff);
 
-  box-shadow:
-    0 0 8px #fff,
-    0 0 18px var(--cyan),
-    0 0 30px var(--cyan);
+    opacity:.75;
 
-  animation:
-    meteorMove 1.5s linear forwards;
-
-  pointer-events:none;
+    animation:
+        meteorFall
+        var(--speed)
+        linear
+        infinite;
 }
 
-.meteor:after{
-  content:"";
+@keyframes meteorFall{
 
-  position:absolute;
+    0%{
+        transform:
+            translate(0,-150px)
+            rotate(35deg);
 
-  width:150px;
-  height:2px;
+        opacity:0;
+    }
 
-  right:0;
-  top:1px;
+    15%{
+        opacity:.9;
+    }
 
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--cyan),
-      #fff
-    );
+    100%{
+        transform:
+            translate(350px,100vh)
+            rotate(35deg);
 
-  transform:
-    rotate(-28deg);
-
-  transform-origin:right;
+        opacity:0;
+    }
 }
-
 
 /* =========================================================
-   PARTICLES / BUBBLES
+   NIGHT SCAN
 ========================================================= */
 
-.particles,
-.bubbles{
-  position:absolute;
-  inset:0;
+.scan-art{
+    position:absolute;
+    inset:0;
 
-  pointer-events:none;
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:
+        opacity 1s;
 }
 
-.particle{
-  position:absolute;
-
-  width:2px;
-  height:2px;
-
-  border-radius:50%;
-
-  background:#d5fbff;
-
-  opacity:.3;
-
-  animation:
-    rise 15s linear infinite;
+.scan-svg{
+    width:100%;
+    height:100%;
 }
 
-body.scan .particle{
-  background:#9dffd3;
-  opacity:.45;
+.scan-svg *{
+    fill:none;
+
+    stroke:
+        rgba(92,255,184,.68);
+
+    stroke-width:.8;
+
+    vector-effect:
+        non-scaling-stroke;
 }
 
-.bubble{
-  position:absolute;
+.scan-svg .bright{
+    stroke:#eaffff;
 
-  width:var(--size);
-  height:var(--size);
+    stroke-width:1.15;
 
-  left:var(--left);
-  bottom:-30px;
-
-  border:
-    1px solid rgba(198,250,255,.30);
-
-  border-radius:50%;
-
-  box-shadow:
-    inset 2px 2px 4px rgba(255,255,255,.15),
-    0 0 10px rgba(90,230,250,.06);
-
-  animation:
-    rise var(--duration) linear infinite;
-
-  animation-delay:var(--delay);
+    filter:
+        drop-shadow(
+            0 0 3px
+            rgba(255,255,255,.8)
+        )
+        drop-shadow(
+            0 0 7px
+            rgba(0,255,145,.6)
+        );
 }
 
+.scan-svg .faint{
+    stroke:
+        rgba(0,255,145,.2);
 
-/* =========================================================
-   RADAR MODE
-========================================================= */
-
-.scan-scene{
-  position:absolute;
-  inset:0;
-
-  opacity:0;
-
-  transition:opacity .8s;
-
-  pointer-events:none;
+    stroke-width:.45;
 }
 
-body.scan .scan-scene{
-  opacity:1;
-}
+.scan-svg .gridline{
+    stroke:
+        rgba(0,255,145,.14);
 
-body.scan .normal-scene{
-  opacity:0;
+    stroke-width:.45;
 }
 
 .scan-grid{
-  position:absolute;
-  inset:0;
+    position:absolute;
+    inset:0;
 
-  background-image:
-    linear-gradient(
-      rgba(0,255,157,.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(0,255,157,.035) 1px,
-      transparent 1px
-    );
+    background-image:
+        linear-gradient(
+            rgba(0,255,145,.08) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,255,145,.08) 1px,
+            transparent 1px
+        );
 
-  background-size:35px 35px;
+    background-size:
+        45px 45px;
 
-  opacity:.75;
+    opacity:.35;
 }
-
-.scan-contours{
-  position:absolute;
-  inset:0;
-
-  background:
-    repeating-radial-gradient(
-      ellipse at 50% 78%,
-      transparent 0 55px,
-      rgba(0,255,157,.035) 56px 57px
-    );
-
-  opacity:.65;
-}
-
-.scan-wire{
-  position:absolute;
-  inset:0;
-
-  background-image:
-    linear-gradient(
-      rgba(0,255,157,.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(0,255,157,.035) 1px,
-      transparent 1px
-    );
-
-  background-size:18px 18px;
-
-  opacity:.35;
-}
-
-.scan-seabed{
-  position:absolute;
-
-  left:0;
-  right:0;
-  bottom:0;
-
-  height:31%;
-
-  border-top:
-    1px solid rgba(0,255,157,.35);
-
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 14px,
-      rgba(0,255,157,.045) 15px 16px
-    );
-
-  clip-path:
-    polygon(
-      0 25%,
-      10% 17%,
-      20% 26%,
-      30% 15%,
-      41% 25%,
-      52% 14%,
-      65% 28%,
-      76% 17%,
-      88% 28%,
-      100% 14%,
-      100% 100%,
-      0 100%
-    );
-}
-
-.scan-object{
-  position:absolute;
-
-  border:
-    1px solid rgba(0,255,157,.34);
-
-  box-shadow:
-    0 0 8px rgba(0,255,157,.07),
-    inset 0 0 10px rgba(0,255,157,.025);
-}
-
-
-/* radar wire ship */
-
-.scan-ship{
-  left:46%;
-  bottom:14%;
-
-  width:340px;
-  height:130px;
-
-  transform:
-    translateX(-50%)
-    rotate(-6deg);
-
-  clip-path:
-    polygon(
-      0 20%,
-      100% 28%,
-      85% 100%,
-      15% 100%
-    );
-}
-
-.scan-ship:before{
-  content:"";
-
-  position:absolute;
-  left:96px;
-  top:-43px;
-
-  width:105px;
-  height:52px;
-
-  border:
-    1px solid #00ff9d;
-}
-
-.scan-ship:after{
-  content:"";
-
-  position:absolute;
-
-  left:150px;
-  top:-105px;
-
-  width:1px;
-  height:105px;
-
-  background:#00ff9d;
-
-  box-shadow:
-    0 0 5px #00ff9d;
-}
-
-
-/* wire rocks */
-
-.wire-rock{
-  position:absolute;
-
-  bottom:10%;
-
-  border:
-    1px solid rgba(0,255,157,.34);
-
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent 0 12px,
-      rgba(0,255,157,.05) 13px 14px
-    );
-
-  clip-path:
-    polygon(
-      0 100%,
-      5% 60%,
-      25% 52%,
-      37% 12%,
-      54% 42%,
-      70% 20%,
-      83% 51%,
-      100% 42%,
-      100% 100%
-    );
-}
-
-.wr1{
-  left:2%;
-  width:300px;
-  height:180px;
-}
-
-.wr2{
-  right:2%;
-  width:330px;
-  height:200px;
-}
-
-
-/* wire coral */
-
-.wire-coral{
-  position:absolute;
-
-  bottom:9%;
-
-  width:70px;
-  height:150px;
-
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent 0 9px,
-      rgba(0,255,157,.06) 10px 11px
-    );
-
-  clip-path:
-    polygon(
-      42% 100%,
-      35% 65%,
-      8% 48%,
-      15% 45%,
-      35% 55%,
-      27% 22%,
-      35% 20%,
-      43% 50%,
-      60% 17%,
-      67% 20%,
-      55% 55%,
-      88% 38%,
-      93% 45%,
-      58% 65%,
-      55% 100%
-    );
-
-  border:
-    1px solid rgba(0,255,157,.35);
-}
-
-.wc1{left:25%}
-.wc2{left:69%;transform:scale(.75)}
-.wc3{right:13%;transform:scale(.6)}
-
 
 /* =========================================================
-   SCAN SWEEP
+   RADAR
 ========================================================= */
 
-.scan-sweep{
-  position:absolute;
-  inset:-20%;
+.radar{
+    position:fixed;
 
-  background:
-    conic-gradient(
-      from 0deg at 50% 50%,
-      transparent 0 84%,
-      rgba(0,255,157,.22) 86%,
-      rgba(0,255,157,.035) 89%,
-      transparent 92%
-    );
+    left:25px;
+    bottom:25px;
 
-  opacity:0;
+    width:190px;
+    height:190px;
 
-  mix-blend-mode:screen;
+    z-index:100;
+
+    border:
+        1px solid
+        rgba(255,255,255,.55);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(5,35,31,.7),
+            rgba(0,12,18,.8)
+        );
+
+    box-shadow:
+        0 0 20px
+        rgba(100,230,255,.15),
+        inset 0 0 30px
+        rgba(0,255,145,.08);
+
+    overflow:hidden;
 }
 
-body.scan .scan-sweep{
-  opacity:1;
-  animation:
-    spin 4.5s linear infinite;
+.radar::before{
+    content:"";
+
+    position:absolute;
+
+    inset:18px;
+
+    border:
+        1px solid
+        rgba(105,239,255,.3);
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 0 25px
+        rgba(105,239,255,.08),
+
+        0 0 0 50px
+        rgba(105,239,255,.05);
 }
 
+.radar::after{
+    content:"";
+
+    position:absolute;
+
+    width:100%;
+    height:1px;
+
+    top:50%;
+    left:0;
+
+    background:
+        rgba(255,255,255,.18);
+
+    box-shadow:
+        0 -48px 0
+        rgba(255,255,255,.07),
+
+        0 48px 0
+        rgba(255,255,255,.07);
+}
+
+.radar-cross{
+    position:absolute;
+
+    width:1px;
+    height:100%;
+
+    background:
+        rgba(255,255,255,.16);
+
+    left:50%;
+    top:0;
+}
+
+.radar-sweep{
+    position:absolute;
+
+    width:50%;
+    height:50%;
+
+    left:50%;
+    top:50%;
+
+    transform-origin:
+        0 0;
+
+    background:
+        conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(0,255,145,.4)
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            0 100%
+        );
+
+    animation:
+        radarSweep
+        2.2s linear
+        infinite;
+}
+
+@keyframes radarSweep{
+
+    to{
+        transform:
+            rotate(360deg);
+    }
+}
+
+.radar-dot{
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 7px #fff,
+        0 0 15px #00ff91;
+
+    z-index:5;
+}
+
+.radar-label{
+    position:absolute;
+
+    left:14px;
+    right:14px;
+    bottom:12px;
+
+    z-index:10;
+
+    font-family:
+        "DM Mono",
+        monospace;
+
+    font-size:8px;
+
+    letter-spacing:1px;
+
+    color:var(--cyan);
+
+    text-align:center;
+}
+
+/* target tooltip */
+
+.target-tooltip{
+    position:fixed;
+
+    z-index:10001;
+
+    min-width:180px;
+
+    padding:13px 15px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.55);
+
+    background:
+        rgba(1,18,18,.88);
+
+    backdrop-filter:
+        blur(14px);
+
+    box-shadow:
+        0 0 20px
+        rgba(0,255,145,.18);
+
+    color:#eaffff;
+
+    opacity:0;
+
+    transform:
+        translate(15px,15px);
+
+    pointer-events:none;
+
+    transition:
+        opacity .2s,
+        transform .2s;
+}
+
+.target-tooltip.show{
+    opacity:1;
+}
+
+.target-tooltip small{
+    display:block;
+
+    color:#00ff91;
+
+    font-family:
+        "DM Mono",
+        monospace;
+
+    letter-spacing:2px;
+
+    font-size:7px;
+
+    margin-bottom:5px;
+}
+
+.target-tooltip strong{
+    display:block;
+
+    font-size:14px;
+}
+
+.target-tooltip span{
+    display:block;
+
+    color:#7fc4ad;
+
+    font-size:8px;
+
+    margin-top:4px;
+
+    font-family:
+        "DM Mono",
+        monospace;
+}
 
 /* =========================================================
    NAV
 ========================================================= */
 
-.nav{
-  position:fixed;
+nav{
+    position:fixed;
 
-  z-index:500;
+    top:20px;
+    left:50%;
 
-  top:15px;
-  left:50%;
+    transform:
+        translateX(-50%);
 
-  transform:translateX(-50%);
+    z-index:1000;
 
-  width:min(1180px,calc(100% - 28px));
-  height:66px;
+    width:min(94%,1000px);
 
-  padding:7px;
+    padding:10px;
 
-  display:flex;
-  align-items:center;
+    display:flex;
 
-  border:
-    1px solid var(--line);
+    align-items:center;
+    justify-content:center;
 
-  border-radius:19px;
+    gap:6px;
 
-  background:
-    rgba(1,9,13,.64);
+    border:
+        1px solid
+        rgba(255,255,255,.2);
 
-  backdrop-filter:blur(25px);
+    background:
+        rgba(2,18,25,.55);
 
-  box-shadow:
-    0 20px 80px rgba(0,0,0,.5);
+    backdrop-filter:
+        blur(20px);
 
-  overflow:hidden;
+    box-shadow:
+        0 10px 40px
+        rgba(0,0,0,.2);
+
+    border-radius:18px;
 }
 
+nav button{
+    border:0;
 
-/* animated neon border */
+    color:#cceef2;
 
-.nav:before{
-  content:"";
+    background:transparent;
 
-  position:absolute;
-  inset:-2px;
+    padding:10px 15px;
 
-  border-radius:20px;
+    border-radius:10px;
 
-  background:
-    conic-gradient(
-      from 0deg,
-      transparent 0 18%,
-      rgba(255,255,255,.9) 22%,
-      var(--cyan) 26%,
-      transparent 33% 68%,
-      rgba(255,255,255,.7) 73%,
-      var(--cyan) 77%,
-      transparent 84%
-    );
+    font-family:inherit;
 
-  animation:
-    borderRun 5s linear infinite;
+    font-size:11px;
 
-  z-index:-2;
+    cursor:none;
+
+    transition:.3s;
 }
 
-.nav:after{
-  content:"";
+nav button:hover,
+nav button.active{
+    background:
+        rgba(90,230,255,.12);
 
-  position:absolute;
-  inset:1px;
+    color:#fff;
 
-  border-radius:18px;
+    box-shadow:
+        inset 0 0 15px
+        rgba(90,230,255,.08),
 
-  background:
-    rgba(1,9,13,.90);
-
-  z-index:-1;
+        0 0 15px
+        rgba(90,230,255,.08);
 }
 
-body.scan .nav:before{
-  background:
-    conic-gradient(
-      from 0deg,
-      transparent 0 18%,
-      #fff 22%,
-      #00ff9d 27%,
-      transparent 34% 68%,
-      #fff 73%,
-      #00ff9d 78%,
-      transparent 84%
-    );
+.mode-btn{
+    margin-left:auto;
+
+    border:
+        1px solid
+        rgba(255,255,255,.25)!important;
 }
-
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  padding:0 14px;
-
-  min-width:210px;
-
-  cursor:none;
-}
-
-.brand-mark{
-  width:37px;
-  height:37px;
-
-  border:
-    1px solid var(--cyan);
-
-  border-radius:50%;
-
-  display:grid;
-  place-items:center;
-
-  box-shadow:
-    0 0 22px rgba(98,237,255,.15);
-}
-
-.brand-mark:after{
-  content:"";
-
-  width:8px;
-  height:8px;
-
-  border-radius:50%;
-
-  background:var(--cyan);
-
-  box-shadow:
-    0 0 18px var(--cyan),
-    0 0 35px var(--cyan);
-}
-
-.brand b{
-  font:
-    500 12px "DM Mono";
-
-  letter-spacing:.14em;
-}
-
-.brand small{
-  display:block;
-
-  color:#5e818b;
-
-  font:
-    8px "DM Mono";
-
-  margin-top:3px;
-}
-
-.navlinks{
-  display:flex;
-  gap:3px;
-
-  flex:1;
-
-  justify-content:center;
-}
-
-.navlinks button{
-  padding:12px;
-
-  color:#7f9fa8;
-
-  border-radius:11px;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.07em;
-
-  cursor:none;
-
-  transition:.25s;
-}
-
-.navlinks button:hover,
-.navlinks button.active{
-  color:#efffff;
-
-  background:
-    rgba(98,237,255,.08);
-
-  box-shadow:
-    inset 0 0 0 1px rgba(98,237,255,.1),
-    0 0 20px rgba(98,237,255,.04);
-}
-
-body.scan .navlinks button:hover,
-body.scan .navlinks button.active{
-  background:
-    rgba(0,255,157,.07);
-}
-
-.mode{
-  width:45px;
-  height:45px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:14px;
-
-  display:grid;
-  place-items:center;
-
-  cursor:none;
-
-  background:
-    rgba(255,255,255,.025);
-
-  transition:.25s;
-}
-
-.mode:hover{
-  transform:translateY(-2px) rotate(5deg);
-
-  box-shadow:
-    0 0 30px rgba(0,255,157,.15);
-}
-
-.mode .icon{
-  font-size:18px;
-}
-
-
-/* =========================================================
-   NEON GLASS CARDS
-========================================================= */
-
-.glass{
-  position:relative;
-
-  overflow:hidden;
-
-  border:
-    1px solid transparent;
-
-  border-radius:25px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(8,30,38,.82),
-      rgba(2,11,16,.72)
-    );
-
-  backdrop-filter:blur(22px);
-
-  box-shadow:
-    0 30px 90px rgba(0,0,0,.58),
-    inset 0 1px rgba(255,255,255,.07);
-}
-
-
-/* animated neon border */
-
-.glass:before{
-  content:"";
-
-  position:absolute;
-  inset:-2px;
-
-  border-radius:27px;
-
-  background:
-    conic-gradient(
-      from 0deg,
-      transparent 0 14%,
-      rgba(255,255,255,.95) 18%,
-      var(--cyan) 22%,
-      transparent 29% 63%,
-      rgba(255,255,255,.85) 68%,
-      var(--cyan) 73%,
-      transparent 80%
-    );
-
-  animation:
-    borderRun 6s linear infinite;
-
-  z-index:-2;
-}
-
-.glass:after{
-  content:"";
-
-  position:absolute;
-  inset:1px;
-
-  border-radius:24px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(8,30,38,.96),
-      rgba(2,11,16,.92)
-    );
-
-  z-index:-1;
-}
-
-body.scan .glass:before{
-  background:
-    conic-gradient(
-      from 0deg,
-      transparent 0 14%,
-      #fff 18%,
-      #00ff9d 23%,
-      transparent 30% 63%,
-      #fff 68%,
-      #00ff9d 73%,
-      transparent 80%
-    );
-}
-
-body.scan .glass:after{
-  background:
-    linear-gradient(
-      145deg,
-      rgba(2,29,18,.96),
-      rgba(1,10,7,.94)
-    );
-}
-
-.corner{
-  position:absolute;
-
-  width:20px;
-  height:20px;
-
-  border-color:var(--cyan);
-
-  z-index:5;
-}
-
-.corner.a{
-  left:0;
-  top:0;
-
-  border-left:1px solid;
-  border-top:1px solid;
-}
-
-.corner.b{
-  right:0;
-  bottom:0;
-
-  border-right:1px solid;
-  border-bottom:1px solid;
-}
-
 
 /* =========================================================
    PAGES
 ========================================================= */
 
-#app{
-  position:relative;
-  z-index:50;
+.pages{
+    position:relative;
 
-  height:100vh;
+    z-index:20;
+
+    width:100vw;
+    height:100vh;
 }
 
 .page{
-  position:absolute;
-  inset:0;
+    position:absolute;
 
-  display:none;
+    inset:0;
 
-  overflow:auto;
+    padding:
+        120px
+        7vw
+        70px;
 
-  padding:
-    118px
-    24px
-    70px;
+    overflow-y:auto;
 
-  scrollbar-width:thin;
+    opacity:0;
 
-  scrollbar-color:
-    rgba(98,237,255,.3)
-    transparent;
+    visibility:hidden;
+
+    transform:
+        translateY(30px)
+        scale(.98);
+
+    transition:
+        opacity .7s var(--ease),
+        transform .7s var(--ease),
+        visibility .7s;
 }
 
 .page.active{
-  display:block;
+    opacity:1;
 
-  animation:
-    pageIn .7s var(--ease);
+    visibility:visible;
+
+    transform:
+        translateY(0)
+        scale(1);
 }
 
-.page-inner{
-  width:min(1120px,100%);
-  min-height:calc(100vh - 188px);
-
-  margin:auto;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+.page::-webkit-scrollbar{
+    width:4px;
 }
 
-.eyebrow{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.page::-webkit-scrollbar-thumb{
+    background:
+        rgba(100,230,255,.35);
 
-  color:var(--cyan);
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.17em;
-
-  text-shadow:
-    0 0 10px var(--cyan);
+    border-radius:20px;
 }
 
-.eyebrow i{
-  width:38px;
-  height:1px;
+/* =========================================================
+   CARDS
+========================================================= */
 
-  background:var(--cyan);
+.glass,
+.info-card,
+.hobby,
+.edu-card,
+.contact-card,
+.signal,
+.portrait-card{
+    position:relative;
 
-  box-shadow:
-    0 0 15px var(--cyan);
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.075),
+            rgba(0,25,34,.58)
+        );
+
+    backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.2);
+
+    overflow:hidden;
 }
 
-.page-title{
-  margin-top:15px;
+.glass::before,
+.info-card::before,
+.hobby::before,
+.edu-card::before,
+.contact-card::before,
+.signal::before,
+.portrait-card::before{
+    content:"";
 
-  font-size:
-    clamp(45px,7vw,88px);
+    position:absolute;
 
-  line-height:.92;
+    inset:-2px;
 
-  letter-spacing:-.055em;
+    border-radius:inherit;
 
-  font-weight:800;
+    padding:1px;
 
-  color:#edffff;
+    background:
+        conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            rgba(255,255,255,.8) 45deg,
+            var(--cyan) 85deg,
+            transparent 135deg,
+            transparent 220deg,
+            rgba(255,255,255,.8) 280deg,
+            var(--cyan) 320deg,
+            transparent 360deg
+        );
 
-  text-shadow:
-    0 0 5px rgba(255,255,255,.55),
-    0 0 18px rgba(103,240,255,.45),
-    0 0 45px rgba(103,240,255,.20);
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
 
-  animation:
-    titleGlow 3s ease-in-out infinite alternate;
+    -webkit-mask-composite:
+        xor;
+
+    mask-composite:
+        exclude;
+
+    animation:
+        borderSpin
+        5s linear infinite;
+
+    pointer-events:none;
+
+    opacity:.7;
 }
 
-.outline{
-  color:transparent;
+@keyframes borderSpin{
 
-  -webkit-text-stroke:
-    1px rgba(234,255,255,.65);
-
-  text-shadow:
-    0 0 12px rgba(102,237,255,.28);
+    to{
+        transform:
+            rotate(360deg);
+    }
 }
-
-.page-sub{
-  max-width:680px;
-
-  color:#86a8b1;
-
-  font-size:14px;
-
-  line-height:1.95;
-
-  margin-top:22px;
-}
-
 
 /* =========================================================
    HOME
 ========================================================= */
 
-.home-layout{
-  display:grid;
+.home-content{
+    max-width:1000px;
 
-  grid-template-columns:
-    1.25fr
-    .75fr;
+    margin:auto;
 
-  gap:30px;
+    min-height:75vh;
 
-  align-items:end;
-}
-
-.home-card{
-  padding:34px;
-}
-
-.home-actions{
-  display:flex;
-
-  gap:10px;
-
-  flex-wrap:wrap;
-
-  margin-top:28px;
-}
-
-.btn{
-  position:relative;
-
-  padding:13px 18px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:12px;
-
-  background:
-    rgba(255,255,255,.03);
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.1em;
-
-  cursor:none;
-
-  transition:.25s;
-
-  overflow:hidden;
-}
-
-.btn:after{
-  content:"";
-
-  position:absolute;
-
-  top:0;
-  left:-100%;
-
-  width:70%;
-  height:100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,255,255,.2),
-      transparent
-    );
-
-  transform:skewX(-20deg);
-
-  transition:.5s;
-}
-
-.btn:hover:after{
-  left:130%;
-}
-
-.btn.primary{
-  background:
-    rgba(98,237,255,.09);
-
-  box-shadow:
-    0 0 30px rgba(98,237,255,.08);
-}
-
-.btn:hover{
-  transform:
-    translateY(-3px);
-
-  border-color:var(--cyan);
-
-  box-shadow:
-    0 15px 35px rgba(0,0,0,.32),
-    0 0 25px rgba(98,237,255,.08);
-}
-
-
-/* telemetry */
-
-.telemetry{
-  padding:25px;
-
-  min-height:300px;
-}
-
-.tele-head,
-.tele-foot{
-  display:flex;
-  justify-content:space-between;
-
-  color:#638790;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.1em;
-}
-
-.depth-ring{
-  width:175px;
-
-  aspect-ratio:1;
-
-  margin:24px auto;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:50%;
-
-  display:grid;
-  place-items:center;
-
-  position:relative;
-
-  box-shadow:
-    inset 0 0 45px rgba(98,237,255,.05),
-    0 0 35px rgba(98,237,255,.06);
-
-  animation:
-    ringPulse 4s ease-in-out infinite;
-}
-
-.depth-ring:before,
-.depth-ring:after{
-  content:"";
-
-  position:absolute;
-
-  border:
-    1px dashed rgba(98,237,255,.20);
-
-  border-radius:50%;
-}
-
-.depth-ring:before{
-  inset:15px;
-}
-
-.depth-ring:after{
-  inset:38px;
-}
-
-.depth-number{
-  font:
-    500 35px "DM Mono";
-
-  letter-spacing:-.07em;
-
-  text-shadow:
-    0 0 14px var(--cyan);
-}
-
-.depth-unit{
-  color:#63858e;
-
-  font:
-    8px "DM Mono";
-}
-
-.home-stat{
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:9px;
-
-  margin-top:20px;
-}
-
-.stat{
-  position:relative;
-
-  padding:15px;
-
-  border:
-    1px solid rgba(98,237,255,.10);
-
-  border-radius:14px;
-
-  background:
-    rgba(255,255,255,.018);
-
-  overflow:hidden;
-}
-
-.stat:after{
-  content:"";
-
-  position:absolute;
-
-  width:120px;
-  height:1px;
-
-  left:-120px;
-  top:0;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #fff,
-      var(--cyan),
-      transparent
-    );
-
-  box-shadow:
-    0 0 15px var(--cyan);
-
-  animation:
-    statRun 3.5s linear infinite;
-}
-
-.stat b{
-  display:block;
-
-  font:
-    16px "DM Mono";
-
-  text-shadow:
-    0 0 10px var(--cyan);
-}
-
-.stat span{
-  display:block;
-
-  color:#5e818a;
-
-  font:
-    7px "DM Mono";
-
-  margin-top:4px;
-}
-
-
-/* =========================================================
-   OTHER PAGE CARDS
-========================================================= */
-
-.profile-grid{
-  display:grid;
-
-  grid-template-columns:
-    1fr
-    .72fr;
-
-  gap:18px;
-
-  margin-top:38px;
-}
-
-.info-card{
-  padding:29px;
-}
-
-.card-label{
-  color:var(--cyan);
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.14em;
-
-  text-shadow:
-    0 0 10px var(--cyan);
-}
-
-.info-name{
-  font-size:31px;
-  font-weight:700;
-
-  margin-top:9px;
-}
-
-.data{
-  margin-top:17px;
-}
-
-.data-row{
-  display:grid;
-
-  grid-template-columns:
-    145px
-    1fr;
-
-  gap:14px;
-
-  padding:13px 0;
-
-  border-bottom:
-    1px solid rgba(255,255,255,.055);
-
-  font-size:13px;
-}
-
-.data-row b{
-  color:#628790;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.1em;
-}
-
-.data-row span{
-  color:#d7f1f4;
-}
-
-.portrait-card{
-  min-height:420px;
-
-  padding:20px;
-
-  display:flex;
-
-  align-items:flex-end;
-
-  background:
-    radial-gradient(
-      circle at 50% 28%,
-      rgba(98,237,255,.18),
-      transparent 28%
-    ),
-    linear-gradient(
-      180deg,
-      transparent 15%,
-      rgba(0,0,0,.85)
-    ),
-    linear-gradient(
-      145deg,
-      #0a3d48,
-      #031921 62%,
-      #02080b
-    );
-}
-
-.photo-placeholder{
-  width:100%;
-  height:285px;
-
-  border:
-    1px dashed rgba(98,237,255,.30);
-
-  border-radius:18px;
-
-  display:grid;
-  place-items:center;
-
-  text-align:center;
-
-  color:#638790;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.1em;
-}
-
-.photo-placeholder strong{
-  display:block;
-
-  color:#d9f8fa;
-
-  font-size:14px;
-
-  margin-bottom:5px;
-}
-
-.note-card{
-  padding:27px;
-
-  margin-top:18px;
-}
-
-.quote{
-  font-size:23px;
-
-  line-height:1.6;
-
-  color:#ddfaff;
-
-  margin-top:11px;
-
-  text-shadow:
-    0 0 12px rgba(102,238,255,.08);
-}
-
-.quote small{
-  display:block;
-
-  color:#5f828b;
-
-  font:
-    8px "DM Mono";
-
-  margin-top:15px;
-}
-
-
-/* education */
-
-.edu-layout{
-  display:grid;
-
-  grid-template-columns:
-    1fr
-    .55fr;
-
-  gap:18px;
-
-  margin-top:38px;
-}
-
-.edu-card{
-  padding:30px;
-}
-
-.timeline{
-  position:relative;
-
-  margin-top:23px;
-
-  padding-left:29px;
-}
-
-.timeline:before{
-  content:"";
-
-  position:absolute;
-
-  left:6px;
-  top:2px;
-  bottom:4px;
-
-  width:1px;
-
-  background:
-    linear-gradient(
-      var(--cyan),
-      transparent
-    );
-
-  box-shadow:
-    0 0 12px var(--cyan);
-}
-
-.event{
-  position:relative;
-
-  padding-bottom:28px;
-}
-
-.event:last-child{
-  padding-bottom:0;
-}
-
-.event:before{
-  content:"";
-
-  position:absolute;
-
-  left:-27px;
-  top:3px;
-
-  width:9px;
-  height:9px;
-
-  border-radius:50%;
-
-  background:var(--cyan);
-
-  box-shadow:
-    0 0 17px var(--cyan);
-}
-
-.event time{
-  color:#5d818a;
-
-  font:
-    8px "DM Mono";
-}
-
-.event h3{
-  font-size:17px;
-
-  margin-top:6px;
-}
-
-.event p{
-  font-size:12px;
-
-  color:#85a6af;
-
-  line-height:1.75;
-
-  margin-top:4px;
-}
-
-.edu-side{
-  padding:30px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:space-between;
-
-  min-height:390px;
-}
-
-.progress-list{
-  margin-top:25px;
-}
-
-.skill{
-  margin-top:17px;
-}
-
-.skill-top{
-  display:flex;
-
-  justify-content:space-between;
-
-  font:
-    8px "DM Mono";
-
-  color:#6b9098;
-}
-
-.track{
-  height:4px;
-
-  background:
-    rgba(255,255,255,.06);
-
-  margin-top:8px;
-
-  border-radius:9px;
-
-  overflow:hidden;
-}
-
-.track i{
-  display:block;
-
-  height:100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--cyan2),
-      #fff,
-      var(--cyan)
-    );
-
-  box-shadow:
-    0 0 12px var(--cyan);
-
-  animation:
-    trackGlow 2.5s ease-in-out infinite alternate;
-}
-
-
-/* hobbies */
-
-.hobby-intro{
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:end;
-
-  gap:20px;
-}
-
-.hobby-count{
-  font:
-    9px "DM Mono";
-
-  color:#63858e;
-
-  letter-spacing:.1em;
-}
-
-.hobby-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:13px;
-
-  margin-top:36px;
-}
-
-.hobby{
-  min-height:180px;
-
-  padding:23px;
-
-  border:
-    1px solid rgba(98,237,255,.12);
-
-  border-radius:18px;
-
-  background:
-    rgba(255,255,255,.018);
-
-  position:relative;
-
-  overflow:hidden;
-
-  transition:.3s;
-}
-
-.hobby:before{
-  content:"";
-
-  position:absolute;
-  inset:-1px;
-
-  background:
-    conic-gradient(
-      from 180deg,
-      transparent,
-      var(--cyan),
-      transparent 25%
-    );
-
-  opacity:0;
-
-  transition:.3s;
-}
-
-.hobby:hover:before{
-  opacity:.16;
-
-  animation:
-    spin 2s linear infinite;
-}
-
-.hobby:hover{
-  transform:
-    translateY(-7px);
-
-  border-color:var(--cyan);
-
-  box-shadow:
-    0 20px 45px rgba(0,0,0,.38),
-    0 0 25px rgba(98,237,255,.08);
-}
-
-.hobby .emoji{
-  font-size:34px;
-
-  display:block;
-
-  margin-bottom:19px;
-}
-
-.hobby b{
-  font-size:14px;
-}
-
-.hobby small{
-  display:block;
-
-  color:#60838c;
-
-  font:
-    8px "DM Mono";
-
-  margin-top:6px;
-}
-
-.hobby-no{
-  position:absolute;
-
-  right:16px;
-  top:14px;
-
-  color:#3f626a;
-
-  font:
-    8px "DM Mono";
-}
-
-
-/* contact */
-
-.contact-layout{
-  display:grid;
-
-  grid-template-columns:
-    1fr
-    .72fr;
-
-  gap:18px;
-
-  margin-top:38px;
-}
-
-.contact-card{
-  padding:30px;
-}
-
-.channels{
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:10px;
-
-  margin-top:20px;
-}
-
-.channel{
-  padding:17px;
-
-  border:
-    1px solid rgba(98,237,255,.11);
-
-  border-radius:15px;
-
-  background:
-    rgba(255,255,255,.018);
-
-  transition:.25s;
-}
-
-.channel:hover{
-  transform:translateY(-3px);
-
-  border-color:var(--cyan);
-
-  box-shadow:
-    0 0 25px rgba(98,237,255,.06);
-}
-
-.channel b{
-  display:block;
-
-  color:#60848d;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.12em;
-
-  margin-bottom:8px;
-}
-
-.channel a,
-.channel span{
-  font-size:12px;
-
-  word-break:break-word;
-}
-
-.signal{
-  padding:30px;
-
-  min-height:350px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:space-between;
-}
-
-.signal-mark{
-  font:
-    42px "DM Mono";
-
-  color:var(--cyan);
-
-  text-shadow:
-    0 0 24px var(--cyan);
-}
-
-.signal h2{
-  font-size:29px;
-
-  line-height:1.25;
-}
-
-.signal p{
-  color:#82a3ac;
-
-  font-size:12px;
-
-  line-height:1.8;
-
-  margin-top:10px;
-}
-
-.qr{
-  width:100%;
-  height:100px;
-
-  margin-top:22px;
-
-  border:
-    1px solid rgba(98,237,255,.12);
-
-  display:grid;
-
-  place-items:center;
-
-  color:#52737c;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.1em;
-
-  background-image:
-    linear-gradient(
-      45deg,
-      rgba(98,237,255,.04) 25%,
-      transparent 25%,
-      transparent 75%,
-      rgba(98,237,255,.04) 75%
-    );
-
-  background-size:16px 16px;
-}
-
-
-/* footer */
-
-.page-footer{
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  margin-top:28px;
-
-  color:#4f7179;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.1em;
-}
-
-.page-number{
-  color:#638790;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.12em;
-}
-
-
-/* =========================================================
-   RADAR LEFT BOTTOM
-========================================================= */
-
-.radar{
-  position:fixed;
-
-  z-index:450;
-
-  left:17px;
-  bottom:17px;
-
-  width:184px;
-
-  padding:11px;
-
-  background:
-    rgba(1,9,13,.72);
-
-  border:
-    1px solid var(--line);
-
-  border-radius:18px;
-
-  backdrop-filter:blur(18px);
-
-  box-shadow:
-    0 18px 55px rgba(0,0,0,.45);
-}
-
-.radar-head,
-.radar-foot{
-  display:flex;
-
-  justify-content:space-between;
-
-  color:#638790;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.1em;
-}
-
-.radar-head{
-  margin-bottom:8px;
-}
-
-.radar-foot{
-  margin-top:8px;
-}
-
-.radar-screen{
-  position:relative;
-
-  aspect-ratio:1;
-
-  border-radius:50%;
-
-  overflow:hidden;
-
-  border:
-    1px solid rgba(98,237,255,.48);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(98,237,255,.12),
-      transparent 62%
-    ),
-    repeating-radial-gradient(
-      circle,
-      transparent 0 21px,
-      rgba(98,237,255,.12) 22px 23px
-    );
-}
-
-.radar-screen:before{
-  content:"";
-
-  position:absolute;
-
-  left:50%;
-  top:0;
-  bottom:0;
-
-  width:1px;
-
-  background:
-    rgba(98,237,255,.12);
-}
-
-.radar-screen:after{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  right:0;
-  top:50%;
-
-  height:1px;
-
-  background:
-    rgba(98,237,255,.12);
-}
-
-.scanline{
-  position:absolute;
-
-  left:50%;
-  top:50%;
-
-  width:50%;
-  height:1px;
-
-  transform-origin:left;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--cyan),
-      transparent
-    );
-
-  box-shadow:
-    0 0 12px var(--cyan);
-
-  animation:
-    spin 2.5s linear infinite;
-}
+    display:flex;
 
-.blip{
-  position:absolute;
+    flex-direction:column;
 
-  width:5px;
-  height:5px;
+    justify-content:center;
 
-  border-radius:50%;
+    align-items:center;
 
-  background:var(--cyan);
-
-  box-shadow:
-    0 0 13px var(--cyan);
-
-  animation:
-    blip 1.8s infinite;
-}
-
-.rb1{left:24%;top:32%}
-.rb2{left:69%;top:62%;animation-delay:.5s}
-.rb3{left:75%;top:25%;animation-delay:1s}
-.rb4{left:43%;top:72%;animation-delay:1.4s}
-
-body.scan .radar-screen{
-  border-color:
-    rgba(0,255,157,.55);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0,255,157,.12),
-      transparent 62%
-    ),
-    repeating-radial-gradient(
-      circle,
-      transparent 0 21px,
-      rgba(0,255,157,.15) 22px 23px
-    );
-}
-
-.scan-badge{
-  color:#638790;
-
-  font:
-    7px "DM Mono";
-
-  margin-top:7px;
-
-  letter-spacing:.09em;
-
-  text-align:center;
-}
-
-body.scan .scan-badge{
-  color:#00ff9d;
-
-  text-shadow:
-    0 0 10px #00ff9d;
-}
-
-
-/* =========================================================
-   NIGHT MOUSE RADAR
-========================================================= */
-
-.mouse-radar{
-  position:fixed;
-
-  z-index:99990;
-
-  width:128px;
-  height:128px;
-
-  transform:
-    translate(-50%,-50%);
-
-  pointer-events:none;
-
-  display:none;
-
-  border:
-    1px solid rgba(0,255,157,.65);
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0,255,157,.08),
-      transparent 65%
-    ),
-    repeating-radial-gradient(
-      circle,
-      transparent 0 20px,
-      rgba(0,255,157,.14) 21px 22px
-    );
-
-  box-shadow:
-    0 0 30px rgba(0,255,157,.12),
-    inset 0 0 25px rgba(0,255,157,.06);
-}
-
-body.scan .mouse-radar{
-  display:block;
-}
-
-.mouse-radar:before{
-  content:"";
-
-  position:absolute;
-
-  left:50%;
-  top:0;
-  bottom:0;
-
-  width:1px;
-
-  background:
-    rgba(0,255,157,.25);
-}
-
-.mouse-radar:after{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  right:0;
-  top:50%;
-
-  height:1px;
-
-  background:
-    rgba(0,255,157,.25);
-}
-
-.mouse-radar-sweep{
-  position:absolute;
-
-  left:50%;
-  top:50%;
-
-  width:49%;
-  height:1px;
-
-  transform-origin:left;
-
-  background:
-    linear-gradient(
-      90deg,
-      #fff,
-      #00ff9d,
-      transparent
-    );
-
-  box-shadow:
-    0 0 12px #00ff9d;
-
-  animation:
-    spin 1.25s linear infinite;
-}
-
-.mouse-radar-dot{
-  position:absolute;
-
-  width:4px;
-  height:4px;
-
-  border-radius:50%;
-
-  background:#00ff9d;
-
-  box-shadow:
-    0 0 10px #00ff9d;
-
-  animation:
-    blip .9s infinite;
-}
-
-.mrd1{
-  left:28%;
-  top:36%;
-}
-
-.mrd2{
-  left:68%;
-  top:61%;
-  animation-delay:.35s;
-}
-
-.mrd3{
-  left:72%;
-  top:26%;
-  animation-delay:.65s;
-}
-
-.mouse-radar-label{
-  position:absolute;
-
-  left:50%;
-  top:calc(100% + 8px);
-
-  transform:
-    translateX(-50%);
-
-  color:#00ff9d;
-
-  font:
-    6px "DM Mono";
-
-  letter-spacing:.14em;
-
-  white-space:nowrap;
-
-  text-shadow:
-    0 0 8px #00ff9d;
-}
-
-
-/* object detection */
-
-.radar-detection{
-  position:fixed;
-
-  z-index:99995;
-
-  display:none;
-
-  pointer-events:none;
-
-  min-width:145px;
-
-  padding:9px 12px;
-
-  border:
-    1px solid rgba(0,255,157,.55);
-
-  border-radius:10px;
-
-  background:
-    rgba(0,13,8,.88);
-
-  backdrop-filter:blur(12px);
-
-  box-shadow:
-    0 0 25px rgba(0,255,157,.12);
-
-  color:#dffff0;
-
-  font:
-    9px "DM Mono";
-
-  letter-spacing:.08em;
-
-  transform:
-    translate(65px,-50%);
-
-  white-space:nowrap;
-}
-
-.radar-detection.show{
-  display:block;
-
-  animation:
-    detectionIn .2s ease;
-}
-
-.radar-detection strong{
-  display:block;
-
-  color:#00ff9d;
-
-  font-size:11px;
-
-  margin-bottom:4px;
-
-  text-shadow:
-    0 0 10px #00ff9d;
-}
-
-.radar-detection small{
-  color:#6eaa91;
-
-  font-size:7px;
-}
-
-
-/* invisible detection zones */
-
-.detect-zone{
-  position:absolute;
-
-  z-index:30;
-
-  border-radius:50%;
-
-  background:transparent;
-
-  pointer-events:auto;
-}
-
-
-/* =========================================================
-   SCAN HUD
-========================================================= */
-
-.scan-hud{
-  position:fixed;
-
-  inset:0;
-
-  z-index:80;
-
-  pointer-events:none;
-
-  opacity:0;
-
-  border:
-    1px solid rgba(0,255,157,.08);
-
-  transition:.5s;
-}
-
-body.scan .scan-hud{
-  opacity:1;
-}
-
-.scan-hud:before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 5px,
-      rgba(0,255,157,.018) 6px 7px
-    );
-
-  mix-blend-mode:screen;
+    text-align:center;
 }
 
-.scan-corners:before,
-.scan-corners:after{
-  content:"";
+.eyebrow{
+    font-family:
+        "DM Mono",
+        monospace;
 
-  position:absolute;
+    font-size:10px;
 
-  width:70px;
-  height:70px;
+    letter-spacing:5px;
 
-  border-color:#00ff9d;
-}
-
-.scan-corners:before{
-  left:13px;
-  top:13px;
-
-  border-left:1px solid;
-  border-top:1px solid;
-}
-
-.scan-corners:after{
-  right:13px;
-  bottom:13px;
-
-  border-right:1px solid;
-  border-bottom:1px solid;
-}
-
-.scan-label{
-  position:absolute;
-
-  right:25px;
-  top:92px;
-
-  color:#00ff9d;
-
-  font:
-    8px "DM Mono";
-
-  letter-spacing:.12em;
-
-  text-shadow:
-    0 0 12px #00ff9d;
-}
-
-.scan-label:before{
-  content:"● ";
-
-  animation:
-    blink 1s infinite;
-}
-
-
-/* =========================================================
-   MOUSE
-========================================================= */
-
-.cursor,
-.dot{
-  position:fixed;
-
-  z-index:100000;
-
-  pointer-events:none;
-
-  border-radius:50%;
-
-  transform:
-    translate(-50%,-50%);
-}
-
-.cursor{
-  width:34px;
-  height:34px;
-
-  border:
-    1px solid rgba(190,250,255,.7);
-
-  transition:
-    width .16s,
-    height .16s,
-    border-color .16s,
-    box-shadow .16s;
-}
-
-.dot{
-  width:4px;
-  height:4px;
-
-  background:var(--cyan);
-
-  box-shadow:
-    0 0 14px var(--cyan),
-    0 0 30px var(--cyan);
-}
-
-.cursor.hot{
-  width:52px;
-  height:52px;
-
-  border-color:var(--cyan);
-
-  box-shadow:
-    0 0 25px rgba(98,237,255,.18);
-}
-
-
-/* =========================================================
-   MUSIC PLAYER
-========================================================= */
-
-.music-player{
-  position:fixed;
-
-  z-index:700;
-
-  right:18px;
-  bottom:18px;
-
-  width:245px;
-
-  padding:12px 14px;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:16px;
-
-  background:
-    rgba(1,9,13,.78);
-
-  backdrop-filter:blur(18px);
-
-  box-shadow:
-    0 18px 55px rgba(0,0,0,.45);
-
-  overflow:hidden;
-}
-
-.music-player:before{
-  content:"";
-
-  position:absolute;
-
-  left:-100%;
-  top:0;
-
-  width:70%;
-  height:1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #fff,
-      var(--cyan),
-      transparent
-    );
-
-  box-shadow:
-    0 0 15px var(--cyan);
-
-  animation:
-    musicLine 4s linear infinite;
-}
-
-.music-info{
-  flex:1;
-  min-width:0;
-}
+    color:var(--cyan);
 
-.music-label{
-  color:var(--cyan);
+    margin-bottom:18px;
 
-  font:
-    7px "DM Mono";
-
-  letter-spacing:.12em;
-
-  margin-bottom:4px;
-}
-
-.music-title{
-  overflow:hidden;
-
-  white-space:nowrap;
-
-  text-overflow:ellipsis;
-
-  color:#dffcff;
-
-  font-size:11px;
-}
-
-.music-button{
-  width:39px;
-  height:39px;
-
-  flex:none;
-
-  border:
-    1px solid var(--line);
-
-  border-radius:12px;
-
-  display:grid;
-  place-items:center;
-
-  color:var(--cyan);
-
-  cursor:none;
-
-  transition:.25s;
-
-  box-shadow:
-    0 0 15px rgba(98,237,255,.06);
-}
-
-.music-button:hover{
-  transform:scale(1.07);
-
-  border-color:var(--cyan);
-
-  box-shadow:
-    0 0 25px rgba(98,237,255,.15);
-}
-
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-@keyframes borderRun{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-@keyframes boot{
-  to{
-    width:100%;
-  }
-}
-
-@keyframes corePulse{
-  50%{
-    transform:
-      translate(-50%,-50%)
-      scale(1.12);
-
-    filter:
-      drop-shadow(0 0 30px var(--cyan));
-  }
-}
-
-@keyframes loaderLight{
-  to{
-    transform:
-      translate(-50%,-50%)
-      scale(1.2);
-  }
-}
-
-@keyframes loaderRay{
-  to{
-    transform:
-      rotate(7deg)
-      scaleX(1.18);
-  }
-}
-
-@keyframes loaderBubble{
-  0%{
-    transform:
-      translateY(0)
-      scale(.5);
-
-    opacity:0;
-  }
-
-  15%{
-    opacity:.65;
-  }
-
-  100%{
-    transform:
-      translateY(-115vh)
-      translateX(80px)
-      scale(1.1);
-
-    opacity:0;
-  }
-}
-
-@keyframes shadowSwim{
-  from{
-    transform:
-      translateX(0)
-      scaleX(1);
-  }
-
-  to{
-    transform:
-      translateX(130vw)
-      scaleX(1);
-  }
-}
-
-@keyframes creatureSwim{
-  from{
-    transform:
-      translateX(0);
-  }
-
-  to{
-    transform:
-      translateX(125vw);
-  }
-}
-
-@keyframes creatureReverse{
-  from{
-    transform:
-      translateX(0)
-      scaleX(-1);
-  }
-
-  to{
-    transform:
-      translateX(-125vw)
-      scaleX(-1);
-  }
-}
-
-@keyframes jellyFloat{
-  0%,100%{
-    transform:
-      translateY(0)
-      rotate(-2deg);
-  }
-
-  50%{
-    transform:
-      translateY(-25px)
-      rotate(4deg);
-  }
-}
-
-@keyframes rayMove{
-  to{
-    transform:
-      rotate(5deg)
-      scaleX(1.13);
-  }
-}
-
-@keyframes causticMove{
-  to{
-    transform:
-      translateX(45px)
-      scale(1.08);
-  }
-}
-
-@keyframes sunPulse{
-  to{
-    opacity:.75;
-    transform:
-      translateX(-50%)
-      scale(1.08);
-  }
-}
-
-@keyframes rise{
-  to{
-    transform:
-      translateY(-115vh)
-      translateX(35px);
-
-    opacity:0;
-  }
+    text-shadow:
+        0 0 12px
+        rgba(100,240,255,.7);
 }
 
-@keyframes meteorMove{
-  from{
-    transform:
-      translate(0,0)
-      scale(.6);
+.hero-title{
+    font-size:
+        clamp(
+            58px,
+            12vw,
+            150px
+        );
 
-    opacity:0;
-  }
+    line-height:.82;
 
-  15%{
-    opacity:1;
-  }
+    letter-spacing:-7px;
 
-  to{
-    transform:
-      translate(-430px,260px)
-      scale(1);
+    font-weight:800;
 
-    opacity:0;
-  }
-}
+    color:#fff;
 
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:
-      translateY(18px)
-      scale(.99);
-  }
+    text-shadow:
+        0 0 5px #fff,
+        0 0 15px rgba(255,255,255,.9),
+        0 0 35px rgba(80,235,255,.9),
+        0 0 80px rgba(0,190,255,.8),
+        0 0 130px rgba(0,190,255,.45);
 
-  to{
-    opacity:1;
-    transform:none;
-  }
+    animation:
+        titleGlow
+        3s ease-in-out
+        infinite;
 }
 
 @keyframes titleGlow{
-  to{
-    text-shadow:
-      0 0 6px #fff,
-      0 0 24px var(--cyan),
-      0 0 60px rgba(103,240,255,.30),
-      0 0 100px rgba(103,240,255,.12);
-  }
+
+    50%{
+        text-shadow:
+            0 0 8px #fff,
+            0 0 25px #fff,
+            0 0 55px rgba(80,235,255,1),
+            0 0 110px rgba(0,190,255,.85),
+            0 0 170px rgba(0,190,255,.5);
+    }
 }
 
-@keyframes ringPulse{
-  50%{
+.hero-sub{
+    margin-top:28px;
+
+    color:#b6e9ee;
+
+    font-size:14px;
+
+    letter-spacing:2px;
+}
+
+.hero-line{
+    width:260px;
+    height:1px;
+
+    margin-top:25px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #fff,
+            var(--cyan),
+            transparent
+        );
+
     box-shadow:
-      inset 0 0 55px rgba(98,237,255,.08),
-      0 0 45px rgba(98,237,255,.10);
-  }
+        0 0 15px
+        var(--cyan);
 }
-
-@keyframes trackGlow{
-  to{
-    filter:
-      brightness(1.5);
-  }
-}
-
-@keyframes statRun{
-  to{
-    left:130%;
-  }
-}
-
-@keyframes musicLine{
-  to{
-    left:130%;
-  }
-}
-
-@keyframes blip{
-  50%{
-    opacity:.12;
-    transform:scale(.65);
-  }
-}
-
-@keyframes blink{
-  50%{
-    opacity:.2;
-  }
-}
-
-@keyframes detectionIn{
-  from{
-    opacity:0;
-    transform:
-      translate(65px,-50%)
-      scale(.9);
-  }
-
-  to{
-    opacity:1;
-    transform:
-      translate(65px,-50%)
-      scale(1);
-  }
-}
-
 
 /* =========================================================
-   RESPONSIVE
+   PROFILE
 ========================================================= */
 
-@media(max-width:930px){
+.section-title{
+    font-size:
+        clamp(
+            32px,
+            6vw,
+            72px
+        );
 
-  .brand{
-    min-width:175px;
-  }
+    margin-bottom:15px;
 
-  .navlinks button{
-    font-size:7px;
-    padding:11px 8px;
-  }
-
-  .home-layout,
-  .profile-grid,
-  .edu-layout,
-  .contact-layout{
-    grid-template-columns:1fr;
-  }
-
-  .telemetry{
-    max-width:450px;
-  }
-
-  .hobby-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-  .radar{
-    display:none;
-  }
-
-  .music-player{
-    bottom:12px;
-    right:12px;
-  }
+    text-shadow:
+        0 0 20px
+        rgba(100,240,255,.35);
 }
 
+.section-desc{
+    color:var(--muted);
 
-@media(max-width:650px){
+    max-width:650px;
 
-  body{
-    cursor:auto;
-  }
+    line-height:1.8;
 
-  .cursor,
-  .dot{
-    display:none;
-  }
+    margin-bottom:30px;
+}
 
-  .nav{
-    top:7px;
+.profile-grid{
+    display:grid;
 
-    width:
-      calc(100% - 14px);
-
-    height:57px;
-
-    border-radius:16px;
-  }
-
-  .brand{
-    min-width:auto;
-
-    padding:0 7px;
-  }
-
-  .brand small{
-    display:none;
-  }
-
-  .brand b{
-    font-size:9px;
-  }
-
-  .brand-mark{
-    width:32px;
-    height:32px;
-  }
-
-  .navlinks{
-    overflow-x:auto;
-
-    justify-content:flex-start;
-  }
-
-  .navlinks button{
-    font-size:6px;
-
-    padding:10px 6px;
-  }
-
-  .mode{
-    width:37px;
-    height:37px;
-  }
-
-  .page{
-    padding:
-      98px
-      10px
-      95px;
-  }
-
-  .page-inner{
-    min-height:
-      calc(100vh - 143px);
-  }
-
-  .page-title{
-    font-size:51px;
-  }
-
-  .page-sub{
-    font-size:12px;
-  }
-
-  .home-card,
-  .info-card,
-  .edu-card,
-  .edu-side,
-  .contact-card,
-  .signal{
-    padding:20px;
-  }
-
-  .home-stat{
-    grid-template-columns:1fr;
-  }
-
-  .data-row{
     grid-template-columns:
-      100px
-      1fr;
+        1fr 1.5fr;
 
-    font-size:12px;
-  }
+    gap:25px;
+}
 
-  .channels{
-    grid-template-columns:1fr;
-  }
-
-  .hobby-grid{
-    grid-template-columns:1fr;
-  }
-
-  .hobby{
-    min-height:150px;
-  }
-
-  .photo-placeholder{
-    height:240px;
-  }
-
-  .portrait-card{
+.portrait-card{
     min-height:350px;
-  }
 
-  .boot-status{
-    gap:8px;
-    font-size:6px;
-  }
+    display:flex;
 
-  .loader-corner{
-    font-size:6px;
-  }
+    align-items:center;
+    justify-content:center;
 
-  .loader-readout{
-    font-size:6px;
-
-    left:14px;
-    right:14px;
-  }
-
-  .loader-core{
-    width:75px;
-    height:75px;
-  }
-
-  .music-player{
-    width:
-      calc(100% - 24px);
-
-    left:12px;
-    right:12px;
-
-    bottom:10px;
-  }
-
-  .shipwreck{
-    left:52%;
-    transform:
-      translateX(-50%)
-      scale(.7)
-      rotate(-6deg);
-  }
+    border-radius:25px;
 }
 
+.portrait-orb{
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(255,255,255,.55);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:80px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(100,240,255,.2),
+            rgba(0,30,40,.6)
+        );
+
+    box-shadow:
+        0 0 30px
+        rgba(100,240,255,.4),
+
+        0 0 100px
+        rgba(0,180,255,.2),
+
+        inset 0 0 40px
+        rgba(255,255,255,.1);
+
+    animation:
+        orbFloat
+        4s ease-in-out
+        infinite;
+}
+
+@keyframes orbFloat{
+
+    50%{
+        transform:
+            translateY(-12px);
+    }
+}
+
+.info-card{
+    border-radius:25px;
+
+    padding:30px;
+}
+
+.data-row{
+    display:grid;
+
+    grid-template-columns:
+        140px 1fr;
+
+    padding:16px 0;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.09);
+}
+
+.data-row:last-child{
+    border-bottom:0;
+}
+
+.data-label{
+    color:var(--cyan);
+
+    font-family:
+        "DM Mono",
+        monospace;
+
+    font-size:10px;
+
+    letter-spacing:2px;
+}
+
+.data-value{
+    color:#eaffff;
+}
+
+/* =========================================================
+   EDUCATION
+========================================================= */
+
+.edu-grid{
+    display:grid;
+
+    grid-template-columns:
+        1.5fr 1fr;
+
+    gap:25px;
+}
+
+.edu-card{
+    padding:30px;
+
+    border-radius:24px;
+}
+
+.edu-card h3{
+    color:var(--cyan);
+
+    margin-bottom:15px;
+}
+
+.edu-card p{
+    color:#bdd9dd;
+
+    line-height:1.8;
+}
+
+.timeline{
+    margin-top:30px;
+
+    border-left:
+        1px solid
+        var(--cyan);
+
+    padding-left:25px;
+}
+
+.timeline-item{
+    margin-bottom:25px;
+
+    position:relative;
+}
+
+.timeline-item::before{
+    content:"";
+
+    position:absolute;
+
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 12px
+        var(--cyan);
+
+    left:-30px;
+    top:5px;
+}
+
+.timeline-item small{
+    color:var(--cyan);
+
+    font-family:
+        "DM Mono",
+        monospace;
+}
+
+.timeline-item h4{
+    margin-top:6px;
+}
+
+.timeline-item p{
+    margin-top:5px;
+
+    color:var(--muted);
+}
+
+/* =========================================================
+   HOBBY
+========================================================= */
+
+.hobby-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:18px;
+}
+
+.hobby{
+    padding:25px;
+
+    border-radius:22px;
+
+    min-height:150px;
+
+    transition:.4s var(--ease);
+}
+
+.hobby:hover{
+    transform:
+        translateY(-8px)
+        scale(1.02);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,180,255,.16);
+}
+
+.hobby-icon{
+    font-size:38px;
+
+    margin-bottom:20px;
+}
+
+.hobby h3{
+    margin-bottom:7px;
+}
+
+.hobby p{
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact-grid{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:22px;
+}
+
+.contact-card{
+    padding:30px;
+
+    border-radius:25px;
+}
+
+.contact-card h3{
+    color:var(--cyan);
+
+    margin-bottom:12px;
+}
+
+.contact-card p{
+    color:#bdd9dd;
+
+    line-height:1.8;
+}
+
+.signal{
+    padding:25px;
+
+    margin-top:25px;
+
+    border-radius:20px;
+}
+
+.signal span{
+    display:block;
+
+    color:var(--green);
+
+    font-family:
+        "DM Mono",
+        monospace;
+
+    font-size:10px;
+
+    letter-spacing:2px;
+}
+
+.signal strong{
+    display:block;
+
+    margin-top:8px;
+}
+
+/* =========================================================
+   CLOCK
+========================================================= */
+
+.clock{
+    position:fixed;
+
+    top:92px;
+    right:28px;
+
+    z-index:100;
+
+    font-family:
+        "DM Mono",
+        monospace;
+
+    font-size:9px;
+
+    color:
+        rgba(230,255,255,.7);
+
+    letter-spacing:2px;
+}
+
+/* =========================================================
+   NIGHT MODE
+========================================================= */
+
+body.scan{
+
+    --cyan:#00ff91;
+    --cyan2:#00d879;
+
+    --line:
+        rgba(0,255,145,.3);
+
+    --glass:
+        rgba(0,18,15,.78);
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            #05251e,
+            #020b0a 55%,
+            #000504 100%
+        );
+}
+
+body.scan .sky-gradient{
+
+    background:
+        radial-gradient(
+            ellipse at 50% 20%,
+            rgba(0,255,145,.08),
+            transparent 35%
+        ),
+        #010807;
+}
+
+body.scan .light-rays,
+body.scan .caustics{
+    opacity:.05;
+}
+
+body.scan .day-art{
+    opacity:0;
+}
+
+body.scan .scan-art{
+    opacity:1;
+}
+
+body.scan .shadow-school{
+    opacity:.35;
+}
+
+body.scan .swimmer{
+    filter:
+        grayscale(1)
+        brightness(.25)
+        drop-shadow(
+            0 0 8px
+            rgba(0,255,145,.85)
+        );
+}
+
+body.scan .jelly{
+    filter:
+        grayscale(1)
+        brightness(.35)
+        drop-shadow(
+            0 0 12px
+            rgba(0,255,145,.9)
+        );
+}
+
+body.scan #cursor{
+
+    width:65px;
+    height:65px;
+
+    border-color:#00ff91;
+
+    box-shadow:
+        0 0 12px
+        rgba(0,255,145,.7),
+
+        inset 0 0 12px
+        rgba(0,255,145,.12);
+}
+
+body.scan #cursor::before,
+body.scan #cursor::after{
+    background:#00ff91;
+}
+
+body.scan .water-light{
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,255,145,.08),
+            transparent 70%
+        );
+}
+
+body.scan .radar{
+
+    border-color:#00ff91;
+
+    box-shadow:
+        0 0 25px
+        rgba(0,255,145,.22),
+
+        inset 0 0 40px
+        rgba(0,255,145,.12);
+}
+
+body.scan .radar-label{
+    color:#00ff91;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:800px){
+
+    nav{
+        top:10px;
+
+        overflow-x:auto;
+
+        justify-content:flex-start;
+
+        border-radius:14px;
+    }
+
+    nav button{
+        white-space:nowrap;
+
+        padding:
+            9px 11px;
+
+        font-size:9px;
+    }
+
+    .mode-btn{
+        margin-left:0;
+    }
+
+    .page{
+        padding:
+            100px
+            5vw
+            50px;
+    }
+
+    .profile-grid,
+    .edu-grid,
+    .contact-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hobby-grid{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .castle-day{
+        transform:scale(.65);
+
+        transform-origin:
+            bottom left;
+    }
+
+    .whale-day{
+        transform:scale(.6);
+
+        transform-origin:
+            bottom right;
+    }
+
+    .shipwreck{
+        transform:scale(.65);
+
+        transform-origin:
+            bottom center;
+    }
+
+    .ruin-pillar{
+        transform:scale(.55);
+
+        transform-origin:
+            bottom center;
+    }
+
+    .ruin-arch{
+        transform:scale(.5);
+
+        transform-origin:
+            bottom right;
+    }
+
+    .ruin-statue{
+        transform:scale(.6);
+
+        transform-origin:
+            bottom center;
+    }
+
+    .radar{
+        width:140px;
+        height:140px;
+
+        left:12px;
+        bottom:12px;
+    }
+
+    .clock{
+        top:70px;
+        right:12px;
+
+        font-size:7px;
+    }
+}
+
+@media(max-width:500px){
+
+    .hobby-grid{
+        grid-template-columns:1fr;
+    }
+
+    .data-row{
+        grid-template-columns:
+            100px 1fr;
+    }
+
+    .hero-title{
+        letter-spacing:-4px;
+    }
+
+    .radar{
+        width:125px;
+        height:125px;
+    }
+
+    #cursor,
+    #dot,
+    .water-light{
+        display:none;
+    }
+
+    body{
+        cursor:auto;
+    }
+
+}
+
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
 
 @media(prefers-reduced-motion:reduce){
 
-  *,
-  *:before,
-  *:after{
-    animation-duration:.001ms!important;
-    animation-iteration-count:1!important;
-    scroll-behavior:auto!important;
-  }
+    *,
+    *::before,
+    *::after{
+        animation-duration:.001ms!important;
+        animation-iteration-count:1!important;
+        scroll-behavior:auto!important;
+    }
 }
 
-</style>
-</head>
-
-<body>
-
-
-<!-- =========================================================
+</style></head><body><!-- =====================================================
      LOADER
-========================================================= -->
+===================================================== --><div id="loader"><div class="loader-grid"></div>
+<div class="loader-light"></div>
 
-<div id="loader">
+<div class="loader-ring"></div>
+<div class="loader-sweep"></div>
 
-  <div class="loader-ocean"></div>
-  <div class="loader-light"></div>
+<div class="loader-core"></div>
 
-  <div class="loader-ray lr1"></div>
-  <div class="loader-ray lr2"></div>
-  <div class="loader-ray lr3"></div>
+<div class="loader-text">
 
-  <div class="loader-grid"></div>
+    <div class="loader-title">
+        MY OCEAN
+    </div>
 
-  <div class="loader-rings">
+    <div
+        class="loader-status"
+        id="loaderStatus"
+    >
+        INITIALIZING OCEAN SYSTEM
+    </div>
 
-    <div class="loader-ring r1"></div>
-    <div class="loader-ring r2"></div>
-    <div class="loader-ring r3"></div>
-    <div class="loader-ring r4"></div>
-    <div class="loader-ring r5"></div>
-    <div class="loader-ring r6"></div>
-
-    <div class="loader-sweep"></div>
-
-    <div class="loader-core">
-      <span
+    <div
         class="loader-percent"
-        id="loaderPercent">
-        00%
-      </span>
+        id="loaderPercent"
+    >
+        0%
     </div>
 
-  </div>
+</div>
+
+</div><!-- =====================================================
+     OCEAN BACKGROUND
+===================================================== --><div class="ocean"><div class="sky-gradient"></div>
+
+<div class="light-rays"></div>
+
+<div class="caustics"></div>
+
+<div class="water-haze"></div>
+
+<div id="particles"></div>
+
+<div id="bubbles"></div>
 
 
-  <!-- black fish shadows -->
+<!-- =================================================
+     SHADOW SCHOOL
+================================================= -->
 
-  <div class="loader-shadow-fish lsf1">
-    🐋
-  </div>
+<div class="shadow-school">
 
-  <div class="loader-shadow-fish lsf2">
-    🐟 🐟
-  </div>
-
-  <div class="loader-shadow-fish lsf3">
-    🦈
-  </div>
-
-
-  <div class="loader-bubbles" id="loaderBubbles"></div>
-
-
-  <div class="loader-corner lc1">
-    MY OCEAN / BOOT SEQUENCE
-  </div>
-
-  <div class="loader-corner lc2">
-    DEEP SEA LINK / 3500M
-  </div>
-
-  <div class="loader-corner lc3">
-    SONAR ARRAY / CALIBRATING
-  </div>
-
-  <div class="loader-corner lc4">
-    PORTFOLIO / 05 PAGES
-  </div>
-
-
-  <div class="boot">
-
-    <div class="boot-title">
-      MY OCEAN
+    <div class="shadow-fish"
+         style="--top:7%;--size:80px;--opacity:.12;--blur:2px;--speed:28s;--delay:-12s">
+        🦈
     </div>
 
-    <div class="boot-sub">
-      ENTERING DEEP SEA ENVIRONMENT // ESTABLISHING OCEAN LINK
+    <div class="shadow-fish"
+         style="--top:15%;--size:35px;--opacity:.18;--blur:1px;--speed:18s;--delay:-7s">
+        🐟
     </div>
 
-    <div class="boot-bar">
-      <i></i>
+    <div class="shadow-fish"
+         style="--top:24%;--size:60px;--opacity:.14;--blur:2px;--speed:24s;--delay:-17s">
+        🐠
     </div>
 
-    <div class="boot-status">
-      <span>SONAR</span>
-      <span>PRESSURE</span>
-      <span>LIGHT</span>
-      <span>OCEAN</span>
-      <span>READY</span>
+    <div class="shadow-fish reverse"
+         style="--top:32%;--size:48px;--opacity:.16;--blur:2px;--speed:22s;--delay:-9s">
+        🐡
     </div>
 
-  </div>
+    <div class="shadow-fish"
+         style="--top:42%;--size:95px;--opacity:.09;--blur:3px;--speed:32s;--delay:-23s">
+        🐋
+    </div>
 
+    <div class="shadow-fish reverse"
+         style="--top:50%;--size:28px;--opacity:.2;--blur:1px;--speed:15s;--delay:-4s">
+        🐟
+    </div>
 
-  <div class="loader-readout">
+    <div class="shadow-fish"
+         style="--top:59%;--size:70px;--opacity:.12;--blur:2px;--speed:25s;--delay:-13s">
+        🐬
+    </div>
 
-    <span>SYS.ONLINE</span>
+    <div class="shadow-fish reverse"
+         style="--top:67%;--size:42px;--opacity:.17;--blur:1px;--speed:19s;--delay:-15s">
+        🐠
+    </div>
 
-    <span id="loaderTelemetry">
-      INITIALIZING / 000
-    </span>
+    <div class="shadow-fish"
+         style="--top:77%;--size:55px;--opacity:.14;--blur:2px;--speed:27s;--delay:-5s">
+        🐟
+    </div>
 
-    <span>
-      LINK STABLE
-    </span>
-
-  </div>
+    <div class="shadow-fish reverse"
+         style="--top:86%;--size:88px;--opacity:.08;--blur:3px;--speed:35s;--delay:-20s">
+        🦈
+    </div>
 
 </div>
 
 
+<!-- =================================================
+     DAY WORLD
+================================================= -->
 
-<!-- =========================================================
-     OCEAN WORLD
-========================================================= -->
-
-<div id="ocean">
-
-  <div class="sun"></div>
-
-  <div class="ray r1"></div>
-  <div class="ray r2"></div>
-  <div class="ray r3"></div>
-
-  <div class="caustics"></div>
-
-  <div class="particles" id="particles"></div>
-  <div class="bubbles" id="bubbles"></div>
+<div class="day-art">
 
 
-  <!-- =====================================================
-       NORMAL SCENE
-  ===================================================== -->
+    <!-- ROCKS -->
 
-  <div class="normal-scene">
+    <div class="rocks-day">
 
+        <div class="rock"></div>
+        <div class="rock"></div>
+        <div class="rock"></div>
+        <div class="rock"></div>
 
-    <!-- seabed -->
-
-    <div class="seafloor"></div>
-
-
-    <!-- rocks -->
-
-    <div class="rock rock1"></div>
-    <div class="rock rock2"></div>
-    <div class="rock rock3"></div>
-    <div class="rock rock4"></div>
-    <div class="rock rock5"></div>
+    </div>
 
 
-    <!-- shipwreck -->
+    <!-- CASTLE -->
+
+    <div class="castle-day">
+
+        <div class="tower">
+
+            <div
+                class="window"
+                style="left:27px;top:50px"
+            ></div>
+
+            <div
+                class="window"
+                style="left:27px;top:95px"
+            ></div>
+
+        </div>
+
+        <div class="tower">
+
+            <div
+                class="window"
+                style="left:28px;top:55px"
+            ></div>
+
+            <div
+                class="window"
+                style="left:28px;top:105px"
+            ></div>
+
+        </div>
+
+        <div class="wall"></div>
+
+        <div class="door"></div>
+
+    </div>
+
+
+    <!-- WHALE -->
+
+    <div class="whale-day">
+
+        <div class="whale-tail"></div>
+
+        <div class="whale-body">
+
+            <div class="whale-rib"></div>
+            <div class="whale-rib"></div>
+            <div class="whale-rib"></div>
+            <div class="whale-rib"></div>
+            <div class="whale-rib"></div>
+
+        </div>
+
+        <div class="whale-fin"></div>
+
+    </div>
+
+
+    <!-- SHIP -->
 
     <div class="shipwreck">
 
-      <div class="ship-body"></div>
+        <div class="ship-sail"></div>
 
-      <div class="ship-cabin">
+        <div class="ship-mast"></div>
 
-        <i class="ship-window sw1"></i>
-        <i class="ship-window sw2"></i>
-        <i class="ship-window sw3"></i>
+        <div class="ship-deck"></div>
 
-      </div>
-
-      <div class="ship-mast"></div>
-      <div class="ship-rope"></div>
+        <div class="ship-hull"></div>
 
     </div>
 
 
-    <!-- corals -->
+    <!-- EXTRA RUINS -->
 
-    <div class="coral red c1"></div>
-    <div class="coral orange c2"></div>
-    <div class="coral purple c3"></div>
-    <div class="coral green c4"></div>
-    <div class="coral red c5"></div>
-    <div class="coral orange c6"></div>
-    <div class="coral purple c7"></div>
-    <div class="coral green c8"></div>
+    <div class="ruin-pillar"></div>
+
+    <div class="ruin-arch"></div>
+
+    <div class="ruin-statue"></div>
 
 
-    <!-- sponges -->
+    <!-- CORAL -->
 
-    <div class="sponge sp1"></div>
-    <div class="sponge sp2"></div>
-    <div class="sponge sp3"></div>
-    <div class="sponge sp4"></div>
+    <div class="coral-field">
 
+        <div class="coral"></div>
+        <div class="coral"></div>
+        <div class="coral"></div>
+        <div class="coral"></div>
+        <div class="coral"></div>
+        <div class="coral"></div>
+        <div class="coral"></div>
+        <div class="coral"></div>
 
-    <!-- large background shadows -->
-
-    <div class="fish-shadow fs1">
-      🐋
-    </div>
-
-    <div class="fish-shadow fs2">
-      🐟 🐟 🐟
-    </div>
-
-    <div class="fish-shadow fs3">
-      🦈
-    </div>
-
-    <div class="fish-shadow fs4">
-      🐠 🐠
-    </div>
-
-    <div class="fish-shadow fs5">
-      🐬
-    </div>
-
-    <div class="fish-shadow fs6">
-      🐋
-    </div>
-
-    <div class="fish-shadow fs7">
-      🐟 🐟
-    </div>
-
-    <div class="fish-shadow fs8">
-      🐬 🐬
     </div>
 
 
-    <!-- MANY SEA CREATURES -->
+    <!-- SPONGES -->
 
-    <div class="creature cf1">
-      🐟
-    </div>
-
-    <div class="creature cf2">
-      🐠
-    </div>
-
-    <div class="creature cf3">
-      🐡
-    </div>
-
-    <div class="creature cf4">
-      🦈
-    </div>
-
-    <div class="creature cf5">
-      🐬
-    </div>
-
-    <div class="creature cf6">
-      🐢
-    </div>
-
-    <div class="creature reverse cf7">
-      🐙
-    </div>
-
-    <div class="creature reverse cf8">
-      🦑
-    </div>
-
-    <div class="creature reverse cf9">
-      🐳
-    </div>
-
-    <div class="creature reverse cf10">
-      🐋
-    </div>
-
-    <div class="creature reverse cf11">
-      🦀
-    </div>
-
-    <div class="creature reverse cf12">
-      🦐
-    </div>
+    <div class="sponge"></div>
+    <div class="sponge"></div>
 
 
-    <!-- jellyfish -->
-
-    <div class="jelly j1">
-      🪼
-    </div>
-
-    <div class="jelly j2">
-      🪼
-    </div>
-
-    <div class="jelly j3">
-      🪼
-    </div>
-
-    <div class="jelly j4">
-      🪼
-    </div>
-
-    <div class="jelly j5">
-      🪼
-    </div>
-
-    <div class="jelly j6">
-      🪼
-    </div>
-
-
-    <!-- detection objects -->
-    <div
-      class="detect-zone"
-      data-name="แมงกะพรุน"
-      data-info="JELLYFISH / BIO-LUMINESCENT"
-      style="left:69%;top:11%;width:10%;height:13%">
-    </div>
+    <!-- JELLYFISH -->
 
     <div
-      class="detect-zone"
-      data-name="ฝูงปลา"
-      data-info="FISH SCHOOL / MOVING"
-      style="left:20%;top:22%;width:20%;height:15%">
-    </div>
-
-    <div
-      class="detect-zone"
-      data-name="ซากเรือ"
-      data-info="SHIPWRECK / DEEP SEA"
-      style="left:42%;top:47%;width:27%;height:20%">
-    </div>
-
-    <div
-      class="detect-zone"
-      data-name="ปะการัง"
-      data-info="CORAL REEF / SEAFLOOR"
-      style="left:20%;top:72%;width:20%;height:20%">
-    </div>
-
-    <div
-      class="detect-zone"
-      data-name="โขดหิน"
-      data-info="ROCK FORMATION / SEABED"
-      style="left:0;top:60%;width:18%;height:30%">
-    </div>
-
-    <div
-      class="detect-zone"
-      data-name="ปลาวาฬ"
-      data-info="WHALE / LARGE MARINE LIFE"
-      style="left:70%;top:30%;width:18%;height:15%">
-    </div>
-
-    <div
-      class="detect-zone"
-      data-name="ฟองน้ำทะเล"
-      data-info="SEA SPONGE / REEF LIFE"
-      style="left:68%;top:70%;width:18%;height:22%">
-    </div>
-
-  </div>
-
-
-
-  <!-- =====================================================
-       NIGHT RADAR SCENE
-  ===================================================== -->
-
-  <div class="scan-scene">
-
-    <div class="scan-grid"></div>
-    <div class="scan-wire"></div>
-    <div class="scan-contours"></div>
-
-    <div class="scan-seabed"></div>
-
-    <div class="wire-rock wr1"></div>
-    <div class="wire-rock wr2"></div>
-
-    <div class="scan-ship"></div>
-
-    <div class="wire-coral wc1"></div>
-    <div class="wire-coral wc2"></div>
-    <div class="wire-coral wc3"></div>
-
-
-    <!-- detailed tiny wire objects -->
-
-    <svg
-      viewBox="0 0 1600 900"
-      preserveAspectRatio="xMidYMid slice"
-      style="
-        position:absolute;
-        inset:0;
-        width:100%;
-        height:100%;
-        opacity:.65;
-      "
+        class="jelly"
+        data-name="แมงกะพรุน"
+        data-icon="🪼"
+        data-class="MARINE LIFE"
+        style="
+            left:18%;
+            top:22%;
+            --speed:3.5s;
+        "
     >
 
-      <g
-        fill="none"
-        stroke="#00ff9d"
-        stroke-width=".65"
-      >
+        <div class="jelly-cap"></div>
 
-        <!-- seabed lines -->
+        <div class="jelly-tentacles">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+        </div>
 
-        <path d="
-          M0 705
-          Q150 650 300 700
-          T600 690
-          T900 710
-          T1200 680
-          T1600 700
-        "/>
-
-        <path d="
-          M0 725
-          Q150 675 320 720
-          T650 715
-          T1000 735
-          T1300 705
-          T1600 725
-        "/>
-
-        <path d="
-          M0 748
-          Q180 705 360 748
-          T720 740
-          T1080 760
-          T1400 730
-          T1600 745
-        "/>
-
-        <path d="
-          M0 773
-          Q190 735 390 772
-          T790 765
-          T1160 780
-          T1600 765
-        "/>
+    </div>
 
 
-        <!-- left mountain mesh -->
+    <div
+        class="jelly"
+        data-name="แมงกะพรุน"
+        data-icon="🪼"
+        data-class="MARINE LIFE"
+        style="
+            right:18%;
+            top:35%;
+            transform:scale(.72);
+            --speed:4.2s;
+        "
+    >
 
-        <path d="
-          M0 710
-          V555
-          Q55 530 95 575
-          L125 518
-          L170 565
-          L208 505
-          L256 574
-          L305 545
-          L348 610
-          L365 710
-        "/>
+        <div class="jelly-cap"></div>
 
-        <path d="
-          M0 590 H350
-          M0 625 H360
-          M0 660 H365
-          M0 695 H365
-        "/>
+        <div class="jelly-tentacles">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+        </div>
 
-        <path d="
-          M35 710 L60 570
-          L95 575
-          L125 518
-          L150 710
-
-          M95 575
-          L170 565
-          L208 505
-          L215 710
-
-          M170 565
-          L256 574
-          L305 545
-          L280 710
-
-          M256 574
-          L348 610
-          L320 710
-        "/>
+    </div>
 
 
-        <!-- right mountain mesh -->
+    <div
+        class="jelly"
+        data-name="แมงกะพรุน"
+        data-icon="🪼"
+        data-class="MARINE LIFE"
+        style="
+            left:46%;
+            top:18%;
+            transform:scale(.55);
+            --speed:3.8s;
+        "
+    >
 
-        <path d="
-          M1250 705
-          L1290 590
-          L1340 565
-          L1378 605
-          L1428 530
-          L1474 575
-          L1510 525
-          L1555 590
-          L1600 565
-          V900
-          H1250
-        "/>
+        <div class="jelly-cap"></div>
 
-        <path d="
-          M1270 610 H1595
-          M1265 645 H1595
-          M1270 680 H1595
-          M1280 715 H1595
-        "/>
+        <div class="jelly-tentacles">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+        </div>
 
-        <path d="
-          M1290 590
-          L1340 565
-          L1378 605
-          L1428 530
-          L1474 575
-          L1510 525
-          L1555 590
+    </div>
 
-          M1290 590 L1320 705
-          M1340 565 L1390 705
-          M1378 605 L1440 705
-          M1428 530 L1460 705
-          M1474 575 L1500 705
-          M1510 525 L1530 705
-          M1555 590 L1570 705
-        "/>
+</div>
 
 
-        <!-- ship internal micro grid -->
+<!-- =================================================
+     NIGHT SCAN WIREFRAME
+================================================= -->
 
-        <g transform="translate(650 530) rotate(-7)">
+<div class="scan-art">
 
-          <path d="
-            M0 72
-            L430 84
-            L377 166
-            L72 174
-            Z
-          "/>
+    <div class="scan-grid"></div>
 
-          <path d="
-            M20 82 L95 156
-            M80 74 L145 170
-            M145 76 L205 172
-            M210 78 L268 170
-            M270 80 L330 164
-            M330 82 L380 150
-          "/>
+    <svg
+        class="scan-svg"
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="none"
+    >
 
-          <path d="
-            M20 110 H405
-            M35 137 H390
-            M70 160 H370
-          "/>
+        <!-- FLOOR GRID -->
 
-          <path d="
-            M135 77 V28
-            H250 V78
+        <g class="gridline">
 
-            M155 42 H235
-            M155 53 H235
+            <path d="M0 720 Q400 680 800 720 T1600 700"/>
+            <path d="M0 760 Q400 720 800 760 T1600 740"/>
+            <path d="M0 800 Q400 760 800 800 T1600 780"/>
+            <path d="M0 840 Q400 800 800 840 T1600 820"/>
 
-            M170 28 V77
-            M202 28 V78
-            M230 28 V77
-          "/>
-
-          <path d="
-            M198 28 V-100
-            M201 -91 L318 -47
-            M207 -83 L300 -48 L210 -33
-          "/>
+            <path d="M150 900 L350 680"/>
+            <path d="M400 900 L500 690"/>
+            <path d="M650 900 L650 700"/>
+            <path d="M900 900 L850 700"/>
+            <path d="M1150 900 L1000 690"/>
+            <path d="M1400 900 L1150 690"/>
 
         </g>
 
 
-        <!-- tiny coral structures -->
+        <!-- CASTLE -->
 
-        <path d="
-          M420 830
-          Q420 735 400 700
-          M420 770 L375 720
-          M416 750 L458 690
-          M410 790 L445 742
-        "/>
+        <g class="bright">
 
-        <path d="
-          M1120 835
-          Q1120 750 1098 702
-          M1115 770 L1070 730
-          M1118 748 L1158 694
-          M1118 792 L1148 755
-        "/>
+            <path d="
+                M110 700
+                L110 520
+                L155 500
+                L180 520
+                L180 700
+            "/>
 
-        <path d="
-          M1240 850
-          Q1240 780 1215 744
-          M1240 805 L1200 772
-          M1240 792 L1270 748
-        "/>
+            <path d="
+                M180 700
+                L180 575
+                L240 550
+                L305 575
+                L305 700
+            "/>
+
+            <path d="
+                M305 700
+                L305 470
+                L350 445
+                L380 465
+                L380 700
+            "/>
+
+            <path d="
+                M180 575
+                L230 575
+                L230 630
+                L180 630
+            "/>
+
+            <path d="
+                M305 555
+                L355 555
+                L355 620
+                L305 620
+            "/>
+
+            <path d="
+                M225 700
+                L225 635
+                Q245 605 265 635
+                L265 700
+            "/>
+
+        </g>
 
 
-        <!-- tiny fish wire silhouettes -->
+        <!-- CASTLE CRACKS -->
 
-        <path d="
-          M250 300
-          q30 -18 60 0
-          q-30 18 -60 0
-          l-18 -13
-          v26
-          z
-        "/>
+        <g class="faint">
 
-        <path d="
-          M1040 245
-          q26 -15 52 0
-          q-26 15 -52 0
-          l-16 -11
-          v22
-          z
-        "/>
+            <path d="M140 535 L150 580 L137 620"/>
+            <path d="M335 490 L350 530 L340 570"/>
+            <path d="M205 610 L220 640"/>
+            <path d="M280 575 L295 620"/>
 
-        <path d="
-          M1220 390
-          q36 -22 72 0
-          q-36 22 -72 0
-          l-22 -15
-          v30
-          z
-        "/>
+        </g>
 
-        <path d="
-          M430 430
-          q22 -13 44 0
-          q-22 13 -44 0
-          l-14 -10
-          v20
-          z
-        "/>
 
-      </g>
+        <!-- WHALE SKELETON -->
+
+        <g class="bright">
+
+            <path d="
+                M1080 555
+                Q1170 485 1300 500
+                Q1410 515 1500 565
+            "/>
+
+            <path d="
+                M1080 555
+                Q1040 525 1010 545
+                Q1045 575 1080 555
+            "/>
+
+            <path d="
+                M1500 565
+                Q1540 545 1565 565
+                Q1538 590 1500 565
+            "/>
+
+            <path d="
+                M1080 555
+                Q1280 530 1500 565
+            "/>
+
+            <path d="M1130 540 Q1140 600 1165 610"/>
+            <path d="M1170 535 Q1180 605 1205 615"/>
+            <path d="M1210 530 Q1220 610 1245 620"/>
+            <path d="M1250 530 Q1260 610 1285 620"/>
+            <path d="M1290 532 Q1300 610 1325 620"/>
+            <path d="M1330 538 Q1340 605 1365 615"/>
+            <path d="M1370 542 Q1380 600 1405 610"/>
+
+            <path d="
+                M1060 560
+                L1110 600
+                L1160 595
+            "/>
+
+            <path d="
+                M1360 560
+                L1420 650
+                L1460 580
+            "/>
+
+        </g>
+
+
+        <!-- SHIP -->
+
+        <g class="bright">
+
+            <path d="
+                M570 690
+                L850 690
+                L800 750
+                L610 760
+                Z
+            "/>
+
+            <path d="M610 690 L850 690"/>
+
+            <path d="M650 690 L650 730"/>
+            <path d="M700 690 L700 730"/>
+            <path d="M750 690 L750 730"/>
+
+            <path d="M710 690 L735 475"/>
+            <path d="M735 475 L820 550"/>
+            <path d="M735 500 L680 590"/>
+
+            <path d="M650 660 L820 660"/>
+
+        </g>
+
+
+        <!-- EXTRA RUINS -->
+
+        <g class="bright">
+
+            <!-- pillar -->
+
+            <path d="
+                M820 700
+                L825 540
+                L885 545
+                L895 700
+            "/>
+
+            <path d="M820 555 L895 560"/>
+
+            <path d="M835 600 L880 600"/>
+            <path d="M835 640 L880 640"/>
+
+
+            <!-- arch -->
+
+            <path d="
+                M1120 720
+                L1120 620
+                Q1210 520 1300 620
+                L1300 720
+            "/>
+
+            <path d="
+                M1145 720
+                L1145 630
+                Q1210 560 1275 630
+                L1275 720
+            "/>
+
+
+            <!-- statue -->
+
+            <path d="
+                M430 720
+                L450 610
+                L465 570
+                L480 610
+                L500 720
+            "/>
+
+            <path d="
+                M450 610
+                Q465 590 480 610
+            "/>
+
+            <path d="M425 720 L505 720"/>
+
+        </g>
+
+
+        <!-- ROCKS -->
+
+        <g class="faint">
+
+            <path d="
+                M0 740
+                Q80 650 170 710
+                Q230 680 310 740
+            "/>
+
+            <path d="
+                M1300 760
+                Q1380 660 1460 710
+                Q1530 650 1600 720
+            "/>
+
+            <path d="
+                M430 780
+                Q500 710 570 760
+            "/>
+
+        </g>
+
+
+        <!-- CORAL FOREST -->
+
+        <g class="bright">
+
+            <path d="M50 760 L50 690 M50 720 L25 680 M50 730 L75 675"/>
+            <path d="M95 760 L95 650 M95 700 L70 665 M95 690 L125 645"/>
+            <path d="M370 770 L370 680 M370 710 L340 670 M370 720 L400 675"/>
+            <path d="M470 775 L470 650 M470 700 L440 660 M470 700 L505 650"/>
+            <path d="M920 770 L920 665 M920 710 L890 670 M920 710 L950 660"/>
+            <path d="M970 770 L970 690 M970 720 L945 680 M970 720 L1000 675"/>
+            <path d="M1540 770 L1540 660 M1540 710 L1510 670 M1540 710 L1570 660"/>
+
+        </g>
+
+
+        <!-- MANY WIREFRAME FISH -->
+
+        <g class="bright">
+
+            <path d="
+                M300 200
+                Q330 175 360 200
+                Q330 225 300 200
+                L275 180
+                L275 220
+                Z
+            "/>
+
+            <circle cx="345" cy="197" r="2"/>
+
+
+            <path d="
+                M550 300
+                Q585 270 620 300
+                Q585 330 550 300
+                L525 278
+                L525 322
+                Z
+            "/>
+
+            <circle cx="605" cy="297" r="2"/>
+
+
+            <path d="
+                M700 170
+                Q725 150 750 170
+                Q725 190 700 170
+                L680 155
+                L680 185
+                Z
+            "/>
+
+
+            <path d="
+                M900 300
+                Q930 275 960 300
+                Q930 325 900 300
+                L875 280
+                L875 320
+                Z
+            "/>
+
+
+            <path d="
+                M1050 250
+                Q1120 205 1190 250
+                Q1120 295 1050 250
+                L1015 225
+                L1025 250
+                L1015 275
+            "/>
+
+            <path d="
+                M1110 225
+                L1125 195
+                L1140 230
+            "/>
+
+            <circle cx="1160" cy="244" r="2"/>
+
+
+            <path d="
+                M1350 340
+                Q1380 315 1410 340
+                Q1380 365 1350 340
+                L1325 320
+                L1325 360
+                Z
+            "/>
+
+
+            <path d="
+                M250 430
+                Q280 405 310 430
+                Q280 455 250 430
+                L225 410
+                L225 450
+                Z
+            "/>
+
+        </g>
+
+
+        <!-- JELLY WIREFRAME -->
+
+        <g class="bright">
+
+            <path d="
+                M380 170
+                Q430 125 480 170
+                Q480 205 430 210
+                Q380 205 380 170
+            "/>
+
+            <path d="M395 205 Q395 270 385 310"/>
+            <path d="M420 208 Q425 280 415 325"/>
+            <path d="M445 208 Q450 270 455 305"/>
+            <path d="M468 202 Q475 260 490 300"/>
+
+
+            <path d="
+                M1260 150
+                Q1300 115 1340 150
+                Q1340 180 1300 185
+                Q1260 180 1260 150
+            "/>
+
+            <path d="M1270 180 Q1260 235 1250 270"/>
+            <path d="M1290 185 Q1290 245 1285 280"/>
+            <path d="M1310 185 Q1315 240 1325 275"/>
+            <path d="M1330 180 Q1340 230 1355 255"/>
+
+
+            <path d="
+                M760 130
+                Q790 105 820 130
+                Q820 155 790 160
+                Q760 155 760 130
+            "/>
+
+            <path d="M770 155 Q765 205 755 235"/>
+            <path d="M790 158 Q790 215 790 245"/>
+            <path d="M810 155 Q815 205 825 235"/>
+
+        </g>
+
+
+        <!-- BUBBLE DATA -->
+
+        <g class="faint">
+
+            <circle cx="600" cy="260" r="5"/>
+            <circle cx="620" cy="230" r="3"/>
+            <circle cx="625" cy="200" r="2"/>
+
+            <circle cx="820" cy="380" r="4"/>
+            <circle cx="835" cy="350" r="2"/>
+            <circle cx="850" cy="320" r="5"/>
+
+            <circle cx="1200" cy="370" r="4"/>
+            <circle cx="1220" cy="335" r="2"/>
+
+        </g>
 
     </svg>
 
-  </div>
+</div>
 
 
-  <div class="scan-sweep"></div>
+<!-- =================================================
+     MANY MARINE CREATURES
+================================================= -->
 
-  <div class="depth-haze"></div>
+<div class="fish-stream">
+
+    <div class="swimmer"
+         data-name="ปลาทะเล"
+         data-icon="🐟"
+         data-class="FISH"
+         style="--top:10%;--size:28px;--speed:18s;--delay:-5s">
+        🐟
+    </div>
+
+    <div class="swimmer"
+         data-name="ปลาการ์ตูน"
+         data-icon="🐠"
+         data-class="CLOWNFISH"
+         style="--top:22%;--size:34px;--speed:22s;--delay:-13s">
+        🐠
+    </div>
+
+    <div class="swimmer"
+         data-name="ปลาปักเป้า"
+         data-icon="🐡"
+         data-class="PUFFERFISH"
+         style="--top:31%;--size:30px;--speed:19s;--delay:-8s">
+        🐡
+    </div>
+
+    <div class="swimmer reverse"
+         data-name="ฉลาม"
+         data-icon="🦈"
+         data-class="SHARK"
+         style="--top:17%;--size:65px;--speed:29s;--delay:-19s">
+        🦈
+    </div>
+
+    <div class="swimmer"
+         data-name="โลมา"
+         data-icon="🐬"
+         data-class="DOLPHIN"
+         style="--top:39%;--size:44px;--speed:24s;--delay:-3s">
+        🐬
+    </div>
+
+    <div class="swimmer"
+         data-name="วาฬ"
+         data-icon="🐋"
+         data-class="WHALE"
+         style="--top:50%;--size:70px;--speed:34s;--delay:-23s">
+        🐋
+    </div>
+
+    <div class="swimmer reverse"
+         data-name="เต่าทะเล"
+         data-icon="🐢"
+         data-class="SEA TURTLE"
+         style="--top:58%;--size:43px;--speed:28s;--delay:-12s">
+        🐢
+    </div>
+
+    <div class="swimmer"
+         data-name="ปลาทะเล"
+         data-icon="🐟"
+         data-class="FISH"
+         style="--top:65%;--size:24px;--speed:16s;--delay:-4s">
+        🐟
+    </div>
+
+    <div class="swimmer reverse"
+         data-name="ปลาการ์ตูน"
+         data-icon="🐠"
+         data-class="CLOWNFISH"
+         style="--top:73%;--size:32px;--speed:21s;--delay:-10s">
+        🐠
+    </div>
+
+    <div class="swimmer"
+         data-name="หมึก"
+         data-icon="🦑"
+         data-class="SQUID"
+         style="--top:81%;--size:36px;--speed:23s;--delay:-16s">
+        🦑
+    </div>
+
+    <div class="swimmer reverse"
+         data-name="ปู"
+         data-icon="🦀"
+         data-class="CRAB"
+         style="--top:87%;--size:28px;--speed:18s;--delay:-6s">
+        🦀
+    </div>
+
+    <div class="swimmer"
+         data-name="กุ้ง"
+         data-icon="🦐"
+         data-class="SHRIMP"
+         style="--top:46%;--size:25px;--speed:20s;--delay:-17s">
+        🦐
+    </div>
+
+    <div class="swimmer reverse"
+         data-name="ปลาสิงโต"
+         data-icon="🐠"
+         data-class="TROPICAL FISH"
+         style="--top:27%;--size:31px;--speed:17s;--delay:-14s">
+        🐠
+    </div>
+
+    <div class="swimmer"
+         data-name="ปลาเขตร้อน"
+         data-icon="🐟"
+         data-class="TROPICAL FISH"
+         style="--top:55%;--size:31px;--speed:25s;--delay:-21s">
+        🐟
+    </div>
+
+    <div class="swimmer reverse"
+         data-name="โลมา"
+         data-icon="🐬"
+         data-class="DOLPHIN"
+         style="--top:35%;--size:38px;--speed:26s;--delay:-7s">
+        🐬
+    </div>
+
+    <div class="swimmer"
+         data-name="ฉลาม"
+         data-icon="🦈"
+         data-class="SHARK"
+         style="--top:8%;--size:50px;--speed:32s;--delay:-28s">
+        🦈
+    </div>
+
+    <div class="swimmer reverse"
+         data-name="กระเบน"
+         data-icon="🐟"
+         data-class="RAY"
+         style="--top:43%;--size:38px;--speed:30s;--delay:-20s">
+        🐟
+    </div>
+
+    <div class="swimmer"
+         data-name="ปลาตัวเล็ก"
+         data-icon="🐟"
+         data-class="SMALL FISH"
+         style="--top:70%;--size:19px;--speed:14s;--delay:-6s">
+        🐟
+    </div>
 
 </div>
 
 
-<!-- =========================================================
-     NAV
-========================================================= -->
+<!-- =================================================
+     METEORS
+================================================= -->
 
-<nav class="nav">
+<div
+    class="meteor"
+    style="
+        left:12%;
+        top:15%;
+        --speed:5s;
+        animation-delay:-2s
+    "
+></div>
 
-  <button
-    class="brand"
-    data-page="home"
-    aria-label="หน้าแรก"
-  >
+<div
+    class="meteor"
+    style="
+        left:47%;
+        top:5%;
+        --speed:7s;
+        animation-delay:-5s
+    "
+></div>
 
-    <span class="brand-mark"></span>
+<div
+    class="meteor"
+    style="
+        left:72%;
+        top:20%;
+        --speed:6s;
+        animation-delay:-4s
+    "
+></div>
 
-    <span>
+<div
+    class="meteor"
+    style="
+        left:86%;
+        top:7%;
+        --speed:8s;
+        animation-delay:-7s
+    "
+></div>
 
-      <b>MY OCEAN</b>
+</div><!-- =====================================================
+     CURSOR
+===================================================== --><div
+    class="water-light"
+    id="waterLight"
+></div><div id="cursor"></div><div id="dot"></div><!-- =====================================================
+     TOOLTIP
+===================================================== --><div
+    class="target-tooltip"
+    id="targetTooltip"
+><small>
+    TARGET DETECTED
+</small>
 
-      <small>
-        SUPITCHAYA / PORTFOLIO
-      </small>
+<strong>
+    —
+</strong>
 
-    </span>
+<span>
+    CLASS / UNKNOWN
+</span>
 
-  </button>
+<span>
+    DIST / -- px
+</span>
 
-
-  <div class="navlinks">
-
-    <button
-      class="active"
-      data-page="home">
-      01 / HOME
-    </button>
-
-    <button data-page="profile">
-      02 / PROFILE
-    </button>
-
-    <button data-page="education">
-      03 / EDUCATION
-    </button>
-
-    <button data-page="hobby">
-      04 / HOBBY
-    </button>
-
-    <button data-page="contact">
-      05 / CONTACT
-    </button>
-
-  </div>
-
-
-  <button
-    class="mode"
-    id="mode"
-    aria-label="เปิดโหมดเรดาร์"
-  >
-
-    <span class="icon">
-      ◐
-    </span>
-
-  </button>
-
-</nav>
-
-
-
-<!-- =========================================================
+</div><!-- =====================================================
      RADAR
-========================================================= -->
+===================================================== --><div class="radar"><div class="radar-sweep"></div>
 
-<aside class="radar">
-
-  <div class="radar-head">
-
-    <span>
-      SONAR / RADAR
-    </span>
-
-    <span>
-      LIVE
-    </span>
-
-  </div>
-
-
-  <div class="radar-screen">
-
-    <i class="scanline"></i>
-
-    <i class="blip rb1"></i>
-    <i class="blip rb2"></i>
-    <i class="blip rb3"></i>
-    <i class="blip rb4"></i>
-
-  </div>
-
-
-  <div class="radar-foot">
-
-    <span>
-      DEPTH 3500M
-    </span>
-
-    <span id="clock">
-      00:00
-    </span>
-
-  </div>
-
-
-  <div
-    class="scan-badge"
-    id="scanBadge"
-  >
-    ENVIRONMENT / LOW LIGHT
-  </div>
-
-</aside>
-
-
-
-<!-- =========================================================
-     NIGHT MOUSE RADAR
-========================================================= -->
+<div class="radar-cross"></div>
 
 <div
-  class="mouse-radar"
-  id="mouseRadar"
->
-
-  <i class="mouse-radar-sweep"></i>
-
-  <i class="mouse-radar-dot mrd1"></i>
-  <i class="mouse-radar-dot mrd2"></i>
-  <i class="mouse-radar-dot mrd3"></i>
-
-  <span class="mouse-radar-label">
-    LOCAL SONAR
-  </span>
-
-</div>
-
+    class="radar-dot"
+    style="left:62%;top:35%"
+></div>
 
 <div
-  class="radar-detection"
-  id="radarDetection"
+    class="radar-dot"
+    style="left:30%;top:62%"
+></div>
+
+<div
+    class="radar-dot"
+    style="left:72%;top:70%"
+></div>
+
+<div
+    class="radar-dot"
+    style="left:45%;top:25%"
+></div>
+
+<div
+    class="radar-dot"
+    style="left:24%;top:40%"
+></div>
+
+<div
+    class="radar-dot"
+    style="left:80%;top:52%"
+></div>
+
+<div
+    class="radar-dot"
+    style="left:55%;top:80%"
+></div>
+
+<div
+    class="radar-dot"
+    style="left:38%;top:18%"
+></div>
+
+<div
+    class="radar-label"
+    id="radarLabel"
 >
-  <strong id="detectName">
-    UNKNOWN
-  </strong>
-
-  <small id="detectInfo">
-    SCANNING...
-  </small>
+    OCEAN RADAR<br>
+    TARGET: —
 </div>
 
-
-
-<!-- =========================================================
-     MOUSE
-========================================================= -->
-
-<div id="mouseWater"></div>
-
-
-
-<!-- =========================================================
-     MUSIC
-========================================================= -->
-
-<div class="music-player">
-
-  <div class="music-info">
-
-    <div class="music-label">
-      OCEAN SOUNDTRACK
-    </div>
-
-    <div class="music-title">
-      MY OCEAN — Deep Sea Atmosphere
-    </div>
-
-  </div>
-
-
-  <button
-    class="music-button"
-    id="musicButton"
-    title="เปิด / ปิดเพลง"
-  >
-    ▶
-  </button>
-
-</div>
-
-
-<audio
-  id="bgMusic"
-  loop
-  preload="none"
+</div><!-- =====================================================
+     CLOCK
+===================================================== --><div
+    class="clock"
+    id="clock"
 >
-  <source
-    src="ocean.mp3"
-    type="audio/mpeg"
-  >
-</audio>
+    00:00:00
+</div><!-- =====================================================
+     NAVIGATION
+===================================================== --><nav><button
+    class="active"
+    data-page="home"
+>
+    HOME
+</button>
 
+<button data-page="profile">
+    PROFILE
+</button>
 
+<button data-page="education">
+    EDUCATION
+</button>
 
-<!-- =========================================================
-     SCAN HUD
-========================================================= -->
+<button data-page="hobby">
+    HOBBY
+</button>
 
-<div class="scan-hud">
+<button data-page="contact">
+    CONTACT
+</button>
 
-  <div class="scan-corners"></div>
+<button
+    class="mode-btn"
+    id="modeBtn"
+>
+    ☾ NIGHT SCAN
+</button>
 
-  <div class="scan-label">
-    RADAR SCAN / ENVIRONMENT MAPPED
-  </div>
-
-</div>
-
-
-
-<!-- =========================================================
-     APP
-========================================================= -->
-
-<div id="app">
-
-
-<!-- ================= HOME ================= -->
+</nav><!-- =====================================================
+     PAGES
+===================================================== --><main class="pages"><!-- HOME -->
 
 <section
-  class="page active"
-  id="page-home"
+    class="page active"
+    id="home"
 >
 
-  <div class="page-inner">
-
-    <div class="home-layout">
-
-      <div>
+    <div class="home-content">
 
         <div class="eyebrow">
-          <i></i>
-          01 / HOME // DEEP OCEAN PORTFOLIO
+            UNDERWATER PORTFOLIO // SYSTEM ONLINE
         </div>
 
-
-        <h1 class="page-title">
-
-          WELCOME TO
-          <br>
-
-          <span class="outline">
+        <h1 class="hero-title">
             MY OCEAN
-          </span>
-
         </h1>
 
-
-        <p class="page-sub">
-
-          โลกเล็ก ๆ ของฉันที่เก็บตัวตน
-          ความชอบ การเรียนรู้
-          และเรื่องราวต่าง ๆ ไว้เหมือนการสำรวจมหาสมุทรทีละชั้น
-
+        <p class="hero-sub">
+            Explore beneath the surface.
         </p>
 
+        <div class="hero-line"></div>
 
-        <div class="home-actions">
-
-          <button
-            class="btn primary"
-            data-page="profile"
-          >
-            DIVE INTO PROFILE ↘
-          </button>
-
-          <button
-            class="btn"
-            data-page="hobby"
-          >
-            EXPLORE HOBBIES
-          </button>
-
-        </div>
-
-
-        <div class="home-stat">
-
-          <div class="stat">
-
-            <b>
-              3500M
-            </b>
-
-            <span>
-              SIMULATED DEPTH
-            </span>
-
-          </div>
-
-
-          <div class="stat">
-
-            <b>
-              5
-            </b>
-
-            <span>
-              PORTFOLIO PAGES
-            </span>
-
-          </div>
-
-
-          <div class="stat">
-
-            <b id="modeStat">
-              DEEP
-            </b>
-
-            <span>
-              ENVIRONMENT MODE
-            </span>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="glass telemetry">
-
-        <div class="corner a"></div>
-        <div class="corner b"></div>
-
-        <div class="tele-head">
-
-          <span>
-            OCEAN TELEMETRY
-          </span>
-
-          <span>
-            LIVE / 01
-          </span>
-
-        </div>
-
-
-        <div class="depth-ring">
-
-          <div>
-
-            <div class="depth-number">
-              3,500
-            </div>
-
-            <div class="depth-unit">
-              METERS / SIMULATION
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="tele-foot">
-
-          <span>
-            LIGHT LOW
-          </span>
-
-          <span>
-            SONAR ACTIVE
-          </span>
-
-          <span>
-            4°C
-          </span>
-
-        </div>
-
-      </div>
+        <p
+            style="
+                margin-top:22px;
+                color:rgba(220,250,255,.65);
+                font-family:'DM Mono',monospace;
+                font-size:9px;
+                letter-spacing:2px;
+            "
+        >
+            MOVE YOUR MOUSE TO INTERACT WITH THE OCEAN
+        </p>
 
     </div>
-
-
-    <div class="page-footer">
-
-      <span>
-        OCEAN SYSTEM / ONLINE
-      </span>
-
-      <span class="page-number">
-        PAGE 01 / 05
-      </span>
-
-    </div>
-
-  </div>
 
 </section>
 
 
-
-<!-- ================= PROFILE ================= -->
+<!-- PROFILE -->
 
 <section
-  class="page"
-  id="page-profile"
+    class="page"
+    id="profile"
 >
 
-  <div class="page-inner">
-
     <div class="eyebrow">
-      <i></i>
-      02 / PROFILE // PERSONAL RECORD
+        DATABASE / 01
     </div>
 
-
-    <h1 class="page-title">
-
-      PERSONAL
-      <br>
-
-      <span class="outline">
+    <h2 class="section-title">
         PROFILE
-      </span>
+    </h2>
 
-    </h1>
-
+    <p class="section-desc">
+        ข้อมูลส่วนตัวและเรื่องราวเล็ก ๆ ของฉัน
+        ที่รวบรวมไว้ในโลกใต้น้ำแห่งนี้
+    </p>
 
     <div class="profile-grid">
 
+        <div class="portrait-card">
 
-      <div class="glass info-card">
-
-        <div class="corner a"></div>
-        <div class="corner b"></div>
-
-        <div class="card-label">
-          PERSONAL INFORMATION
-        </div>
-
-        <div class="info-name">
-          SUPITCHAYA
-        </div>
-
-
-        <div class="data">
-
-          <div class="data-row">
-
-            <b>NAME</b>
-
-            <span>
-              สุพิชญา บุตตา
-            </span>
-
-          </div>
-
-
-          <div class="data-row">
-
-            <b>BIRTHDAY</b>
-
-            <span>
-              18 พฤศจิกายน 2554
-            </span>
-
-          </div>
-
-
-          <div class="data-row">
-
-            <b>FAVORITE FOOD</b>
-
-            <span>
-              KFC
-            </span>
-
-          </div>
-
-
-          <div class="data-row">
-
-            <b>FAVORITE DRINK</b>
-
-            <span>
-              น้ำเก๊กฮวย
-            </span>
-
-          </div>
-
-
-          <div class="data-row">
-
-            <b>WORLD</b>
-
-            <span>
-              MY OCEAN / CREATIVE SPACE
-            </span>
-
-          </div>
+            <div class="portrait-orb">
+                🌊
+            </div>
 
         </div>
 
-      </div>
+        <div class="info-card">
 
+            <div class="data-row">
 
-      <div class="glass portrait-card">
+                <div class="data-label">
+                    NAME
+                </div>
 
-        <div class="photo-placeholder">
+                <div class="data-value">
+                    สุพิชญา บุตตา
+                </div>
 
-          <div>
+            </div>
 
-            <strong>
-              PORTRAIT AREA
-            </strong>
+            <div class="data-row">
 
-            วางรูปของคุณตรงนี้ได้เลย
-            <br>
+                <div class="data-label">
+                    BIRTHDAY
+                </div>
 
-            PHOTO / IMAGE PLACEHOLDER
+                <div class="data-value">
+                    18 พฤศจิกายน 2554
+                </div>
 
-          </div>
+            </div>
+
+            <div class="data-row">
+
+                <div class="data-label">
+                    FAVORITE FOOD
+                </div>
+
+                <div class="data-value">
+                    KFC 🍗
+                </div>
+
+            </div>
+
+            <div class="data-row">
+
+                <div class="data-label">
+                    FAVORITE DRINK
+                </div>
+
+                <div class="data-value">
+                    น้ำเก๊กฮวย 🌼
+                </div>
+
+            </div>
+
+            <div class="data-row">
+
+                <div class="data-label">
+                    MISSION
+                </div>
+
+                <div class="data-value">
+                    Explore • Learn • Create
+                </div>
+
+            </div>
 
         </div>
-
-      </div>
 
     </div>
-
-
-    <div class="glass note-card">
-
-      <div class="card-label">
-        PERSONAL NOTE
-      </div>
-
-      <div class="quote">
-
-        “ทะเลมีหลายชั้น และตัวเราก็เช่นกัน
-        — ค่อย ๆ ดำลงไป แล้วจะเจอสิ่งที่ชอบอยู่ข้างใน”
-
-        <small>
-          MY OCEAN / PERSONAL LOG
-        </small>
-
-      </div>
-
-    </div>
-
-
-    <div class="page-footer">
-
-      <span>
-        PERSONAL DATA / OPEN
-      </span>
-
-      <span class="page-number">
-        PAGE 02 / 05
-      </span>
-
-    </div>
-
-  </div>
 
 </section>
 
 
-
-<!-- ================= EDUCATION ================= -->
+<!-- EDUCATION -->
 
 <section
-  class="page"
-  id="page-education"
+    class="page"
+    id="education"
 >
-
-  <div class="page-inner">
 
     <div class="eyebrow">
-      <i></i>
-      03 / EDUCATION // LEARNING PATH
+        DATABASE / 02
     </div>
 
+    <h2 class="section-title">
+        EDUCATION
+    </h2>
 
-    <h1 class="page-title">
+    <p class="section-desc">
+        เส้นทางการเรียนรู้ของฉัน
+        เปรียบเหมือนการสำรวจมหาสมุทร
+        ที่มีสิ่งใหม่ให้ค้นพบอยู่เสมอ
+    </p>
 
-      LEARNING
-      <br>
+    <div class="edu-grid">
 
-      <span class="outline">
-        JOURNEY
-      </span>
-
-    </h1>
-
-
-    <div class="edu-layout">
-
-
-      <div class="glass edu-card">
-
-        <div class="corner a"></div>
-        <div class="corner b"></div>
-
-        <div class="card-label">
-          EDUCATION / LEARNING LOG
-        </div>
-
-
-        <div class="timeline">
-
-
-          <div class="event">
-
-            <time>
-              NOW
-            </time>
+        <div class="edu-card">
 
             <h3>
-              Current Education
+                MY LEARNING JOURNEY
             </h3>
 
             <p>
-              กำลังเรียนรู้และสะสมประสบการณ์ในแต่ละวัน
-              ทั้งด้านการเรียนและสิ่งที่ตัวเองสนใจ
+                ฉันสนใจการเรียนรู้สิ่งใหม่ ๆ
+                ทั้งด้านวิทยาศาสตร์ เทคโนโลยี
+                ศิลปะ และการสร้างสรรค์ผลงาน
             </p>
 
-          </div>
+            <div class="timeline">
+
+                <div class="timeline-item">
+
+                    <small>
+                        PRESENT
+                    </small>
+
+                    <h4>
+                        Student
+                    </h4>
+
+                    <p>
+                        เรียนรู้และพัฒนาทักษะ
+                        ในด้านต่าง ๆ
+                    </p>
+
+                </div>
+
+                <div class="timeline-item">
+
+                    <small>
+                        SKILLS
+                    </small>
+
+                    <h4>
+                        Creative Learning
+                    </h4>
+
+                    <p>
+                        ทดลอง สร้างผลงาน
+                        และเรียนรู้จากประสบการณ์
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
 
 
-          <div class="event">
-
-            <time>
-              ONGOING
-            </time>
+        <div class="edu-card">
 
             <h3>
-              Creative Exploration
+                SKILL DATA
             </h3>
 
             <p>
-              พัฒนาความคิดสร้างสรรค์ผ่านการวาดรูป
-              ฟังเพลง ดูหนัง อ่านนิยาย และการร้องเพลง
+                CREATIVE
             </p>
 
-          </div>
-
-
-          <div class="event">
-
-            <time>
-              NEXT
-            </time>
-
-            <h3>
-              More Things To Discover
-            </h3>
+            <div
+                style="
+                    height:5px;
+                    margin:10px 0 20px;
+                    background:rgba(255,255,255,.08);
+                "
+            >
+                <div
+                    style="
+                        width:85%;
+                        height:100%;
+                        background:var(--cyan);
+                        box-shadow:
+                            0 0 12px
+                            var(--cyan);
+                    "
+                ></div>
+            </div>
 
             <p>
-              พื้นที่นี้สามารถเติมระดับชั้น โรงเรียน
-              รางวัล หรือผลงานจริงในอนาคตได้
+                TECHNOLOGY
             </p>
 
-          </div>
+            <div
+                style="
+                    height:5px;
+                    margin:10px 0 20px;
+                    background:rgba(255,255,255,.08);
+                "
+            >
+                <div
+                    style="
+                        width:75%;
+                        height:100%;
+                        background:var(--cyan);
+                        box-shadow:
+                            0 0 12px
+                            var(--cyan);
+                    "
+                ></div>
+            </div>
+
+            <p>
+                DESIGN
+            </p>
+
+            <div
+                style="
+                    height:5px;
+                    margin:10px 0 20px;
+                    background:rgba(255,255,255,.08);
+                "
+            >
+                <div
+                    style="
+                        width:90%;
+                        height:100%;
+                        background:var(--cyan);
+                        box-shadow:
+                            0 0 12px
+                            var(--cyan);
+                    "
+                ></div>
+            </div>
 
         </div>
-
-      </div>
-
-
-      <div class="glass edu-side">
-
-        <div>
-
-          <div class="card-label">
-            SYSTEM NOTE
-          </div>
-
-          <h2
-            style="
-              font-size:30px;
-              line-height:1.15;
-              margin-top:10px;
-            "
-          >
-            KEEP
-            <br>
-            EXPLORING.
-          </h2>
-
-          <p
-            style="
-              color:#82a3ac;
-              font-size:12px;
-              line-height:1.8;
-              margin-top:11px;
-            "
-          >
-            การเรียนรู้ไม่ได้อยู่แค่ในห้องเรียน
-            สิ่งที่ชอบสามารถกลายเป็นทักษะ
-            และแรงบันดาลใจได้
-          </p>
-
-        </div>
-
-
-        <div class="progress-list">
-
-          <div class="skill">
-
-            <div class="skill-top">
-              <span>CREATIVITY</span>
-              <span>ACTIVE</span>
-            </div>
-
-            <div class="track">
-              <i style="width:86%"></i>
-            </div>
-
-          </div>
-
-
-          <div class="skill">
-
-            <div class="skill-top">
-              <span>DISCOVERY</span>
-              <span>ONGOING</span>
-            </div>
-
-            <div class="track">
-              <i style="width:72%"></i>
-            </div>
-
-          </div>
-
-
-          <div class="skill">
-
-            <div class="skill-top">
-              <span>EXPLORATION</span>
-              <span>ONLINE</span>
-            </div>
-
-            <div class="track">
-              <i style="width:91%"></i>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
 
     </div>
-
-
-    <div class="page-footer">
-
-      <span>
-        EDU DATA / ACTIVE
-      </span>
-
-      <span class="page-number">
-        PAGE 03 / 05
-      </span>
-
-    </div>
-
-  </div>
 
 </section>
 
 
-
-<!-- ================= HOBBY ================= -->
+<!-- HOBBY -->
 
 <section
-  class="page"
-  id="page-hobby"
+    class="page"
+    id="hobby"
 >
 
-  <div class="page-inner">
-
-    <div class="hobby-intro">
-
-      <div>
-
-        <div class="eyebrow">
-
-          <i></i>
-
-          04 / HOBBY // PERSONAL INTERESTS
-
-        </div>
-
-
-        <h1 class="page-title">
-
-          THINGS
-          <br>
-
-          <span class="outline">
-            I LOVE
-          </span>
-
-        </h1>
-
-
-        <p class="page-sub">
-
-          หกกิจกรรมที่ทำให้โลกส่วนตัวมีสีสันขึ้น
-          ตั้งแต่หน้ากระดาษ เสียงเพลง
-          ไปจนถึงเรื่องราวบนจอ
-
-        </p>
-
-      </div>
-
-
-      <div class="hobby-count">
-        06 CHANNELS / ONLINE
-      </div>
-
+    <div class="eyebrow">
+        DATABASE / 03
     </div>
 
+    <h2 class="section-title">
+        HOBBY
+    </h2>
+
+    <p class="section-desc">
+        สิ่งที่ฉันชอบทำในเวลาว่าง
+    </p>
 
     <div class="hobby-grid">
 
+        <div class="hobby">
+            <div class="hobby-icon">🎨</div>
+            <h3>วาดรูป</h3>
+            <p>สร้างโลกของตัวเองผ่านภาพวาด</p>
+        </div>
 
-      <div class="hobby">
-        <span class="hobby-no">01</span>
-        <span class="emoji">🎨</span>
-        <b>วาดรูป</b>
-        <small>DRAWING / CREATE</small>
-      </div>
+        <div class="hobby">
+            <div class="hobby-icon">🎧</div>
+            <h3>ฟังเพลง</h3>
+            <p>ฟังเพลงเพื่อผ่อนคลายและสร้างแรงบันดาลใจ</p>
+        </div>
 
+        <div class="hobby">
+            <div class="hobby-icon">🎬</div>
+            <h3>ดูหนัง</h3>
+            <p>สนุกกับเรื่องราวและโลกของภาพยนตร์</p>
+        </div>
 
-      <div class="hobby">
-        <span class="hobby-no">02</span>
-        <span class="emoji">🎧</span>
-        <b>ฟังเพลง</b>
-        <small>MUSIC / LISTEN</small>
-      </div>
+        <div class="hobby">
+            <div class="hobby-icon">📖</div>
+            <h3>อ่านนิยาย</h3>
+            <p>เดินทางไปยังโลกต่าง ๆ ผ่านตัวหนังสือ</p>
+        </div>
 
+        <div class="hobby">
+            <div class="hobby-icon">🎤</div>
+            <h3>ร้องเพลง</h3>
+            <p>ใช้เสียงเพลงในการแสดงออก</p>
+        </div>
 
-      <div class="hobby">
-        <span class="hobby-no">03</span>
-        <span class="emoji">🎬</span>
-        <b>ดูหนัง</b>
-        <small>MOVIES / STORIES</small>
-      </div>
-
-
-      <div class="hobby">
-        <span class="hobby-no">04</span>
-        <span class="emoji">📖</span>
-        <b>อ่านนิยาย</b>
-        <small>NOVELS / IMAGINE</small>
-      </div>
-
-
-      <div class="hobby">
-        <span class="hobby-no">05</span>
-        <span class="emoji">🎤</span>
-        <b>ร้องเพลง</b>
-        <small>VOICE / PERFORM</small>
-      </div>
-
-
-      <div class="hobby">
-        <span class="hobby-no">06</span>
-        <span class="emoji">🛍️</span>
-        <b>ช็อปปิ้ง</b>
-        <small>SHOPPING / DISCOVER</small>
-      </div>
+        <div class="hobby">
+            <div class="hobby-icon">🛍️</div>
+            <h3>ช็อปปิ้ง</h3>
+            <p>ค้นหาของที่น่าสนใจและไอเดียใหม่ ๆ</p>
+        </div>
 
     </div>
-
-
-    <div class="page-footer">
-
-      <span>
-        PERSONAL INTERESTS / 06 CHANNELS
-      </span>
-
-      <span class="page-number">
-        PAGE 04 / 05
-      </span>
-
-    </div>
-
-  </div>
 
 </section>
 
 
-
-<!-- ================= CONTACT ================= -->
+<!-- CONTACT -->
 
 <section
-  class="page"
-  id="page-contact"
+    class="page"
+    id="contact"
 >
 
-  <div class="page-inner">
-
     <div class="eyebrow">
-
-      <i></i>
-
-      05 / CONTACT // OCEAN-LINK
-
+        DATABASE / 04
     </div>
 
+    <h2 class="section-title">
+        CONTACT
+    </h2>
 
-    <h1 class="page-title">
-
-      LET'S
-      <br>
-
-      <span class="outline">
-        CONNECT
-      </span>
-
-    </h1>
-
-
-    <p class="page-sub">
-
-      ช่องทางติดต่อและพื้นที่ออนไลน์
-      ของ My Ocean Portfolio
-
+    <p class="section-desc">
+        ช่องทางสำหรับติดต่อและติดตามผลงาน
     </p>
 
+    <div class="contact-grid">
 
-    <div class="contact-layout">
+        <div class="contact-card">
 
+            <h3>
+                EMAIL
+            </h3>
 
-      <div class="glass contact-card">
-
-        <div class="corner a"></div>
-        <div class="corner b"></div>
-
-        <div class="card-label">
-          CONTACT CHANNELS
-        </div>
-
-
-        <div class="channels">
-
-
-          <div class="channel">
-
-            <b>EMAIL</b>
-
-            <a href="mailto:gamhom181154@gmail.com">
-              gamhom181154@gmail.com
-            </a>
-
-          </div>
-
-
-          <div class="channel">
-
-            <b>PORTFOLIO</b>
-
-            <span>
-              my ocean portfolio
-            </span>
-
-          </div>
-
-
-          <div class="channel">
-
-            <b>INSTAGRAM</b>
-
-            <a
-              href="https://instagram.com/Supitchaya_Butta"
-              target="_blank"
-              rel="noopener"
-            >
-              Supitchaya_Butta
-            </a>
-
-          </div>
-
-
-          <div class="channel">
-
-            <b>STATUS</b>
-
-            <span style="color:var(--cyan)">
-              ● AVAILABLE TO CONNECT
-            </span>
-
-          </div>
+            <p>
+                gamhom181154@gmail.com
+            </p>
 
         </div>
 
-      </div>
+        <div class="contact-card">
 
+            <h3>
+                INSTAGRAM
+            </h3>
 
-      <div class="glass signal">
-
-        <div>
-
-          <div class="signal-mark">
-            ⌁
-          </div>
-
-          <h2>
-            OCEAN-LINK
-            <br>
-            CHANNEL READY
-          </h2>
-
-          <p>
-            ส่งข้อความมาได้เลย
-            แล้วพบกันใต้ผิวน้ำ 🌊
-          </p>
+            <p>
+                Supitchaya_Butta
+            </p>
 
         </div>
-
-
-        <div class="qr">
-          SIGNAL / PERSONAL PORTFOLIO
-        </div>
-
-      </div>
 
     </div>
 
+    <div class="signal">
 
-    <div class="page-footer">
+        <span>
+            SIGNAL STATUS
+        </span>
 
-      <span>
-        CHANNEL / OCEAN-LINK
-      </span>
-
-      <span class="page-number">
-        PAGE 05 / 05
-      </span>
+        <strong>
+            CONNECTION READY • 🌊
+        </strong>
 
     </div>
-
-  </div>
 
 </section>
 
-</div>
-
-
-
-<script>
+</main><script>
 
 /* =========================================================
-   BASIC SELECTORS
+   HELPERS
 ========================================================= */
 
 const $ = selector =>
-  document.querySelector(selector);
+    document.querySelector(selector);
 
 const $$ = selector =>
-  [...document.querySelectorAll(selector)];
+    document.querySelectorAll(selector);
 
 
 /* =========================================================
    LOADER
 ========================================================= */
 
+let progress = 0;
+
 const loader =
-  $("#loader");
+    $("#loader");
 
 const loaderPercent =
-  $("#loaderPercent");
+    $("#loaderPercent");
 
-const loaderTelemetry =
-  $("#loaderTelemetry");
+const loaderStatus =
+    $("#loaderStatus");
 
-let loadN = 0;
+const loaderMessages = [
 
-const loadTimer =
-  setInterval(()=>{
+    "INITIALIZING OCEAN SYSTEM",
 
-    loadN =
-      Math.min(
-        100,
-        loadN +
-        Math.ceil(Math.random()*4)
-      );
+    "CALIBRATING WATER PRESSURE",
 
-    loaderPercent.textContent =
-      String(loadN).padStart(2,"0")+"%";
+    "SCANNING MARINE LIFE",
 
-    loaderTelemetry.textContent =
-      "INITIALIZING / "+
-      String(loadN*35).padStart(3,"0");
+    "LOADING CORAL DATABASE",
 
-    if(loadN >= 100){
+    "MAPPING OCEAN FLOOR",
 
-      clearInterval(loadTimer);
+    "CONNECTING RADAR",
 
-      setTimeout(()=>{
+    "SYSTEM READY"
 
-        loader.classList.add("hide");
+];
 
-      },500);
+const loaderTimer =
+    setInterval(() => {
 
-    }
+        progress +=
+            Math.floor(
+                Math.random()*9
+            ) + 3;
 
-  },70);
+        if(progress >= 100)
+            progress = 100;
 
+        loaderPercent.textContent =
+            progress + "%";
 
-/* safety fallback */
+        const index =
+            Math.min(
+                loaderMessages.length-1,
+                Math.floor(
+                    progress / 15
+                )
+            );
 
-window.addEventListener("load",()=>{
+        loaderStatus.textContent =
+            loaderMessages[index];
 
-  setTimeout(()=>{
+        if(progress >= 100){
 
-    loader.classList.add("hide");
+            clearInterval(
+                loaderTimer
+            );
 
-  },3700);
+            setTimeout(
+                () => {
+                    loader.classList.add("hide");
+                },
+                700
+            );
 
-});
+        }
 
-
-/* =========================================================
-   LOADER BUBBLES
-========================================================= */
-
-const loaderBubbles =
-  $("#loaderBubbles");
-
-for(let i=0;i<35;i++){
-
-  const b =
-    document.createElement("i");
-
-  b.className =
-    "loader-bubble";
-
-  b.style.setProperty(
-    "--size",
-    (3+Math.random()*14)+"px"
-  );
-
-  b.style.setProperty(
-    "--left",
-    Math.random()*100+"%"
-  );
-
-  b.style.setProperty(
-    "--duration",
-    (8+Math.random()*15)+"s"
-  );
-
-  b.style.setProperty(
-    "--delay",
-    (-Math.random()*15)+"s"
-  );
-
-  loaderBubbles.appendChild(b);
-
-}
+    },180);
 
 
 /* =========================================================
    PARTICLES
 ========================================================= */
 
-const particles =
-  $("#particles");
+const particleBox =
+    $("#particles");
 
 for(let i=0;i<120;i++){
 
-  const p =
-    document.createElement("i");
+    const p =
+        document.createElement("div");
 
-  p.className =
-    "particle";
+    p.className =
+        "particle";
 
-  p.style.left =
-    Math.random()*100+"%";
+    p.style.left =
+        Math.random()*100 + "%";
 
-  p.style.top =
-    (10+Math.random()*90)+"%";
+    p.style.top =
+        Math.random()*100 + "%";
 
-  p.style.animationDuration =
-    (9+Math.random()*25)+"s";
+    p.style.setProperty(
+        "--t",
+        5 + Math.random()*12 + "s"
+    );
 
-  p.style.animationDelay =
-    (-Math.random()*25)+"s";
+    p.style.animationDelay =
+        -Math.random()*15 + "s";
 
-  particles.appendChild(p);
+    particleBox.appendChild(p);
 
 }
 
@@ -6159,270 +4786,145 @@ for(let i=0;i<120;i++){
    BUBBLES
 ========================================================= */
 
-const bubbles =
-  $("#bubbles");
+const bubbleBox =
+    $("#bubbles");
 
-for(let i=0;i<75;i++){
+for(let i=70;i--;){
 
-  const b =
-    document.createElement("i");
+    const b =
+        document.createElement("div");
 
-  b.className =
-    "bubble";
+    b.className =
+        "bubble";
 
-  b.style.setProperty(
-    "--size",
-    (2+Math.random()*12)+"px"
-  );
+    b.style.setProperty(
+        "--size",
+        3 + Math.random()*18 + "px"
+    );
 
-  b.style.setProperty(
-    "--left",
-    Math.random()*100+"%"
-  );
+    b.style.setProperty(
+        "--left",
+        Math.random()*100 + "%"
+    );
 
-  b.style.setProperty(
-    "--duration",
-    (9+Math.random()*22)+"s"
-  );
+    b.style.setProperty(
+        "--time",
+        7 + Math.random()*12 + "s"
+    );
 
-  b.style.setProperty(
-    "--delay",
-    (-Math.random()*25)+"s"
-  );
+    b.style.setProperty(
+        "--drift",
+        -70 + Math.random()*140 + "px"
+    );
 
-  bubbles.appendChild(b);
+    b.style.animationDelay =
+        -Math.random()*18 + "s";
+
+    bubbleBox.appendChild(b);
 
 }
 
 
 /* =========================================================
-   PAGE NAVIGATION
+   NAVIGATION
 ========================================================= */
 
-const pages = {
-
-  home:
-    $("#page-home"),
-
-  profile:
-    $("#page-profile"),
-
-  education:
-    $("#page-education"),
-
-  hobby:
-    $("#page-hobby"),
-
-  contact:
-    $("#page-contact")
-
-};
+const pages =
+    $$(".page");
 
 const navButtons =
-  $$(".navlinks button");
+    $$("nav button[data-page]");
 
+function showPage(id){
 
-function showPage(name){
+    pages.forEach(page => {
 
-  Object.entries(pages)
-    .forEach(([key,page])=>{
-
-      page.classList.toggle(
-        "active",
-        key === name
-      );
+        page.classList.toggle(
+            "active",
+            page.id === id
+        );
 
     });
 
+    navButtons.forEach(btn => {
 
-  navButtons.forEach(btn=>{
-
-    btn.classList.toggle(
-      "active",
-      btn.dataset.page === name
-    );
-
-  });
-
-
-  if(pages[name]){
-
-    pages[name].scrollTop = 0;
-
-  }
-
-  history.replaceState(
-    null,
-    "",
-    "#"+name
-  );
-
-}
-
-
-$$("[data-page]")
-  .forEach(el=>{
-
-    el.addEventListener(
-      "click",
-      ()=>{
-        showPage(
-          el.dataset.page
+        btn.classList.toggle(
+            "active",
+            btn.dataset.page === id
         );
-      }
-    );
 
-  });
-
-
-const initial =
-  location.hash.replace("#","");
-
-if(pages[initial]){
-
-  showPage(initial);
+    });
 
 }
+
+navButtons.forEach(btn => {
+
+    btn.addEventListener(
+        "click",
+        () => {
+
+            showPage(
+                btn.dataset.page
+            );
+
+        }
+    );
+
+});
 
 
 /* =========================================================
-   DAY / NIGHT MODE
+   DAY / NIGHT
 ========================================================= */
 
-const mode =
-  $("#mode");
+const modeBtn =
+    $("#modeBtn");
 
-const modeStat =
-  $("#modeStat");
-
-const scanBadge =
-  $("#scanBadge");
-
-
-function syncMode(){
-
-  const scan =
-    document.body.classList.contains(
-      "scan"
+const savedMode =
+    localStorage.getItem(
+        "myOceanMode"
     );
 
-  mode.querySelector(
-    ".icon"
-  ).textContent =
-    scan ? "⌁" : "◐";
+if(savedMode === "scan"){
 
-  mode.title =
-    scan
-      ? "กลับสู่โหมดทะเล"
-      : "เปิดโหมดเรดาร์";
-
-  mode.setAttribute(
-    "aria-label",
-    mode.title
-  );
-
-  modeStat.textContent =
-    scan
-      ? "RADAR SCAN"
-      : "DEEP";
-
-  scanBadge.textContent =
-    scan
-      ? "ENVIRONMENT / FULL SCAN"
-      : "ENVIRONMENT / LOW LIGHT";
-
-}
-
-
-if(
-  localStorage.getItem(
-    "myOceanMode"
-  ) === "scan"
-){
-
-  document.body.classList.add(
-    "scan"
-  );
-
-}
-
-syncMode();
-
-
-mode.addEventListener(
-  "click",
-  ()=>{
-
-    document.body.classList.toggle(
-      "scan"
-    );
-
-    const scan =
-      document.body.classList.contains(
+    document.body.classList.add(
         "scan"
-      );
-
-    localStorage.setItem(
-      "myOceanMode",
-      scan
-        ? "scan"
-        : "deep"
     );
 
-    syncMode();
+    modeBtn.textContent =
+        "☀ DAY OCEAN";
 
-    const pulse =
-      document.createElement("i");
+}else{
 
-    pulse.style.cssText = `
-      position:fixed;
-      inset:0;
-      z-index:79;
-      pointer-events:none;
-      border:2px solid var(--cyan);
-      box-shadow:inset 0 0 80px rgba(0,255,157,.12);
-      opacity:.8;
-      animation:clickPulse .8s ease-out forwards;
-    `;
-
-    document.body.appendChild(
-      pulse
-    );
-
-    setTimeout(
-      ()=>pulse.remove(),
-      850
-    );
-
-  }
-);
-
-
-/* add click animation */
-
-const clickStyle =
-  document.createElement("style");
-
-clickStyle.textContent = `
-
-@keyframes clickPulse{
-
-  from{
-    opacity:.8;
-    transform:scale(.97);
-  }
-
-  to{
-    opacity:0;
-    transform:scale(1.02);
-  }
+    modeBtn.textContent =
+        "☾ NIGHT SCAN";
 
 }
 
-`;
+modeBtn.addEventListener(
+    "click",
+    () => {
 
-document.head.appendChild(
-  clickStyle
+        document.body.classList.toggle(
+            "scan"
+        );
+
+        const scan =
+            document.body.classList.contains(
+                "scan"
+            );
+
+        localStorage.setItem(
+            "myOceanMode",
+            scan ? "scan" : "day"
+        );
+
+        modeBtn.textContent =
+            scan
+                ? "☀ DAY OCEAN"
+                : "☾ NIGHT SCAN";
+
+    }
 );
 
 
@@ -6432,371 +4934,717 @@ document.head.appendChild(
 
 function updateClock(){
 
-  $("#clock").textContent =
-    new Date().toLocaleTimeString(
-      "en-GB",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
+    const now =
+        new Date();
+
+    const h =
+        String(
+            now.getHours()
+        ).padStart(2,"0");
+
+    const m =
+        String(
+            now.getMinutes()
+        ).padStart(2,"0");
+
+    const s =
+        String(
+            now.getSeconds()
+        ).padStart(2,"0");
+
+    $("#clock").textContent =
+        `${h}:${m}:${s}`;
 
 }
+
+setInterval(
+    updateClock,
+    1000
+);
 
 updateClock();
 
-setInterval(
-  updateClock,
-  1000
-);
-
 
 /* =========================================================
-   DESKTOP CURSOR
+   CURSOR
 ========================================================= */
 
-const cursorEl =
-  document.createElement("i");
+const cursor =
+    $("#cursor");
 
-cursorEl.className =
-  "cursor";
+const dot =
+    $("#dot");
 
-const dotEl =
-  document.createElement("i");
+const waterLight =
+    $("#waterLight");
 
-dotEl.className =
-  "dot";
-
-document.body.append(
-  cursorEl,
-  dotEl
-);
-
+const tooltip =
+    $("#targetTooltip");
 
 let mouseX =
-  innerWidth/2;
+    innerWidth / 2;
 
 let mouseY =
-  innerHeight/2;
+    innerHeight / 2;
 
-let cursorX =
-  mouseX;
+let currentX =
+    mouseX;
 
-let cursorY =
-  mouseY;
+let currentY =
+    mouseY;
 
+let lastWave = 0;
 
-addEventListener(
-  "mousemove",
-  e=>{
+document.addEventListener(
+    "mousemove",
+    e => {
 
-    mouseX =
-      e.clientX;
+        mouseX =
+            e.clientX;
 
-    mouseY =
-      e.clientY;
+        mouseY =
+            e.clientY;
 
-  }
+        dot.style.left =
+            mouseX + "px";
+
+        dot.style.top =
+            mouseY + "px";
+
+        waterLight.style.left =
+            mouseX + "px";
+
+        waterLight.style.top =
+            mouseY + "px";
+
+        if(
+            !document.body.classList.contains(
+                "scan"
+            )
+        ){
+
+            createWaterEffect(
+                mouseX,
+                mouseY
+            );
+
+        }else{
+
+            detectTarget(
+                mouseX,
+                mouseY
+            );
+
+        }
+
+    }
 );
 
 
-(function cursorLoop(){
+/* smooth cursor */
 
-  cursorX +=
-    (mouseX-cursorX)*.16;
+function cursorLoop(){
 
-  cursorY +=
-    (mouseY-cursorY)*.16;
+    currentX +=
+        (mouseX-currentX)
+        * .18;
 
-  cursorEl.style.left =
-    cursorX+"px";
+    currentY +=
+        (mouseY-currentY)
+        * .18;
 
-  cursorEl.style.top =
-    cursorY+"px";
+    cursor.style.left =
+        currentX + "px";
 
-  dotEl.style.left =
-    mouseX+"px";
+    cursor.style.top =
+        currentY + "px";
 
-  dotEl.style.top =
-    mouseY+"px";
-
-  requestAnimationFrame(
-    cursorLoop
-  );
-
-})();
-
-
-function bindHot(){
-
-  $$(
-    "button,a,.glass,.hobby,.jelly,.creature"
-  )
-  .forEach(el=>{
-
-    el.addEventListener(
-      "mouseenter",
-      ()=>{
-        cursorEl.classList.add(
-          "hot"
-        );
-      }
+    requestAnimationFrame(
+        cursorLoop
     );
-
-    el.addEventListener(
-      "mouseleave",
-      ()=>{
-        cursorEl.classList.remove(
-          "hot"
-        );
-      }
-    );
-
-  });
 
 }
 
-bindHot();
+cursorLoop();
 
 
 /* =========================================================
-   DAY WATER RIPPLE
+   BEAUTIFUL DAY WATER EFFECT
 ========================================================= */
 
-let lastRipple = 0;
-
-addEventListener(
-  "mousemove",
-  e=>{
-
-    if(
-      document.body.classList.contains(
-        "scan"
-      )
-    ) return;
-
+function createWaterEffect(x,y){
 
     const now =
-      performance.now();
+        performance.now();
 
-    if(
-      now-lastRipple < 100
-    ) return;
+    if(now-lastWave < 95)
+        return;
 
-    lastRipple = now;
-
-
-    const ripple =
-      document.createElement("i");
-
-    ripple.style.cssText = `
-      position:fixed;
-      z-index:99990;
-      pointer-events:none;
-      width:12px;
-      height:12px;
-      left:${e.clientX}px;
-      top:${e.clientY}px;
-      border:1px solid rgba(160,250,255,.7);
-      border-radius:50%;
-      transform:translate(-50%,-50%);
-      animation:mouseRipple 1s ease-out forwards;
-    `;
-
-    document.body.appendChild(
-      ripple
-    );
-
-    setTimeout(
-      ()=>ripple.remove(),
-      1050
-    );
-
-  }
-);
+    lastWave = now;
 
 
-/* ripple animation */
+    /* main ripple */
 
-const rippleStyle =
-  document.createElement("style");
-
-rippleStyle.textContent = `
-
-@keyframes mouseRipple{
-
-  0%{
-    opacity:.8;
-    transform:
-      translate(-50%,-50%)
-      scale(.2);
-  }
-
-  100%{
-    opacity:0;
-    transform:
-      translate(-50%,-50%)
-      scale(5);
-  }
-
-}
-
-`;
-
-document.head.appendChild(
-  rippleStyle
-);
-
-
-/* =========================================================
-   NIGHT RADAR FOLLOW MOUSE
-========================================================= */
-
-const mouseRadar =
-  $("#mouseRadar");
-
-const detection =
-  $("#radarDetection");
-
-const detectName =
-  $("#detectName");
-
-const detectInfo =
-  $("#detectInfo");
-
-
-let currentDetection = null;
-
-
-addEventListener(
-  "mousemove",
-  e=>{
-
-    if(
-      document.body.classList.contains(
-        "scan"
-      )
-    ){
-
-      mouseRadar.style.left =
-        e.clientX+"px";
-
-      mouseRadar.style.top =
-        e.clientY+"px";
-
-
-      detection.style.left =
-        e.clientX+"px";
-
-      detection.style.top =
-        e.clientY+"px";
-
-
-      const zones =
-        $$(".detect-zone");
-
-      let found = null;
-
-      zones.forEach(zone=>{
-
-        const rect =
-          zone.getBoundingClientRect();
-
-        if(
-          e.clientX >= rect.left &&
-          e.clientX <= rect.right &&
-          e.clientY >= rect.top &&
-          e.clientY <= rect.bottom
-        ){
-
-          found = zone;
-
-        }
-
-      });
-
-
-      if(found){
-
-        if(
-          currentDetection !== found
-        ){
-
-          currentDetection =
-            found;
-
-          detectName.textContent =
-            "◉ "+
-            found.dataset.name;
-
-          detectInfo.textContent =
-            found.dataset.info;
-
-          detection.classList.add(
-            "show"
-          );
-
-        }
-
-      }else{
-
-        currentDetection = null;
-
-        detection.classList.remove(
-          "show"
+    const wave =
+        document.createElement(
+            "div"
         );
 
-      }
+    wave.className =
+        "mouse-wave";
 
-    }else{
+    wave.style.left =
+        x + "px";
 
-      detection.classList.remove(
-        "show"
-      );
+    wave.style.top =
+        y + "px";
+
+    document.body.appendChild(
+        wave
+    );
+
+    wave.addEventListener(
+        "animationend",
+        () => wave.remove()
+    );
+
+
+    /* smaller second ripple */
+
+    if(Math.random() < .75){
+
+        setTimeout(
+            () => {
+
+                const second =
+                    document.createElement(
+                        "div"
+                    );
+
+                second.className =
+                    "mouse-wave small";
+
+                second.style.left =
+                    (
+                        x +
+                        Math.random()*10-5
+                    ) + "px";
+
+                second.style.top =
+                    (
+                        y +
+                        Math.random()*10-5
+                    ) + "px";
+
+                document.body.appendChild(
+                    second
+                );
+
+                second.addEventListener(
+                    "animationend",
+                    () => second.remove()
+                );
+
+            },
+            120
+        );
 
     }
 
-  }
+
+    /* bubbles */
+
+    if(Math.random() < .85){
+
+        const count =
+            1 +
+            Math.floor(
+                Math.random()*3
+            );
+
+        for(
+            let i=0;
+            i<count;
+            i++
+        ){
+
+            const b =
+                document.createElement(
+                    "div"
+                );
+
+            b.className =
+                "mouse-bubble";
+
+            b.style.left =
+                (
+                    x +
+                    Math.random()*30-15
+                ) + "px";
+
+            b.style.top =
+                (
+                    y +
+                    Math.random()*20-10
+                ) + "px";
+
+            b.style.setProperty(
+                "--bs",
+                3 +
+                Math.random()*8 +
+                "px"
+            );
+
+            b.style.setProperty(
+                "--bx",
+                -35 +
+                Math.random()*70 +
+                "px"
+            );
+
+            b.style.setProperty(
+                "--by",
+                55 +
+                Math.random()*70 +
+                "px"
+            );
+
+            b.style.setProperty(
+                "--bd",
+                .8 +
+                Math.random()*.8 +
+                "s"
+            );
+
+            document.body.appendChild(
+                b
+            );
+
+            setTimeout(
+                () => b.remove(),
+                1800
+            );
+
+        }
+
+    }
+
+
+    /* tiny light particles */
+
+    if(Math.random() < .6){
+
+        for(
+            let i=0;
+            i<3;
+            i++
+        ){
+
+            const spark =
+                document.createElement(
+                    "div"
+                );
+
+            spark.className =
+                "mouse-spark";
+
+            spark.style.left =
+                x + "px";
+
+            spark.style.top =
+                y + "px";
+
+            spark.style.setProperty(
+                "--sx",
+                -35 +
+                Math.random()*70 +
+                "px"
+            );
+
+            spark.style.setProperty(
+                "--sy",
+                -25 +
+                Math.random()*50 +
+                "px"
+            );
+
+            document.body.appendChild(
+                spark
+            );
+
+            setTimeout(
+                () => spark.remove(),
+                1100
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   TARGET DETECTION
+========================================================= */
+
+const targetElements = [
+
+    ...$$(".swimmer"),
+    ...$$(".jelly")
+
+];
+
+function detectTarget(x,y){
+
+    let best = null;
+
+    let bestDistance =
+        Infinity;
+
+    targetElements.forEach(
+        el => {
+
+            const rect =
+                el.getBoundingClientRect();
+
+            if(
+                rect.width <= 0 ||
+                rect.height <= 0
+            )
+                return;
+
+            const centerX =
+                rect.left +
+                rect.width/2;
+
+            const centerY =
+                rect.top +
+                rect.height/2;
+
+            const distance =
+                Math.hypot(
+                    centerX-x,
+                    centerY-y
+                );
+
+            const range =
+                Math.max(
+                    65,
+                    Math.min(
+                        145,
+                        Math.max(
+                            rect.width,
+                            rect.height
+                        ) * 1.4
+                    )
+                );
+
+            if(
+                distance < range &&
+                distance < bestDistance
+            ){
+
+                bestDistance =
+                    distance;
+
+                best = el;
+
+            }
+
+        }
+    );
+
+
+    if(best){
+
+        const name =
+            best.dataset.name ||
+            "UNKNOWN";
+
+        const icon =
+            best.dataset.icon ||
+            "◈";
+
+        const cls =
+            best.dataset.class ||
+            "MARINE LIFE";
+
+        tooltip.innerHTML = `
+
+            <small>
+                TARGET DETECTED
+            </small>
+
+            <strong>
+                ${icon} ${name}
+            </strong>
+
+            <span>
+                CLASS / ${cls}
+            </span>
+
+            <span>
+                DIST / ${Math.round(bestDistance)} px
+            </span>
+
+        `;
+
+        tooltip.style.left =
+            Math.min(
+                x + 20,
+                innerWidth - 210
+            ) + "px";
+
+        tooltip.style.top =
+            Math.min(
+                y + 20,
+                innerHeight - 120
+            ) + "px";
+
+        tooltip.classList.add(
+            "show"
+        );
+
+        $("#radarLabel").innerHTML =
+            `
+                OCEAN RADAR<br>
+                TARGET: ${name}
+            `;
+
+    }else{
+
+        tooltip.classList.remove(
+            "show"
+        );
+
+        $("#radarLabel").innerHTML =
+            `
+                OCEAN RADAR<br>
+                TARGET: —
+            `;
+
+    }
+
+}
+
+
+/* =========================================================
+   CLICK SCAN PULSE
+========================================================= */
+
+document.addEventListener(
+    "click",
+    e => {
+
+        const pulse =
+            document.createElement(
+                "div"
+            );
+
+        pulse.className =
+            "mouse-wave";
+
+        pulse.style.left =
+            e.clientX + "px";
+
+        pulse.style.top =
+            e.clientY + "px";
+
+        pulse.style.width =
+            "30px";
+
+        pulse.style.height =
+            "30px";
+
+        pulse.style.borderColor =
+            document.body.classList.contains(
+                "scan"
+            )
+                ? "#00ff91"
+                : "#fff";
+
+        document.body.appendChild(
+            pulse
+        );
+
+        setTimeout(
+            () => pulse.remove(),
+            1600
+        );
+
+    }
 );
 
 
 /* =========================================================
-   METEORS
+   CARD CURSOR
 ========================================================= */
 
-function createMeteor(){
+$$(
+    ".hobby,.info-card,.edu-card,.contact-card,.portrait-card"
+).forEach(
+    card => {
 
-  const meteor =
-    document.createElement("i");
+        card.addEventListener(
+            "mouseenter",
+            () => {
 
-  meteor.className =
-    "meteor";
+                cursor.style.width =
+                    "65px";
 
-  meteor.style.left =
-    (58+Math.random()*40)+"vw";
+                cursor.style.height =
+                    "65px";
 
-  meteor.style.top =
-    (4+Math.random()*32)+"vh";
+            }
+        );
 
-  document.body.appendChild(
-    meteor
-  );
+        card.addEventListener(
+            "mouseleave",
+            () => {
 
-  setTimeout(
-    ()=>meteor.remove(),
-    1600
-  );
+                const scan =
+                    document.body.classList.contains(
+                        "scan"
+                    );
 
-}
+                cursor.style.width =
+                    scan
+                        ? "65px"
+                        : "44px";
 
-setTimeout(
-  createMeteor,
-  1200
+                cursor.style.height =
+                    scan
+                        ? "65px"
+                        : "44px";
+
+            }
+        );
+
+    }
 );
 
+
+/* =========================================================
+   RADAR DOT PULSE
+========================================================= */
+
 setInterval(
-  createMeteor,
-  3800
+    () => {
+
+        $$(".radar-dot")
+            .forEach(
+                d => {
+
+                    d.style.transform =
+                        `
+                            scale(
+                                ${
+                                    1 +
+                                    Math.random()*.8
+                                }
+                            )
+                        `;
+
+                    d.style.opacity =
+                        .4 +
+                        Math.random()*.6;
+
+                }
+            );
+
+    },
+    700
+);
+
+
+/* =========================================================
+   CONTINUOUS RADAR
+========================================================= */
+
+setInterval(
+    () => {
+
+        if(
+            document.body.classList.contains(
+                "scan"
+            )
+        ){
+
+            detectTarget(
+                mouseX,
+                mouseY
+            );
+
+        }
+
+    },
+    100
+);
+
+
+/* =========================================================
+   RANDOM OCEAN DUST
+========================================================= */
+
+setInterval(
+    () => {
+
+        if(
+            Math.random() < .7
+        ){
+
+            const star =
+                document.createElement(
+                    "div"
+                );
+
+            star.style.position =
+                "fixed";
+
+            star.style.left =
+                Math.random()*100 + "%";
+
+            star.style.top =
+                Math.random()*75 + "%";
+
+            star.style.width =
+                "2px";
+
+            star.style.height =
+                "2px";
+
+            star.style.borderRadius =
+                "50%";
+
+            star.style.background =
+                "#fff";
+
+            star.style.boxShadow =
+                "0 0 10px #fff";
+
+            star.style.pointerEvents =
+                "none";
+
+            star.style.zIndex =
+                "4";
+
+            star.style.animation =
+                "particleFloat 4s linear forwards";
+
+            document.body.appendChild(
+                star
+            );
+
+            setTimeout(
+                () => star.remove(),
+                4200
+            );
+
+        }
+
+    },
+    350
 );
 
 
@@ -6804,195 +5652,67 @@ setInterval(
    JELLYFISH PARALLAX
 ========================================================= */
 
-addEventListener(
-  "mousemove",
-  e=>{
+document.addEventListener(
+    "mousemove",
+    e => {
 
-    const px =
-      e.clientX/innerWidth-.5;
+        if(
+            document.body.classList.contains(
+                "scan"
+            )
+        )
+            return;
 
-    const py =
-      e.clientY/innerHeight-.5;
+        const px =
+            e.clientX /
+            innerWidth -
+            .5;
+
+        const py =
+            e.clientY /
+            innerHeight -
+            .5;
+
+        $$(".jelly").forEach(
+            (jelly,index) => {
+
+                jelly.style.marginLeft =
+                    px *
+                    (index+1) *
+                    8 +
+                    "px";
+
+                jelly.style.marginTop =
+                    py *
+                    (index+1) *
+                    6 +
+                    "px";
+
+            }
+        );
+
+    }
+);
 
 
-    $$(".jelly")
-      .forEach(
-        (el,i)=>{
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
 
-          const power =
-            i%2 ? 4 : 7;
+document.addEventListener(
+    "keydown",
+    e => {
 
-          el.style.marginLeft =
-            px*power+"px";
+        if(e.key === "Escape"){
 
-          el.style.marginTop =
-            py*power+"px";
+            tooltip.classList.remove(
+                "show"
+            );
 
         }
-      );
-
-  }
-);
-
-
-/* =========================================================
-   MUSIC PLAYER
-========================================================= */
-
-const music =
-  $("#bgMusic");
-
-const musicButton =
-  $("#musicButton");
-
-
-let musicPlaying = false;
-
-
-musicButton.addEventListener(
-  "click",
-  async ()=>{
-
-    if(!music.src){
-
-      return;
 
     }
-
-
-    if(music.paused){
-
-      try{
-
-        await music.play();
-
-        musicPlaying = true;
-
-        musicButton.textContent =
-          "❚❚";
-
-      }catch(error){
-
-        musicButton.textContent =
-          "▶";
-
-      }
-
-    }else{
-
-      music.pause();
-
-      musicPlaying = false;
-
-      musicButton.textContent =
-        "▶";
-
-    }
-
-  }
 );
 
-
-/* =========================================================
-   RANDOM FLOATING BUBBLES NEAR BOTTOM
-========================================================= */
-
-setInterval(
-  ()=>{
-
-    const b =
-      document.createElement("i");
-
-    b.style.cssText = `
-      position:fixed;
-      z-index:15;
-      left:${Math.random()*100}%;
-      bottom:-20px;
-      width:${3+Math.random()*9}px;
-      height:${3+Math.random()*9}px;
-      border:1px solid rgba(210,250,255,.3);
-      border-radius:50%;
-      pointer-events:none;
-      animation:randomBubble ${6+Math.random()*8}s linear forwards;
-    `;
-
-    document.body.appendChild(
-      b
-    );
-
-    setTimeout(
-      ()=>b.remove(),
-      15000
-    );
-
-  },
-  650
-);
-
-
-const bubbleStyle =
-  document.createElement("style");
-
-bubbleStyle.textContent = `
-
-@keyframes randomBubble{
-
-  0%{
-    opacity:0;
-    transform:
-      translateY(0)
-      scale(.5);
-  }
-
-  15%{
-    opacity:.7;
-  }
-
-  100%{
-    opacity:0;
-    transform:
-      translateY(-115vh)
-      translateX(50px)
-      scale(1.2);
-  }
-
-}
-
-`;
-
-document.head.appendChild(
-  bubbleStyle
-);
-
-
-/* =========================================================
-   TOUCH SUPPORT
-========================================================= */
-
-if(
-  "ontouchstart" in window
-){
-
-  document.body.style.cursor =
-    "auto";
-
-}
-
-
-/* =========================================================
-   CONSOLE
-========================================================= */
-
-console.log(
-  "%c MY OCEAN ",
-  "background:#02151c;color:#72f3ff;font-size:20px;padding:10px"
-);
-
-console.log(
-  "Deep Sea Portfolio System Online."
-);
-
-</script>
-
-</body>
+</script></body>
    </html>

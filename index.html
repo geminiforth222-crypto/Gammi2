@@ -2,650 +2,318 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#03131b">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#020a10">
 <title>MY OCEAN — Supitchaya Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap');
-
 :root{
-  --bg:#02080c;
-  --bg2:#04141b;
-  --ink:#e8fbff;
-  --muted:#8aaeb9;
-  --cyan:#6ceeff;
-  --cyan2:#14bfd8;
-  --green:#00ff92;
-  --blue:#1d87ad;
-  --line:rgba(108,238,255,.24);
-  --glass:rgba(2,17,24,.60);
-  --glass2:rgba(5,27,36,.78);
-  --shadow:0 30px 90px rgba(0,0,0,.58);
-  --radius:26px;
-  --mx:50vw;
-  --my:50vh;
+ --bg:#02080d;--deep:#041923;--ink:#eaffff;--muted:#7fa8b4;
+ --cyan:#62f3ff;--cyan2:#0bd0e7;--green:#00ff92;--purple:#b86cff;
+ --line:rgba(98,243,255,.28);--glass:rgba(2,19,27,.68);
+ --shadow:0 28px 90px rgba(0,0,0,.6);--mx:50vw;--my:50vh
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;background:var(--bg)}
-body{
-  font-family:"Noto Sans Thai",sans-serif;color:var(--ink);background:var(--bg);
-  overflow-x:hidden;cursor:none;min-height:100vh;
-}
-body.night{
-  --cyan:#74ffb9;--cyan2:#00ff92;--line:rgba(0,255,146,.26);
-  --glass:rgba(1,18,12,.62);--glass2:rgba(1,28,18,.82);
-  background:#010906;
-}
-::selection{background:var(--cyan);color:#001015}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit}
-.mono{font-family:"DM Mono",monospace}
-.hide{display:none!important}
+html{scroll-behavior:smooth;background:#01070b}
+body{font-family:"Noto Sans Thai",sans-serif;color:var(--ink);background:#01070b;overflow-x:hidden;cursor:none}
+body.neon{--cyan:#00ff92;--cyan2:#00d979;--line:rgba(0,255,146,.34);--purple:#66ffc2;background:#010805}
+a{text-decoration:none;color:inherit}button{font:inherit;color:inherit}::selection{background:var(--cyan);color:#001014}
 
-/* ---------- LOADER ---------- */
-.loader{
-  position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
-  background:
-    radial-gradient(circle at 50% 43%,rgba(21,143,173,.17),transparent 24%),
-    linear-gradient(180deg,#02070b,#020d13 55%,#010509);
-  transition:opacity .9s,visibility .9s;
-}
-.loader.done{opacity:0;visibility:hidden;pointer-events:none}
-.loader-grid{
-  position:absolute;inset:0;opacity:.32;
-  background-image:linear-gradient(rgba(108,238,255,.055) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(108,238,255,.055) 1px,transparent 1px);
-  background-size:42px 42px;
-  mask-image:radial-gradient(circle,black,transparent 78%);
-}
-.loader-core{
-  width:min(360px,76vw);aspect-ratio:1;position:relative;display:grid;place-items:center;
-}
+/* ===== ATMOSPHERE ===== */
+#ocean{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+ background:
+ radial-gradient(ellipse at 50% -4%,rgba(178,250,255,.19),transparent 30%),
+ radial-gradient(ellipse at 20% 40%,rgba(0,136,171,.12),transparent 28%),
+ radial-gradient(ellipse at 82% 58%,rgba(79,0,128,.09),transparent 25%),
+ linear-gradient(180deg,#061c27 0%,#03131d 35%,#020a10 72%,#010407 100%)}
+body.neon #ocean{background:
+ radial-gradient(ellipse at 50% -5%,rgba(0,255,146,.10),transparent 30%),
+ radial-gradient(ellipse at 20% 45%,rgba(0,255,146,.06),transparent 28%),
+ radial-gradient(ellipse at 80% 60%,rgba(118,0,255,.07),transparent 26%),
+ linear-gradient(180deg,#03170f,#01110b 45%,#010604 100%)}
+.sun{position:absolute;left:50%;top:-55px;transform:translateX(-50%);width:440px;height:190px;border-radius:50%;background:radial-gradient(ellipse,rgba(223,255,255,.40),rgba(90,225,247,.12) 34%,transparent 70%);filter:blur(9px)}
+.ray{position:absolute;top:-8%;width:220px;height:78%;clip-path:polygon(40% 0,60% 0,100% 100%,0 100%);background:linear-gradient(180deg,rgba(214,255,255,.13),rgba(79,224,247,.02),transparent);filter:blur(9px);animation:ray 10s ease-in-out infinite alternate}
+.ray.r1{left:17%;transform:rotate(-13deg)}.ray.r2{left:40%;width:310px;opacity:.7;animation-delay:-3s}.ray.r3{left:65%;transform:rotate(11deg);opacity:.42;animation-delay:-6s}
+body.neon .ray{background:linear-gradient(180deg,rgba(0,255,146,.11),transparent)}
+.haze{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 20%,rgba(0,0,0,.12) 60%,rgba(0,0,0,.65) 100%)}
+.caustic{position:absolute;inset:0;opacity:.23;background:
+ radial-gradient(ellipse at 30% 0%,transparent 0 12%,rgba(255,255,255,.15) 13%,transparent 15%),
+ radial-gradient(ellipse at 70% 0%,transparent 0 15%,rgba(255,255,255,.12) 16%,transparent 18%);
+ filter:blur(18px);animation:caustic 8s ease-in-out infinite alternate}
+.grid{position:absolute;inset:0;opacity:0;background-image:linear-gradient(rgba(0,255,146,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,146,.045) 1px,transparent 1px);background-size:58px 58px}
+body.neon .grid{opacity:1}
+.circuit-lines{position:absolute;inset:0;opacity:0;background:
+ linear-gradient(90deg,transparent 0 12%,rgba(0,255,146,.13) 12.1% 12.2%,transparent 12.3% 33%,rgba(0,255,146,.08) 33.1% 33.2%,transparent 33.3% 74%,rgba(0,255,146,.11) 74.1% 74.2%,transparent 74.3%),
+ linear-gradient(transparent 0 25%,rgba(0,255,146,.11) 25.1% 25.2%,transparent 25.3% 61%,rgba(0,255,146,.08) 61.1% 61.2%,transparent 61.3%)}
+body.neon .circuit-lines{opacity:1}
+.bubble{position:absolute;border:1px solid rgba(198,252,255,.28);border-radius:50%;box-shadow:inset 2px 2px 5px rgba(255,255,255,.12),0 0 8px rgba(91,225,255,.08);animation:rise linear infinite}
+body.neon .bubble{border-color:rgba(0,255,146,.28)}
+.particle{position:absolute;width:2px;height:2px;border-radius:50%;background:#c8fbff;opacity:.3;animation:rise linear infinite}
+body.neon .particle{background:#8affca}
+
+/* ===== LOADER ===== */
+.loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#01070b;overflow:hidden;transition:opacity 1s,visibility 1s}
+.loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.loader-ocean{position:absolute;inset:0;background:
+ radial-gradient(circle at 50% 45%,rgba(0,196,226,.20),transparent 24%),
+ linear-gradient(180deg,#041a24,#020b11 72%,#010509)}
+.loader-rays{position:absolute;inset:-20%;background:conic-gradient(from 200deg at 50% 0%,transparent 0 35deg,rgba(134,248,255,.11) 45deg,transparent 58deg 110deg,rgba(134,248,255,.08) 120deg,transparent 135deg);filter:blur(16px);animation:loaderLight 5s ease-in-out infinite alternate}
+.loader-bubbles{position:absolute;inset:0}
+.loader-grid{position:absolute;inset:0;opacity:.3;background-image:linear-gradient(rgba(98,243,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(98,243,255,.05) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(circle,#000,transparent 78%)}
+.loader-center{position:relative;width:min(520px,86vw);height:min(520px,86vw);display:grid;place-items:center}
 .loader-ring{position:absolute;border:1px solid var(--line);border-radius:50%}
-.r1{inset:4%;animation:spin 10s linear infinite}
-.r2{inset:14%;border-style:dashed;animation:spin 7s linear reverse infinite}
-.r3{inset:25%;border-color:rgba(108,238,255,.12);animation:pulse 2s ease-in-out infinite}
-.loader-ring:before,.loader-ring:after{content:"";position:absolute;background:var(--cyan);box-shadow:0 0 18px var(--cyan)}
-.r1:before{width:6px;height:6px;border-radius:50%;top:8%;left:50%}
-.r2:after{width:4px;height:4px;border-radius:50%;right:8%;top:45%}
-.core-light{
-  width:92px;height:92px;border-radius:50%;
-  background:radial-gradient(circle,#eaffff 0 2%,#7eeeff 8%,rgba(20,191,216,.24) 36%,transparent 68%);
-  filter:drop-shadow(0 0 30px rgba(108,238,255,.7));
-  animation:breathe 2.2s ease-in-out infinite;
-}
-.loader-copy{position:absolute;text-align:center;top:54%;width:100%}
-.loader-title{font:500 clamp(22px,4vw,34px)/1 "DM Mono";letter-spacing:.3em}
-.loader-sub{margin-top:12px;color:var(--muted);font:11px "DM Mono";letter-spacing:.18em}
-.loader-progress{width:min(310px,72vw);height:2px;background:rgba(255,255,255,.08);margin:24px auto 10px;overflow:hidden}
-.loader-progress i{display:block;width:0;height:100%;background:var(--cyan);box-shadow:0 0 18px var(--cyan);animation:load 2.7s cubic-bezier(.7,0,.2,1) forwards}
-.loader-status{display:flex;justify-content:center;gap:18px;color:#6b929d;font:9px "DM Mono";letter-spacing:.12em}
+.lr1{inset:3%;animation:spin 12s linear infinite}.lr2{inset:12%;border-style:dashed;animation:spin 8s linear reverse infinite}.lr3{inset:23%;border-color:rgba(98,243,255,.13);animation:pulse 2.2s ease-in-out infinite}
+.loader-ring:before{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 20px var(--cyan);top:7%;left:50%}
+.loader-core{width:140px;height:140px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#efffff 0 2%,#73f4ff 8%,rgba(16,191,220,.24) 32%,transparent 68%);filter:drop-shadow(0 0 45px rgba(98,243,255,.7));animation:breathe 2.4s infinite}
+.loader-jelly{font-size:72px;filter:drop-shadow(0 0 18px rgba(124,239,255,.75));animation:float 4s ease-in-out infinite}
+.loader-copy{position:absolute;top:68%;left:0;width:100%;text-align:center}
+.loader-title{font:500 clamp(25px,5vw,43px) "DM Mono";letter-spacing:.28em}
+.loader-sub{margin-top:9px;color:#80aab5;font:10px "DM Mono";letter-spacing:.17em}
+.progress{height:3px;width:min(360px,68vw);margin:24px auto 12px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden}
+.progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan2),#dfffff,var(--cyan));box-shadow:0 0 22px var(--cyan);animation:load 3.1s cubic-bezier(.7,0,.15,1) forwards}
+.status{display:flex;justify-content:center;gap:20px;color:#608b97;font:8px "DM Mono";letter-spacing:.1em}
+.loader-corner{position:absolute;color:#5e8b96;font:8px "DM Mono";letter-spacing:.12em}.lc1{top:24px;left:28px}.lc2{top:24px;right:28px}.lc3{bottom:24px;left:28px}.lc4{bottom:24px;right:28px}
 
-/* ---------- AMBIENCE ---------- */
-#ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.ocean-bg{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse at 50% -5%,rgba(128,235,255,.18),transparent 34%),
-    radial-gradient(ellipse at 18% 38%,rgba(0,109,137,.12),transparent 30%),
-    linear-gradient(180deg,#061b25 0%,#03131b 32%,#02090e 74%,#010407 100%);
-}
-body.night .ocean-bg{
-  background:
-    radial-gradient(circle at 70% 25%,rgba(0,255,146,.08),transparent 25%),
-    radial-gradient(circle at 20% 55%,rgba(0,255,146,.06),transparent 28%),
-    linear-gradient(180deg,#03140e,#01100a 45%,#010704);
-}
-.sun-disc{
-  position:absolute;left:50%;top:-45px;transform:translateX(-50%);
-  width:310px;height:150px;border-radius:50%;
-  background:radial-gradient(ellipse,rgba(190,250,255,.36),rgba(80,210,235,.12) 34%,transparent 70%);
-  filter:blur(7px);
-}
-.ray{
-  position:absolute;top:-5%;height:75%;width:180px;
-  background:linear-gradient(180deg,rgba(179,247,255,.11),rgba(88,218,242,.015),transparent);
-  clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);
-  filter:blur(10px);transform-origin:top center;
-  animation:raymove 9s ease-in-out infinite alternate;
-}
-.ray.a{left:22%;transform:rotate(-11deg)}
-.ray.b{left:40%;width:250px;transform:rotate(-3deg);opacity:.65;animation-delay:-3s}
-.ray.c{left:63%;transform:rotate(9deg);opacity:.45;animation-delay:-6s}
-body.night .ray{background:linear-gradient(180deg,rgba(0,255,146,.11),rgba(0,255,146,.01),transparent)}
-.depth-haze{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse at center 45%,transparent 22%,rgba(0,0,0,.18) 72%,rgba(0,0,0,.55));
-}
-.particle{position:absolute;width:2px;height:2px;border-radius:50%;background:#baf9ff;opacity:.35;animation:rise linear infinite}
-body.night .particle{background:#8affcb}
-.sea-silhouette{
-  position:absolute;inset:auto 0 0;height:44%;
-  background:
-    radial-gradient(ellipse at 10% 100%,#02070a 0 16%,transparent 17%),
-    radial-gradient(ellipse at 28% 100%,#02070a 0 12%,transparent 13%),
-    radial-gradient(ellipse at 74% 100%,#02070a 0 18%,transparent 19%),
-    linear-gradient(180deg,transparent,#010406 72%);
-  opacity:.75;
-}
-.bubbles{position:absolute;inset:0}
-.bubble{position:absolute;border:1px solid rgba(190,250,255,.28);border-radius:50%;box-shadow:inset 2px 2px 5px rgba(255,255,255,.12);animation:bubbleUp linear infinite}
-body.night .bubble{border-color:rgba(0,255,146,.25)}
+/* ===== NAV ===== */
+.nav{position:fixed;z-index:100;top:16px;left:50%;transform:translateX(-50%);width:min(1240px,calc(100% - 30px));height:68px;padding:7px;display:flex;align-items:center;background:rgba(1,10,15,.62);border:1px solid var(--line);backdrop-filter:blur(24px);box-shadow:0 18px 70px rgba(0,0,0,.4);border-radius:20px}
+.brand{display:flex;align-items:center;gap:11px;padding:0 15px;min-width:205px}.brand-mark{width:37px;height:37px;border:1px solid var(--cyan);border-radius:50%;display:grid;place-items:center;position:relative;box-shadow:0 0 20px rgba(98,243,255,.15)}
+.brand-mark:after{content:"";width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px var(--cyan)}
+.brand b{font:500 13px "DM Mono";letter-spacing:.13em}.brand small{display:block;color:#628995;font:8px "DM Mono";margin-top:3px}
+.navlinks{display:flex;gap:3px;flex:1;justify-content:center}.navlinks a{font:9px "DM Mono";letter-spacing:.08em;color:#8dafb9;padding:13px 11px;border-radius:12px;transition:.25s;white-space:nowrap}.navlinks a:hover,.navlinks a.active{color:#eaffff;background:rgba(98,243,255,.08);box-shadow:inset 0 0 0 1px rgba(98,243,255,.10),0 0 18px rgba(98,243,255,.06)}
+.mode{width:45px;height:45px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);display:grid;place-items:center;cursor:none;font-size:18px;transition:.25s}.mode:hover{transform:translateY(-2px);box-shadow:0 0 28px rgba(0,255,146,.12)}
 
-/* ---------- CURSOR ---------- */
-.cursor,.cursor-dot{position:fixed;z-index:10000;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}
-.cursor{width:34px;height:34px;border:1px solid rgba(150,245,255,.65);transition:width .18s,height .18s,border-color .18s}
-.cursor-dot{width:4px;height:4px;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
-.cursor.active{width:52px;height:52px;border-color:var(--cyan)}
-.ripple{position:fixed;z-index:9998;width:10px;height:10px;border:1px solid var(--cyan);border-radius:50%;pointer-events:none;animation:ripple .8s ease-out forwards}
+/* ===== HUD ===== */
+.radar{position:fixed;z-index:90;left:18px;bottom:18px;width:180px;padding:12px;background:rgba(1,10,14,.72);border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(18px);box-shadow:0 18px 55px rgba(0,0,0,.4)}
+.radar-head,.radar-foot{display:flex;justify-content:space-between;color:#65919b;font:8px "DM Mono";letter-spacing:.1em}.radar-head{margin-bottom:8px}.radar-foot{margin-top:8px}
+.radar-screen{position:relative;aspect-ratio:1;border-radius:50%;overflow:hidden;border:1px solid rgba(98,243,255,.4);background:radial-gradient(circle,rgba(98,243,255,.12),transparent 63%),repeating-radial-gradient(circle,transparent 0 22px,rgba(98,243,255,.13) 23px 24px)}
+.radar-screen:before,.radar-screen:after{content:"";position:absolute;background:rgba(98,243,255,.13)}.radar-screen:before{width:1px;left:50%;top:0;bottom:0}.radar-screen:after{height:1px;left:0;right:0;top:50%}
+.scan{position:absolute;left:50%;top:50%;width:50%;height:1px;transform-origin:left;background:linear-gradient(90deg,var(--cyan),transparent);box-shadow:0 0 12px var(--cyan);animation:spin 3s linear infinite}
+.blip{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:blip 2s infinite}.b1{left:26%;top:34%}.b2{left:67%;top:63%;animation-delay:.7s}.b3{left:73%;top:27%;animation-delay:1.2s}.b4{left:43%;top:72%;animation-delay:1.7s}
 
-/* ---------- CIRCUIT NIGHT LAYER ---------- */
-.circuit{
-  position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .6s;
-  background-image:
-    linear-gradient(90deg,transparent 49.7%,rgba(0,255,146,.035) 50%,transparent 50.3%),
-    linear-gradient(transparent 49.7%,rgba(0,255,146,.035) 50%,transparent 50.3%);
-  background-size:76px 76px;
-}
-.circuit:before,.circuit:after{
-  content:"";position:absolute;inset:0;
-  background:
-   linear-gradient(90deg,transparent 0 14%,rgba(0,255,146,.12) 14.1% 14.2%,transparent 14.3% 38%,rgba(0,255,146,.08) 38.1% 38.2%,transparent 38.3%),
-   linear-gradient(transparent 0 28%,rgba(0,255,146,.10) 28.1% 28.2%,transparent 28.3% 63%,rgba(0,255,146,.08) 63.1% 63.2%,transparent 63.3%);
-  mask-image:linear-gradient(90deg,transparent,black 12%,black 88%,transparent);
-}
-body.night .circuit{opacity:1}
+/* ===== FISH / REEF SCENE ===== */
+.fish{position:absolute;z-index:3;display:flex;align-items:center;gap:0;font-size:clamp(24px,2.7vw,43px);filter:drop-shadow(0 0 10px rgba(100,240,255,.28));animation:swim 15s linear infinite}
+.fish span{display:inline-block}.fish.reverse{animation-name:swimReverse}.f1{top:21%;left:-8%;animation-duration:22s}.f2{top:35%;left:-12%;animation-duration:17s;animation-delay:-6s;font-size:31px}.f3{top:48%;left:104%;animation-duration:25s;animation-delay:-11s}.f4{top:15%;left:80%;animation-duration:19s;animation-delay:-4s;font-size:27px}.f5{top:57%;left:15%;animation-duration:20s;animation-delay:-13s;font-size:25px}.f6{top:29%;left:44%;animation-duration:24s;animation-delay:-18s;font-size:21px}.f7{top:64%;left:70%;animation-duration:18s;animation-delay:-8s;font-size:24px}
+.fish-school{position:absolute;z-index:2;top:26%;left:50%;font-size:17px;letter-spacing:11px;opacity:.5;animation:school 11s ease-in-out infinite}
+.reef{position:absolute;bottom:-1px;width:100%;height:34%;z-index:2;background:linear-gradient(180deg,transparent,#03131a 45%,#02080b 80%)}
+.reef:before{content:"";position:absolute;left:-4%;right:-4%;bottom:-25%;height:65%;border-radius:50% 50% 0 0;background:radial-gradient(ellipse at 8% 60%,#21494b 0 8%,transparent 8.5%),radial-gradient(ellipse at 20% 70%,#481e4d 0 7%,transparent 7.5%),radial-gradient(ellipse at 36% 62%,#184a4b 0 10%,transparent 10.5%),radial-gradient(ellipse at 55% 70%,#633044 0 9%,transparent 9.5%),radial-gradient(ellipse at 77% 57%,#284d2d 0 12%,transparent 12.5%),radial-gradient(ellipse at 94% 72%,#55213e 0 8%,transparent 8.5%),linear-gradient(180deg,#0c252b,#02090c)}
+.coral{position:absolute;bottom:8%;z-index:4;width:110px;height:150px}.coral i{position:absolute;bottom:0;width:10px;border-radius:12px 12px 4px 4px;background:linear-gradient(180deg,var(--coral),#081a1d);box-shadow:0 0 13px color-mix(in srgb,var(--coral),transparent 55%);transform-origin:bottom;animation:sway 3s ease-in-out infinite}.coral i:nth-child(1){left:15px;height:85px}.coral i:nth-child(2){left:38px;height:125px;animation-delay:-.8s}.coral i:nth-child(3){left:65px;height:105px;animation-delay:-1.4s}.coral i:nth-child(4){left:83px;height:70px;animation-delay:-2s}
+.c1{left:1%;--coral:#ff4fbc}.c2{left:12%;transform:scale(.8);--coral:#ff9b3d}.c3{right:9%;transform:scale(.95);--coral:#6c7cff}.c4{right:0;transform:scale(.75);--coral:#00e6d0}.c5{left:27%;transform:scale(.55);--coral:#b86cff}.c6{right:27%;transform:scale(.6);--coral:#ffda4d}
+.seaweed{position:absolute;bottom:8%;z-index:4;width:80px;height:145px}.seaweed i{position:absolute;bottom:0;width:4px;border-radius:50%;background:linear-gradient(#32a77c,#06372d);transform-origin:bottom;animation:sway 3.5s ease-in-out infinite}.seaweed i:nth-child(1){left:15px;height:115px;transform:rotate(-15deg)}.seaweed i:nth-child(2){left:34px;height:140px;animation-delay:-1s}.seaweed i:nth-child(3){left:55px;height:100px;transform:rotate(14deg);animation-delay:-2s}
+.wreck{position:absolute;z-index:3;bottom:8%;left:39%;width:340px;height:190px;transform:rotate(-7deg);filter:drop-shadow(0 28px 30px rgba(0,0,0,.65))}
+.hull{position:absolute;left:8px;bottom:0;width:320px;height:82px;background:linear-gradient(160deg,#253d40,#050b0e);clip-path:polygon(0 0,100% 10%,83% 100%,17% 100%);border:1px solid #45696b}.deck{position:absolute;left:52px;bottom:70px;width:175px;height:18px;background:#1a3639;border:1px solid #45696b}.cabin{position:absolute;left:92px;bottom:84px;width:88px;height:42px;background:#08171a;border:1px solid #365d60}.window{position:absolute;top:8px;width:12px;height:8px;background:#75eaff;box-shadow:0 0 11px #52e4ff}.w1{left:10px}.w2{left:34px}.w3{left:58px}.mast{position:absolute;left:135px;bottom:100px;width:4px;height:155px;background:#2d4d50;transform:rotate(-3deg)}.rope{position:absolute;left:137px;bottom:174px;width:150px;height:1px;background:#557478;transform:rotate(13deg);transform-origin:left}.sail{position:absolute;left:141px;bottom:120px;width:94px;height:76px;background:linear-gradient(145deg,rgba(87,133,134,.46),rgba(9,29,31,.22));clip-path:polygon(0 0,100% 18%,100% 100%,0 78%);border:1px solid rgba(105,161,162,.32)}
+.jelly{position:absolute;z-index:5;font-size:clamp(31px,4vw,55px);filter:drop-shadow(0 0 16px rgba(130,238,255,.62));animation:float 7s ease-in-out infinite}.j1{left:74%;top:16%;animation-delay:-2s}.j2{left:84%;top:42%;font-size:36px;animation-delay:-5s}.j3{left:15%;top:31%;font-size:42px;animation-delay:-7s}.j4{left:59%;top:36%;font-size:30px;animation-delay:-1s}.j5{left:31%;top:20%;font-size:27px;animation-delay:-4s}
+body.neon .jelly{filter:drop-shadow(0 0 18px rgba(0,255,146,.78))}
 
-/* ---------- NAV ---------- */
-.nav{
-  position:fixed;z-index:100;top:18px;left:50%;transform:translateX(-50%);
-  width:min(1180px,calc(100% - 34px));height:66px;padding:8px;
-  display:flex;align-items:center;gap:7px;
-  background:rgba(2,12,17,.56);backdrop-filter:blur(22px);
-  border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 55px rgba(0,0,0,.28);
-}
-.brand{display:flex;align-items:center;gap:11px;padding:0 17px;min-width:190px}
-.brand-mark{width:34px;height:34px;border:1px solid var(--cyan);border-radius:50%;display:grid;place-items:center;position:relative}
-.brand-mark:after{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 16px var(--cyan)}
-.brand b{font:500 13px "DM Mono";letter-spacing:.12em}
-.brand small{display:block;color:#658994;font:9px "DM Mono";margin-top:3px}
-.nav-links{display:flex;gap:3px;flex:1}
-.nav-links a{padding:12px 13px;border-radius:14px;color:#9fc2cc;font:10px "DM Mono";letter-spacing:.08em;transition:.25s}
-.nav-links a:hover,.nav-links a.active{color:#eaffff;background:rgba(108,238,255,.08);box-shadow:inset 0 0 0 1px rgba(108,238,255,.08)}
-.mode-btn{
-  width:44px;height:44px;border-radius:15px;border:1px solid var(--line);background:rgba(255,255,255,.03);
-  cursor:none;display:grid;place-items:center;font-size:18px;transition:.25s
-}
-.mode-btn:hover{transform:translateY(-2px);box-shadow:0 0 24px rgba(108,238,255,.16)}
+/* ===== SECTIONS ===== */
+main{position:relative;z-index:10}.section{position:relative;width:min(1180px,calc(100% - 32px));min-height:100vh;margin:auto;padding:132px 0 90px}
+.hero{display:grid;align-items:center;padding-top:155px}.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:45px;align-items:end}.kicker{display:flex;align-items:center;gap:10px;color:var(--cyan);font:9px "DM Mono";letter-spacing:.17em}.kicker i{width:31px;height:1px;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.title{font-size:clamp(45px,7vw,91px);line-height:.9;letter-spacing:-.06em;font-weight:800;margin-top:16px}.outline{color:transparent;-webkit-text-stroke:1px rgba(234,255,255,.56)}
+.hero-desc,.sub{max-width:680px;color:#91b1bb;line-height:1.9}.hero-desc{font-size:15px;margin-top:27px}.hero-actions{display:flex;gap:11px;margin-top:29px;flex-wrap:wrap}.btn{padding:13px 18px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.035);font:9px "DM Mono";letter-spacing:.1em;cursor:none;transition:.25s}.btn.primary{background:rgba(98,243,255,.09);box-shadow:0 0 30px rgba(98,243,255,.08)}.btn:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 14px 35px rgba(0,0,0,.3)}
+.glass{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(9,34,43,.82),rgba(2,13,18,.62));border:1px solid var(--line);box-shadow:var(--shadow),inset 0 1px rgba(255,255,255,.07);backdrop-filter:blur(21px);border-radius:25px}.glass:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.065),transparent 25%,transparent 70%,rgba(98,243,255,.035));pointer-events:none}.corner{position:absolute;width:22px;height:22px;border-color:var(--cyan);opacity:.9}.corner.a{top:-1px;left:-1px;border-left:1px solid;border-top:1px solid}.corner.b{right:-1px;bottom:-1px;border-right:1px solid;border-bottom:1px solid}
+body.neon .glass{box-shadow:var(--shadow),0 0 34px rgba(0,255,146,.14),inset 0 0 24px rgba(0,255,146,.035),0 0 2px var(--green)}
+.depth{padding:22px;min-height:300px;display:flex;flex-direction:column;justify-content:space-between}.tele{display:flex;justify-content:space-between;color:#6f99a4;font:8px "DM Mono";letter-spacing:.1em}.depth-ring{width:172px;height:172px;margin:8px auto;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;position:relative;box-shadow:inset 0 0 35px rgba(98,243,255,.04)}.depth-ring:before,.depth-ring:after{content:"";position:absolute;border:1px dashed rgba(98,243,255,.21);border-radius:50%}.depth-ring:before{inset:15px}.depth-ring:after{inset:38px}.depth-num{font:500 35px "DM Mono";letter-spacing:-.07em}.depth-unit{color:#658993;font:8px "DM Mono"}.depth-foot{display:flex;justify-content:space-between;color:#5f8792;font:8px "DM Mono"}
+.scroll{position:absolute;bottom:29px;left:0;color:#668b95;font:8px "DM Mono";letter-spacing:.13em;display:flex;align-items:center;gap:10px}.scroll i{display:block;width:48px;height:1px;background:var(--line)}
 
-/* ---------- LAYOUT ---------- */
-main{position:relative;z-index:5}
-.section{width:min(1180px,calc(100% - 34px));margin:auto;min-height:100vh;padding:130px 0 90px;position:relative}
-.kicker{display:flex;align-items:center;gap:10px;color:var(--cyan);font:10px "DM Mono";letter-spacing:.16em;text-transform:uppercase}
-.kicker i{display:block;width:30px;height:1px;background:var(--cyan);box-shadow:0 0 9px var(--cyan)}
-.title{font-size:clamp(38px,7vw,86px);line-height:.92;letter-spacing:-.055em;font-weight:700}
-.sub{max-width:680px;color:#8eafb9;line-height:1.8;margin-top:20px}
-.glass{
-  background:linear-gradient(145deg,rgba(8,30,39,.78),rgba(2,13,18,.56));
-  border:1px solid var(--line);box-shadow:var(--shadow),inset 0 1px rgba(255,255,255,.06);
-  backdrop-filter:blur(20px);border-radius:var(--radius);position:relative;overflow:hidden;
-}
-.glass:before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(115deg,rgba(255,255,255,.06),transparent 24%,transparent 74%,rgba(108,238,255,.035));
-}
-.corner{position:absolute;width:24px;height:24px;border-color:var(--cyan);opacity:.8}
-.c1{left:-1px;top:-1px;border-left:1px solid;border-top:1px solid}
-.c2{right:-1px;bottom:-1px;border-right:1px solid;border-bottom:1px solid}
+.head{display:flex;align-items:end;justify-content:space-between;gap:20px}.head .title{margin-top:10px}.section-no{color:#5e8c96;font:9px "DM Mono";letter-spacing:.12em}
+.panels{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:45px}.panel{padding:27px;min-height:220px}.s7{grid-column:span 7}.s5{grid-column:span 5}.s8{grid-column:span 8}.s4{grid-column:span 4}.s12{grid-column:span 12}.label{color:var(--cyan);font:8px "DM Mono";letter-spacing:.15em}.panel h3{font-size:26px;margin-top:10px}.panel p{color:#8eafb8;line-height:1.8;font-size:13px;margin-top:9px}
+.data{margin-top:19px}.row{display:grid;grid-template-columns:125px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.055);font-size:13px}.row b{color:#638b95;font:8px "DM Mono";letter-spacing:.1em}.row span{color:#d8f3f6}
+.portrait{min-height:435px;padding:20px;display:flex;align-items:end;background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.9)),radial-gradient(circle at 50% 30%,rgba(98,243,255,.2),transparent 32%),linear-gradient(145deg,#0b4350,#041a22 55%,#02090c)}.portrait-box{width:100%;height:280px;border:1px dashed rgba(98,243,255,.3);border-radius:18px;display:grid;place-items:center;text-align:center;color:#628b95;font:8px "DM Mono";letter-spacing:.1em}.portrait-box strong{display:block;color:#c8f5f8;font-size:14px;margin-bottom:5px}
+.quote{font-size:25px;line-height:1.55;color:#dffaff}.quote small{display:block;color:#608790;font:8px "DM Mono";margin-top:17px}
+.timeline{position:relative;margin-top:28px;padding-left:31px}.timeline:before{content:"";position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(var(--cyan),transparent)}.event{position:relative;padding-bottom:26px}.event:before{content:"";position:absolute;left:-27px;top:3px;width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 16px var(--cyan)}.event time{color:#5d8791;font:8px "DM Mono"}.event h4{font-size:17px;margin-top:5px}.event p{font-size:12px;margin-top:3px}
+.hobbies{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.hobby{padding:21px;border:1px solid rgba(98,243,255,.13);border-radius:17px;background:rgba(255,255,255,.018);transition:.3s;position:relative;overflow:hidden}.hobby:after{content:"";position:absolute;inset:auto -20% -60% -20%;height:100%;background:radial-gradient(ellipse,var(--cyan),transparent 60%);opacity:.03}.hobby:hover{transform:translateY(-6px);border-color:var(--cyan);box-shadow:0 18px 45px rgba(0,0,0,.32),0 0 25px rgba(0,255,146,.05)}.hobby .emoji{font-size:29px;display:block;margin-bottom:13px}.hobby b{font-size:13px}.hobby small{display:block;color:#638a94;font:8px "DM Mono";margin-top:6px}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.contact-card{padding:18px;border-radius:15px;border:1px solid rgba(98,243,255,.11);background:rgba(255,255,255,.018)}.contact-card b{display:block;color:#5d8993;font:8px "DM Mono";letter-spacing:.12em;margin-bottom:7px}.contact-card a,.contact-card span{font-size:12px;word-break:break-word}
+.thanks{min-height:65vh;display:grid;place-items:center;text-align:center;padding:70px 20px}.thanks-jelly{font-size:82px;filter:drop-shadow(0 0 28px rgba(100,240,255,.7));animation:float 5s ease-in-out infinite}.thanks h2{font-size:clamp(43px,7vw,80px);line-height:.93;margin-top:12px}.thanks p{max-width:560px;color:#7d9da7;line-height:1.9;margin:16px auto 0}
+footer{position:relative;z-index:10;border-top:1px solid rgba(98,243,255,.1);padding:25px;text-align:center;color:#4d707a;font:8px "DM Mono";letter-spacing:.12em}
 
-/* ---------- HERO ---------- */
-.hero{display:grid;align-items:center;padding-top:150px;min-height:100vh}
-.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:end}
-.hero h1{margin-top:16px}
-.hero h1 span{display:block;color:transparent;-webkit-text-stroke:1px rgba(232,251,255,.55)}
-.hero-desc{font-size:15px;color:#a6c7cf;max-width:620px;margin-top:28px;line-height:1.9}
-.hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
-.btn{padding:13px 18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);font:10px "DM Mono";letter-spacing:.1em;cursor:none;transition:.25s}
-.btn.primary{background:rgba(108,238,255,.10);box-shadow:0 0 28px rgba(108,238,255,.08)}
-.btn:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 12px 30px rgba(0,0,0,.25)}
-.depth-card{padding:22px;min-height:270px;display:flex;flex-direction:column;justify-content:space-between}
-.depth-top{display:flex;justify-content:space-between;color:#7ea1ab;font:9px "DM Mono";letter-spacing:.1em}
-.depth-readout{text-align:center}
-.depth-ring{width:150px;height:150px;margin:10px auto;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;position:relative}
-.depth-ring:before,.depth-ring:after{content:"";position:absolute;border-radius:50%;border:1px dashed rgba(108,238,255,.22)}
-.depth-ring:before{inset:15px}.depth-ring:after{inset:37px}
-.depth-number{font:500 32px "DM Mono";letter-spacing:-.06em}
-.depth-unit{font:9px "DM Mono";color:#6e929d}
-.depth-foot{display:flex;justify-content:space-between;color:#688c96;font:9px "DM Mono"}
-.scroll-cue{position:absolute;bottom:28px;left:0;color:#668993;font:9px "DM Mono";letter-spacing:.12em;display:flex;align-items:center;gap:10px}
-.scroll-cue span{display:block;width:45px;height:1px;background:var(--line)}
+/* ===== METEOR / CURSOR ===== */
+.meteor{position:fixed;z-index:50;width:3px;height:3px;border-radius:50%;background:white;box-shadow:0 0 10px 2px var(--cyan);pointer-events:none;animation:meteor 1.25s linear forwards}.meteor:after{content:"";position:absolute;width:105px;height:1px;right:0;top:1px;background:linear-gradient(90deg,transparent,var(--cyan));transform:rotate(-30deg);transform-origin:right}
+.cursor,.dot{position:fixed;z-index:10000;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}.cursor{width:35px;height:35px;border:1px solid rgba(180,250,255,.65);transition:.18s}.dot{width:4px;height:4px;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}.cursor.hot{width:54px;height:54px;border-color:var(--cyan)}.click-ring{position:fixed;z-index:9998;width:8px;height:8px;border:1px solid var(--cyan);border-radius:50%;pointer-events:none;animation:click .8s ease-out forwards}
 
-/* ---------- HUD / RADAR ---------- */
-.radar{
-  position:fixed;z-index:90;left:18px;bottom:18px;width:170px;padding:12px;
-  background:rgba(1,10,14,.66);border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(18px);
-  box-shadow:0 20px 50px rgba(0,0,0,.35)
-}
-.radar-head{display:flex;justify-content:space-between;font:8px "DM Mono";color:#77a6b1;letter-spacing:.12em;margin-bottom:8px}
-.radar-screen{aspect-ratio:1;border-radius:50%;border:1px solid rgba(108,238,255,.4);position:relative;overflow:hidden;
- background:radial-gradient(circle,rgba(108,238,255,.09),transparent 65%),repeating-radial-gradient(circle,transparent 0 22px,rgba(108,238,255,.13) 23px 24px)}
-.radar-screen:before,.radar-screen:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(108,238,255,.13)}
-.radar-screen:after{top:50%;left:0;right:0;width:auto;height:1px}
-.scan{position:absolute;width:50%;height:1px;left:50%;top:50%;transform-origin:left;transform:rotate(0);background:linear-gradient(90deg,var(--cyan),transparent);box-shadow:0 0 12px var(--cyan);animation:radar 3s linear infinite}
-.blip{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:blip 2s ease-in-out infinite}
-.b1{left:28%;top:35%}.b2{left:65%;top:63%;animation-delay:.8s}.b3{left:72%;top:27%;animation-delay:1.3s}
-.radar-foot{display:flex;justify-content:space-between;margin-top:8px;color:#587983;font:7px "DM Mono"}
+/* ===== ANIMATION ===== */
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{transform:scale(1.08);opacity:.5}}@keyframes breathe{50%{transform:scale(1.12);filter:drop-shadow(0 0 55px rgba(98,243,255,.95))}}@keyframes load{to{width:100%}}@keyframes ray{to{transform:rotate(6deg) scaleX(1.15)}}@keyframes caustic{to{transform:translateX(25px) scale(1.1)}}@keyframes rise{to{transform:translateY(-115vh) translateX(25px);opacity:0}}@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-24px) rotate(4deg)}}@keyframes sway{50%{transform:rotate(17deg)}}@keyframes blip{50%{opacity:.15;transform:scale(.65)}}@keyframes meteor{from{transform:translate(0,0);opacity:1}to{transform:translate(-350px,235px);opacity:0}}@keyframes click{to{width:110px;height:110px;opacity:0}}@keyframes loaderLight{to{transform:translateX(5%) rotate(7deg);opacity:.8}}@keyframes swim{from{transform:translateX(0)}to{transform:translateX(125vw)}}@keyframes swimReverse{from{transform:translateX(0) scaleX(-1)}to{transform:translateX(-125vw) scaleX(-1)}}@keyframes school{50%{transform:translate(130px,18px)}} 
 
-/* ---------- SCENE ---------- */
-.scene{
-  position:absolute;left:0;right:0;bottom:0;height:42%;z-index:-1;overflow:hidden;
-  background:linear-gradient(180deg,transparent,#021018 45%,#02080b);
+@media(max-width:950px){
+ .navlinks a{font-size:7px;padding:11px 7px}.brand{min-width:170px}.hero-grid{grid-template-columns:1fr}.depth{max-width:430px}.s7,.s5,.s8,.s4{grid-column:span 12}.radar{display:none}.hobbies{grid-template-columns:repeat(2,1fr)}
 }
-.seafloor{
-  position:absolute;left:-5%;right:-5%;bottom:-10%;height:60%;
-  background:
-   radial-gradient(ellipse at 12% 50%,#183b40 0 7%,transparent 7.5%),
-   radial-gradient(ellipse at 36% 70%,#0b292f 0 11%,transparent 11.5%),
-   radial-gradient(ellipse at 67% 45%,#12363a 0 9%,transparent 9.5%),
-   radial-gradient(ellipse at 87% 68%,#0b282e 0 12%,transparent 12.5%),
-   linear-gradient(180deg,#0a252b,#02090c);
-  border-radius:50% 50% 0 0/25% 25% 0 0;
-}
-.rock{position:absolute;bottom:17%;background:linear-gradient(145deg,#173b3e,#071417 65%);border-radius:48% 52% 28% 30%;box-shadow:inset 15px 10px 18px rgba(87,178,170,.08),0 18px 35px rgba(0,0,0,.45)}
-.rock.rk1{left:3%;width:130px;height:80px}.rock.rk2{left:76%;width:190px;height:100px}.rock.rk3{left:89%;width:105px;height:70px}
-.rock:after{content:"";position:absolute;inset:10% 18%;background:radial-gradient(circle,rgba(78,180,160,.14),transparent 65%);filter:blur(8px)}
-.wreck{
-  position:absolute;left:36%;bottom:13%;width:300px;height:160px;transform:rotate(-7deg);
-  filter:drop-shadow(0 25px 24px rgba(0,0,0,.55));
-}
-.hull{position:absolute;bottom:0;left:10px;width:285px;height:78px;background:linear-gradient(160deg,#1a3034,#050c0e);clip-path:polygon(0 0,100% 12%,83% 100%,17% 100%);border:1px solid #31565a}
-.deck{position:absolute;left:52px;bottom:68px;width:150px;height:18px;background:#1b373b;border:1px solid #345e63}
-.cabin{position:absolute;left:90px;bottom:82px;width:78px;height:40px;background:#0b191c;border:1px solid #2c5155}
-.window{position:absolute;top:8px;width:10px;height:8px;background:#7ce9e9;box-shadow:0 0 9px #3bcbd1}.w1{left:10px}.w2{left:30px}.w3{left:50px}
-.mast{position:absolute;left:128px;bottom:95px;width:4px;height:150px;background:#244348;transform:rotate(-3deg)}
-.rope{position:absolute;left:129px;bottom:170px;width:135px;height:1px;background:#42666b;transform:rotate(13deg);transform-origin:left}
-.sail{position:absolute;left:133px;bottom:116px;width:85px;height:73px;background:linear-gradient(145deg,rgba(76,116,116,.5),rgba(12,30,32,.25));clip-path:polygon(0 0,100% 18%,100% 100%,0 78%);border:1px solid rgba(95,148,151,.3)}
-.seaweed{position:absolute;bottom:18%;width:60px;height:120px}
-.seaweed i{position:absolute;bottom:0;width:3px;border-radius:50%;background:linear-gradient(180deg,#1e7770,#062c2c);transform-origin:bottom;animation:sway 3s ease-in-out infinite}
-.seaweed i:nth-child(1){left:8px;height:90px;transform:rotate(-15deg)}.seaweed i:nth-child(2){left:22px;height:110px;animation-delay:-1s}.seaweed i:nth-child(3){left:38px;height:82px;transform:rotate(13deg);animation-delay:-1.7s}
-.jelly{
-  position:absolute;z-index:3;font-size:clamp(32px,4vw,55px);
-  filter:drop-shadow(0 0 14px rgba(112,234,255,.5));opacity:.76;
-  animation:jellyFloat 8s ease-in-out infinite;
-}
-.j1{left:74%;top:18%;animation-delay:-2s}.j2{left:82%;top:42%;font-size:35px;animation-delay:-5s}.j3{left:17%;top:29%;font-size:42px;animation-delay:-7s}.j4{left:62%;top:33%;font-size:30px;animation-delay:-1s}
-
-/* ---------- CONTENT PANELS ---------- */
-.panel-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:48px}
-.panel{padding:26px;min-height:220px}
-.span-7{grid-column:span 7}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
-.panel-label{color:var(--cyan);font:9px "DM Mono";letter-spacing:.15em;text-transform:uppercase}
-.panel h3{font-size:25px;margin-top:10px}
-.panel p{color:#8eafb8;line-height:1.8;margin-top:10px;font-size:14px}
-.data-list{margin-top:20px;display:grid;gap:9px}
-.data-row{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.055);font-size:13px}
-.data-row b{color:#638b96;font:9px "DM Mono";letter-spacing:.08em;text-transform:uppercase}
-.data-row span{color:#d8f2f5}
-.quote{font-size:25px;line-height:1.55;color:#dffaff}
-.quote small{display:block;color:#638a94;font:9px "DM Mono";margin-top:18px}
-.photo{
-  min-height:430px;display:flex;align-items:end;padding:24px;
-  background:
-   linear-gradient(180deg,transparent 35%,rgba(0,0,0,.85)),
-   radial-gradient(circle at 50% 30%,rgba(96,231,255,.18),transparent 32%),
-   linear-gradient(145deg,#0b3c4a,#041820 55%,#02090c);
-}
-.photo-placeholder{width:100%;height:260px;border:1px dashed rgba(108,238,255,.24);border-radius:18px;display:grid;place-items:center;text-align:center;color:#67909a;font:9px "DM Mono";letter-spacing:.1em}
-.photo-placeholder strong{display:block;color:#b8e8ef;font-size:14px;letter-spacing:.04em;margin-bottom:5px}
-.edu-card{min-height:430px}
-.edu-line{position:relative;margin-top:28px;padding-left:30px}
-.edu-line:before{content:"";position:absolute;left:7px;top:0;bottom:0;width:1px;background:linear-gradient(var(--cyan),transparent)}
-.edu-item{position:relative;padding:0 0 26px}
-.edu-item:before{content:"";position:absolute;left:-27px;top:3px;width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
-.edu-item time{color:#5d8791;font:9px "DM Mono"}
-.edu-item h4{margin-top:6px;font-size:17px}.edu-item p{font-size:12px;margin-top:4px}
-.hobby-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
-.hobby{padding:20px;border:1px solid rgba(108,238,255,.12);background:rgba(255,255,255,.018);border-radius:18px;transition:.3s;position:relative;overflow:hidden}
-.hobby:hover{transform:translateY(-5px);border-color:var(--cyan);box-shadow:0 15px 40px rgba(0,0,0,.3)}
-.hobby .emoji{font-size:26px;display:block;margin-bottom:14px}.hobby b{font-size:13px}.hobby small{display:block;color:#658994;font:8px "DM Mono";margin-top:6px}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
-.contact-item{padding:17px;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(108,238,255,.11)}
-.contact-item b{display:block;font:8px "DM Mono";color:#5f8b95;letter-spacing:.12em;margin-bottom:7px}.contact-item a,.contact-item span{font-size:12px;word-break:break-word}
-.thanks{text-align:center;padding:80px 20px}
-.thanks .big-jelly{font-size:76px;filter:drop-shadow(0 0 24px rgba(108,238,255,.6));animation:jellyFloat 5s ease-in-out infinite}
-.thanks h2{font-size:clamp(40px,7vw,76px);margin-top:15px;letter-spacing:-.05em}
-.thanks p{color:#7d9da7;margin:14px auto 0;max-width:550px;line-height:1.8}
-footer{position:relative;z-index:5;border-top:1px solid rgba(108,238,255,.1);padding:24px;text-align:center;color:#4f727c;font:8px "DM Mono";letter-spacing:.13em}
-
-/* ---------- METEOR ---------- */
-.meteor{
-  position:fixed;z-index:40;width:3px;height:3px;border-radius:50%;background:white;
-  box-shadow:0 0 8px 2px var(--cyan);pointer-events:none;
-  animation:meteor 1.2s linear forwards;
-}
-.meteor:after{content:"";position:absolute;width:90px;height:1px;right:1px;top:1px;background:linear-gradient(90deg,transparent,var(--cyan));transform:rotate(-32deg);transform-origin:right}
-
-/* ---------- NIGHT CIRCUIT ACCENTS ---------- */
-body.night .glass{box-shadow:var(--shadow),0 0 35px rgba(0,255,146,.035),inset 0 1px rgba(255,255,255,.05)}
-body.night .brand-mark,.night .depth-ring,.night .radar-screen{box-shadow:0 0 20px rgba(0,255,146,.08)}
-body.night .w1,.night .w2,.night .w3{background:var(--green);box-shadow:0 0 12px var(--green)}
-body.night .seaweed i{background:linear-gradient(180deg,#00ff92,#075a3b)}
-body.night .scene{filter:saturate(1.1) hue-rotate(28deg) brightness(.72)}
-body.night .jelly{filter:drop-shadow(0 0 17px rgba(0,255,146,.7))}
-
-/* ---------- ANIMATIONS ---------- */
-@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{transform:scale(1.08);opacity:.55}}
-@keyframes breathe{50%{transform:scale(1.12);filter:drop-shadow(0 0 45px rgba(108,238,255,.9))}}
-@keyframes load{to{width:100%}}@keyframes raymove{to{transform:rotate(6deg) scaleX(1.15)}}
-@keyframes rise{to{transform:translateY(-110vh);opacity:0}}@keyframes bubbleUp{to{transform:translateY(-90vh) translateX(25px);opacity:0}}
-@keyframes ripple{to{width:100px;height:100px;opacity:0}}
-@keyframes radar{to{transform:rotate(360deg)}}@keyframes blip{50%{opacity:.15;transform:scale(.7)}}
-@keyframes sway{50%{transform:rotate(18deg)}}@keyframes jellyFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-22px) rotate(4deg)}}
-@keyframes meteor{from{transform:translate(0,0);opacity:1}to{transform:translate(-330px,230px);opacity:0}}
-
-@media(max-width:900px){
- .nav-links a{padding:11px 8px;font-size:8px}.brand{min-width:auto;padding:0 10px}.brand small{display:none}
- .hero-grid{grid-template-columns:1fr}.depth-card{max-width:420px}
- .span-7,.span-5,.span-4,.span-8{grid-column:span 12}
- .hobby-grid{grid-template-columns:repeat(2,1fr)}
- .radar{display:none}
-}
-@media(max-width:620px){
- body{cursor:auto}.cursor,.cursor-dot{display:none}
- .nav{top:8px;width:calc(100% - 16px);height:auto;min-height:58px;border-radius:18px}
- .brand b{font-size:10px}.nav-links{overflow-x:auto}.nav-links a{white-space:nowrap;font-size:7px;padding:10px 7px}
- .mode-btn{width:38px;height:38px}
- .section{width:calc(100% - 22px);padding-top:105px}
- .hero{padding-top:115px}.title{font-size:52px}.hero-desc{font-size:13px}
- .panel{padding:20px}.hobby-grid,.contact-grid{grid-template-columns:1fr}
- .data-row{grid-template-columns:92px 1fr}
- .scene{height:34%}.wreck{left:18%;transform:scale(.72) rotate(-7deg);transform-origin:bottom}
- .j1{left:74%}.j3{left:5%}
+@media(max-width:650px){
+ body{cursor:auto}.cursor,.dot{display:none}.nav{top:7px;width:calc(100% - 14px);height:auto;min-height:57px;border-radius:17px}.brand{min-width:auto;padding:0 8px}.brand small{display:none}.brand b{font-size:9px}.navlinks{overflow-x:auto;justify-content:flex-start}.navlinks a{font-size:6.5px;padding:10px 6px}.mode{width:37px;height:37px;font-size:15px}
+ .section{width:calc(100% - 20px);padding-top:112px}.hero{padding-top:120px}.title{font-size:52px}.hero-desc{font-size:13px}.panel{padding:20px}.hobbies,.contact{grid-template-columns:1fr}.row{grid-template-columns:95px 1fr}.scene{height:40%}.wreck{left:12%;transform:scale(.65) rotate(-7deg);transform-origin:bottom}.fish{font-size:25px}.coral{transform:scale(.7)}.f1{top:22%}.f3{top:43%}.loader-copy{top:69%}.status{gap:9px;font-size:6.5px}
 }
 </style>
 </head>
 <body>
 
+<!-- LOADING SCREEN -->
 <div class="loader" id="loader">
-  <div class="loader-grid"></div>
-  <div class="loader-core">
-    <div class="loader-ring r1"></div><div class="loader-ring r2"></div><div class="loader-ring r3"></div>
-    <div class="core-light"></div>
-    <div class="loader-copy">
-      <div class="loader-title">MY OCEAN</div>
-      <div class="loader-sub">PERSONAL PORTFOLIO // DEEP LINK INITIALIZING</div>
-      <div class="loader-progress"><i></i></div>
-      <div class="loader-status"><span>PRESSURE OK</span><span>SONAR ONLINE</span><span>LINK 100%</span></div>
-    </div>
+ <div class="loader-ocean"></div><div class="loader-rays"></div><div class="loader-grid"></div>
+ <div class="loader-bubbles" id="loaderBubbles"></div>
+ <div class="loader-corner lc1">MY OCEAN / SYSTEM BOOT</div><div class="loader-corner lc2">DEPTH LINK / 3500M</div>
+ <div class="loader-corner lc3">SONAR / ONLINE</div><div class="loader-corner lc4">PORTFOLIO / 06 MODULES</div>
+ <div class="loader-center">
+  <div class="loader-ring lr1"></div><div class="loader-ring lr2"></div><div class="loader-ring lr3"></div>
+  <div class="loader-core"><div class="loader-jelly">🪼</div></div>
+  <div class="loader-copy">
+   <div class="loader-title">MY OCEAN</div>
+   <div class="loader-sub">INITIALIZING PERSONAL PORTFOLIO // DIVE INTO MY WORLD</div>
+   <div class="progress"><i></i></div>
+   <div class="status"><span>PRESSURE OK</span><span>SONAR ONLINE</span><span>MEMORY OK</span><span>READY</span></div>
   </div>
+ </div>
 </div>
 
-<div id="ambient">
-  <div class="ocean-bg"></div><div class="sun-disc"></div>
-  <div class="ray a"></div><div class="ray b"></div><div class="ray c"></div>
-  <div class="depth-haze"></div><div class="sea-silhouette"></div>
-  <div class="bubbles" id="bubbles"></div>
+<!-- FIXED OCEAN -->
+<div id="ocean">
+ <div class="sun"></div><div class="ray r1"></div><div class="ray r2"></div><div class="ray r3"></div><div class="caustic"></div><div class="haze"></div>
+ <div class="grid"></div><div class="circuit-lines"></div><div id="bubbles"></div>
+ <!-- fish -->
+ <div class="fish f1"><span>🐟</span></div><div class="fish f2"><span>🐠</span></div>
+ <div class="fish f3 reverse"><span>🦈</span></div><div class="fish f4 reverse"><span>🐡</span></div>
+ <div class="fish f5"><span>🐟</span></div><div class="fish f6"><span>🐠</span></div><div class="fish f7 reverse"><span>🐟</span></div>
+ <div class="fish-school">🐟 🐟 🐠 🐟 🐠 🐟 🐟</div>
+ <div class="jelly j1">🪼</div><div class="jelly j2">🪼</div><div class="jelly j3">🪼</div><div class="jelly j4">🪼</div><div class="jelly j5">🪼</div>
+ <div class="reef"></div>
+ <div class="coral c1"><i></i><i></i><i></i><i></i></div><div class="coral c2"><i></i><i></i><i></i><i></i></div>
+ <div class="coral c3"><i></i><i></i><i></i><i></i></div><div class="coral c4"><i></i><i></i><i></i><i></i></div>
+ <div class="coral c5"><i></i><i></i><i></i><i></i></div><div class="coral c6"><i></i><i></i><i></i><i></i></div>
+ <div class="seaweed" style="left:25%"><i></i><i></i><i></i></div><div class="seaweed" style="right:24%;transform:scale(.8)"><i></i><i></i><i></i></div>
+ <div class="wreck"><div class="hull"></div><div class="deck"></div><div class="cabin"><i class="window w1"></i><i class="window w2"></i><i class="window w3"></i></div><div class="mast"></div><div class="rope"></div><div class="sail"></div></div>
 </div>
-<div class="circuit"></div>
-<div class="cursor" id="cursor"></div><div class="cursor-dot" id="cursorDot"></div>
 
+<div class="cursor" id="cursor"></div><div class="dot" id="dot"></div>
+
+<!-- NAVIGATION -->
 <nav class="nav">
-  <a class="brand" href="#index">
-    <span class="brand-mark"></span><span><b>MY OCEAN</b><small>SUPITCHAYA / PORTFOLIO</small></span>
-  </a>
-  <div class="nav-links">
-    <a class="active" href="#index">INDEX</a>
-    <a href="#profile">PROFILE</a>
-    <a href="#education">EDUCATION</a>
-    <a href="#hobby">HOBBY</a>
-    <a href="#contact">CONTACT</a>
-    <a href="#thankyou">THANK YOU</a>
-  </div>
-  <button class="mode-btn" id="modeBtn" title="Switch ocean mode">◐</button>
+ <a class="brand" href="#index"><span class="brand-mark"></span><span><b>MY OCEAN</b><small>SUPITCHAYA / PORTFOLIO</small></span></a>
+ <div class="navlinks">
+  <a class="active" href="#index">INDEX</a><a href="#profile">PROFILE</a><a href="#education">EDUCATION</a><a href="#hobby">HOBBY</a><a href="#contact">CONTACT</a><a href="#thankyou">THANK YOU</a>
+ </div>
+ <button class="mode" id="mode" aria-label="เปลี่ยนโหมด">◐</button>
 </nav>
 
-<div class="radar">
-  <div class="radar-head"><span>SONAR / RADAR</span><span>LIVE</span></div>
-  <div class="radar-screen"><i class="scan"></i><i class="blip b1"></i><i class="blip b2"></i><i class="blip b3"></i></div>
-  <div class="radar-foot"><span>DEPTH 3,500M</span><span id="radarCoord">07:18</span></div>
-</div>
+<!-- RADAR -->
+<aside class="radar">
+ <div class="radar-head"><span>SONAR / RADAR</span><span>LIVE</span></div>
+ <div class="radar-screen"><i class="scan"></i><i class="blip b1"></i><i class="blip b2"></i><i class="blip b3"></i><i class="blip b4"></i></div>
+ <div class="radar-foot"><span>DEPTH 3500M</span><span id="clock">00:00</span></div>
+</aside>
 
 <main>
-<section class="section hero" id="index">
+ <!-- 01 -->
+ <section class="section hero" id="index">
   <div class="hero-grid">
-    <div>
-      <div class="kicker"><i></i>DEEP OCEAN // PERSONAL SYSTEM</div>
-      <h1 class="title">DIVE INTO<br><span>MY WORLD</span></h1>
-      <p class="hero-desc">พื้นที่เล็ก ๆ ใต้มหาสมุทรที่รวมตัวตน ความชอบ งานอดิเรก และเรื่องราวที่ฉันอยากเก็บไว้ให้ได้สำรวจทีละชั้น</p>
-      <div class="hero-actions">
-        <a class="btn primary" href="#profile">EXPLORE PROFILE ↘</a>
-        <a class="btn" href="#contact">OPEN CONTACT</a>
-      </div>
-    </div>
-    <div class="glass depth-card">
-      <div class="corner c1"></div><div class="corner c2"></div>
-      <div class="depth-top"><span>OCEAN TELEMETRY</span><span>01 / 06</span></div>
-      <div class="depth-readout">
-        <div class="depth-ring"><div><div class="depth-number">3,500</div><div class="depth-unit">METERS / SIMULATION</div></div></div>
-      </div>
-      <div class="depth-foot"><span>LIGHT: LOW</span><span>SONAR: ACTIVE</span><span>WATER: 4°C</span></div>
-    </div>
+   <div>
+    <div class="kicker"><i></i>01 / INDEX // DEEP OCEAN PORTFOLIO</div>
+    <h1 class="title">WELCOME TO<br><span class="outline">MY OCEAN</span></h1>
+    <p class="hero-desc">โลกเล็ก ๆ ของฉันที่เก็บตัวตน ความชอบ การเรียนรู้ และเรื่องราวต่าง ๆ ไว้เหมือนการสำรวจมหาสมุทรทีละชั้น</p>
+    <div class="hero-actions"><a class="btn primary" href="#profile">DIVE INTO PROFILE ↘</a><a class="btn" href="#hobby">EXPLORE HOBBIES</a></div>
+   </div>
+   <div class="glass depth"><div class="corner a"></div><div class="corner b"></div><div class="tele"><span>OCEAN TELEMETRY</span><span>01 / 06</span></div><div class="depth-ring"><div><div class="depth-num">3,500</div><div class="depth-unit">METERS / SIMULATION</div></div></div><div class="depth-foot"><span>LIGHT LOW</span><span>SONAR ACTIVE</span><span>4°C</span></div></div>
   </div>
-  <div class="scene">
-    <div class="seafloor"></div>
-    <div class="rock rk1"></div><div class="rock rk2"></div><div class="rock rk3"></div>
-    <div class="wreck"><div class="hull"></div><div class="deck"></div><div class="cabin"><i class="window w1"></i><i class="window w2"></i><i class="window w3"></i></div><div class="mast"></div><div class="rope"></div><div class="sail"></div></div>
-    <div class="seaweed" style="left:28%"><i></i><i></i><i></i></div>
-    <div class="seaweed" style="left:66%;transform:scale(.8)"><i></i><i></i><i></i></div>
-    <div class="jelly j1">🪼</div><div class="jelly j2">🪼</div><div class="jelly j3">🪼</div><div class="jelly j4">🪼</div>
-  </div>
-  <div class="scroll-cue"><span></span>SCROLL TO DESCEND</div>
-</section>
+  <div class="scroll"><i></i>SCROLL TO DESCEND</div>
+ </section>
 
-<section class="section" id="profile">
-  <div class="kicker"><i></i>02 // PROFILE</div>
-  <div class="title">WHO I AM</div>
-  <p class="sub">ข้อมูลส่วนตัวที่ถูกจัดวางเหมือนบันทึกจากสถานีสำรวจใต้ทะเล — เรียบ สะอาด แต่ยังมีบรรยากาศของโลกใต้น้ำอยู่ตลอดเวลา</p>
-  <div class="panel-grid">
-    <div class="glass panel span-7">
-      <div class="corner c1"></div><div class="corner c2"></div>
-      <div class="panel-label">PERSONAL INFORMATION</div>
-      <h3>SUPITCHAYA</h3>
-      <div class="data-list">
-        <div class="data-row"><b>NAME</b><span>สุพิชญา บุตตา</span></div>
-        <div class="data-row"><b>BIRTHDAY</b><span>18 พฤศจิกายน 2554</span></div>
-        <div class="data-row"><b>FAVORITE FOOD</b><span>KFC</span></div>
-        <div class="data-row"><b>FAVORITE DRINK</b><span>น้ำเก๊กฮวย</span></div>
-        <div class="data-row"><b>ENVIRONMENT</b><span>Deep Ocean / Creative Space</span></div>
-      </div>
-    </div>
-    <div class="glass photo span-5">
-      <div class="photo-placeholder">
-        <div><strong>YOUR PORTRAIT</strong>วางรูปของคุณไว้ตรงนี้ได้เลย<br><span>PHOTO / IMAGE AREA</span></div>
-      </div>
-    </div>
-    <div class="glass panel span-12">
-      <div class="panel-label">PERSONAL NOTE</div>
-      <div class="quote">“ทะเลมีหลายชั้น และตัวเราก็เช่นกัน — ค่อย ๆ ดำลงไป แล้วจะเจอสิ่งที่ชอบอยู่ข้างใน”<small>MY OCEAN / PRIVATE LOG</small></div>
-    </div>
+ <!-- 02 -->
+ <section class="section" id="profile">
+  <div class="head"><div><div class="kicker"><i></i>02 / PROFILE</div><div class="title">PERSONAL LOG</div></div><div class="section-no">BIO DATA // OPEN</div></div>
+  <div class="panels">
+   <div class="glass panel s7"><div class="corner a"></div><div class="corner b"></div><div class="label">PERSONAL INFORMATION</div><h3>SUPITCHAYA</h3><div class="data">
+    <div class="row"><b>NAME</b><span>สุพิชญา บุตตา</span></div><div class="row"><b>BIRTHDAY</b><span>18 พฤศจิกายน 2554</span></div><div class="row"><b>FAVORITE FOOD</b><span>KFC</span></div><div class="row"><b>FAVORITE DRINK</b><span>น้ำเก๊กฮวย</span></div><div class="row"><b>WORLD</b><span>MY OCEAN / CREATIVE SPACE</span></div>
+   </div></div>
+   <div class="glass portrait s5"><div class="portrait-box"><div><strong>PORTRAIT AREA</strong>วางรูปของคุณตรงนี้ได้เลย<br>PHOTO / IMAGE PLACEHOLDER</div></div></div>
+   <div class="glass panel s12"><div class="label">PERSONAL NOTE</div><div class="quote">“ทะเลมีหลายชั้น และตัวเราก็เช่นกัน — ค่อย ๆ ดำลงไป แล้วจะเจอสิ่งที่ชอบอยู่ข้างใน”<small>MY OCEAN / PERSONAL LOG</small></div></div>
   </div>
-</section>
+ </section>
 
-<section class="section" id="education">
-  <div class="kicker"><i></i>03 // EDUCATION</div>
-  <div class="title">EDUCATION</div>
-  <p class="sub">ส่วนสำหรับบันทึกเส้นทางการเรียนรู้ โดยไม่ใส่ชื่อสถานศึกษาหรือข้อมูลที่ไม่ได้ระบุไว้ — เพื่อให้ข้อมูลในพอร์ตยังตรงกับเจ้าของจริง</p>
-  <div class="panel-grid">
-    <div class="glass panel span-8 edu-card">
-      <div class="panel-label">LEARNING LOG / CURRENT</div>
-      <h3>MY LEARNING JOURNEY</h3>
-      <div class="edu-line">
-        <div class="edu-item"><time>NOW</time><h4>Current Education</h4><p>กำลังเรียนรู้และสะสมประสบการณ์ในแต่ละวัน ทั้งด้านการเรียนและสิ่งที่ตัวเองสนใจ</p></div>
-        <div class="edu-item"><time>ONGOING</time><h4>Creative Exploration</h4><p>พัฒนาความคิดสร้างสรรค์ผ่านการวาดรูป ฟังเพลง ดูหนัง อ่านนิยาย และการร้องเพลง</p></div>
-        <div class="edu-item"><time>NEXT</time><h4>More Things To Discover</h4><p>พื้นที่นี้สามารถเติมระดับชั้น โรงเรียน รางวัล หรือผลงานจริงในอนาคตได้ทันที</p></div>
-      </div>
-    </div>
-    <div class="glass panel span-4">
-      <div class="panel-label">SYSTEM NOTE</div>
-      <h3>KEEP<br>EXPLORING.</h3>
-      <p>การเรียนรู้ไม่จำเป็นต้องอยู่ในห้องเรียนอย่างเดียว สิ่งที่ชอบก็สามารถกลายเป็นทักษะและแรงบันดาลใจได้</p>
-      <div style="margin-top:30px;color:var(--cyan);font:10px 'DM Mono'">STATUS / ACTIVE</div>
-    </div>
+ <!-- 03 -->
+ <section class="section" id="education">
+  <div class="head"><div><div class="kicker"><i></i>03 / EDUCATION</div><div class="title">LEARNING PATH</div></div><div class="section-no">EDU DATA // ACTIVE</div></div>
+  <div class="panels">
+   <div class="glass panel s8"><div class="label">EDUCATION / LEARNING LOG</div><h3>MY LEARNING JOURNEY</h3><div class="timeline">
+    <div class="event"><time>NOW</time><h4>Current Education</h4><p>กำลังเรียนรู้และสะสมประสบการณ์ในแต่ละวัน ทั้งด้านการเรียนและสิ่งที่ตัวเองสนใจ</p></div>
+    <div class="event"><time>ONGOING</time><h4>Creative Exploration</h4><p>พัฒนาความคิดสร้างสรรค์ผ่านการวาดรูป ฟังเพลง ดูหนัง อ่านนิยาย และการร้องเพลง</p></div>
+    <div class="event"><time>NEXT</time><h4>More Things To Discover</h4><p>พื้นที่นี้สามารถเติมระดับชั้น โรงเรียน รางวัล หรือผลงานจริงในอนาคตได้</p></div>
+   </div></div>
+   <div class="glass panel s4"><div class="label">SYSTEM NOTE</div><h3>KEEP<br>EXPLORING.</h3><p>การเรียนรู้ไม่ได้อยู่แค่ในห้องเรียน สิ่งที่ชอบสามารถกลายเป็นทักษะและแรงบันดาลใจได้</p><div style="margin-top:30px;color:var(--cyan);font:9px 'DM Mono'">STATUS / ACTIVE</div></div>
   </div>
-</section>
+ </section>
 
-<section class="section" id="hobby">
-  <div class="kicker"><i></i>04 // HOBBY</div>
-  <div class="title">THINGS I LOVE</div>
-  <p class="sub">หกกิจกรรมที่ทำให้โลกส่วนตัวมีสีสันขึ้น — จากหน้ากระดาษ เสียงเพลง ไปจนถึงเรื่องราวบนจอ</p>
-  <div class="glass panel" style="margin-top:48px">
-    <div class="panel-label">PERSONAL INTERESTS / 06 CHANNELS</div>
-    <div class="hobby-grid">
-      <div class="hobby"><span class="emoji">🎨</span><b>วาดรูป</b><small>DRAWING / CREATE</small></div>
-      <div class="hobby"><span class="emoji">🎧</span><b>ฟังเพลง</b><small>MUSIC / LISTEN</small></div>
-      <div class="hobby"><span class="emoji">🎬</span><b>ดูหนัง</b><small>MOVIES / STORIES</small></div>
-      <div class="hobby"><span class="emoji">📖</span><b>อ่านนิยาย</b><small>NOVELS / IMAGINE</small></div>
-      <div class="hobby"><span class="emoji">🎤</span><b>ร้องเพลง</b><small>VOICE / PERFORM</small></div>
-      <div class="hobby"><span class="emoji">🛍️</span><b>ช็อปปิ้ง</b><small>SHOPPING / DISCOVER</small></div>
-    </div>
-  </div>
-</section>
+ <!-- 04 -->
+ <section class="section" id="hobby">
+  <div class="head"><div><div class="kicker"><i></i>04 / HOBBY</div><div class="title">THINGS I LOVE</div></div><div class="section-no">6 CHANNELS</div></div>
+  <p class="sub" style="margin-top:18px">หกกิจกรรมที่ทำให้โลกส่วนตัวมีสีสันขึ้น ตั้งแต่หน้ากระดาษ เสียงเพลง ไปจนถึงเรื่องราวบนจอ</p>
+  <div class="glass panel" style="margin-top:43px"><div class="label">PERSONAL INTERESTS / 06 CHANNELS</div><div class="hobbies">
+   <div class="hobby"><span class="emoji">🎨</span><b>วาดรูป</b><small>DRAWING / CREATE</small></div>
+   <div class="hobby"><span class="emoji">🎧</span><b>ฟังเพลง</b><small>MUSIC / LISTEN</small></div>
+   <div class="hobby"><span class="emoji">🎬</span><b>ดูหนัง</b><small>MOVIES / STORIES</small></div>
+   <div class="hobby"><span class="emoji">📖</span><b>อ่านนิยาย</b><small>NOVELS / IMAGINE</small></div>
+   <div class="hobby"><span class="emoji">🎤</span><b>ร้องเพลง</b><small>VOICE / PERFORM</small></div>
+   <div class="hobby"><span class="emoji">🛍️</span><b>ช็อปปิ้ง</b><small>SHOPPING / DISCOVER</small></div>
+  </div></div>
+ </section>
 
-<section class="section" id="contact">
-  <div class="kicker"><i></i>05 // CONTACT</div>
-  <div class="title">LET'S CONNECT</div>
-  <p class="sub">ช่องทางติดต่อและพื้นที่ออนไลน์ของ My Ocean Portfolio</p>
-  <div class="panel-grid">
-    <div class="glass panel span-7">
-      <div class="panel-label">CONTACT CHANNELS</div>
-      <div class="contact-grid">
-        <div class="contact-item"><b>EMAIL</b><a href="mailto:gamhom181154@gmail.com">gamhom181154@gmail.com</a></div>
-        <div class="contact-item"><b>PORTFOLIO</b><span>my ocean portfolio</span></div>
-        <div class="contact-item"><b>INSTAGRAM</b><span>Supitchaya_Butta</span></div>
-        <div class="contact-item"><b>STATUS</b><span style="color:var(--cyan)">● AVAILABLE TO CONNECT</span></div>
-      </div>
-    </div>
-    <div class="glass panel span-5">
-      <div class="panel-label">SIGNAL MESSAGE</div>
-      <div class="quote" style="font-size:20px">ส่งข้อความมาได้เลย<br>แล้วพบกันใต้ผิวน้ำ 🌊</div>
-      <div style="margin-top:22px;color:#5e858f;font:8px 'DM Mono'">CHANNEL ENCRYPTION / OCEAN-LINK</div>
-    </div>
+ <!-- 05 -->
+ <section class="section" id="contact">
+  <div class="head"><div><div class="kicker"><i></i>05 / CONTACT</div><div class="title">LET'S CONNECT</div></div><div class="section-no">SIGNAL // READY</div></div>
+  <p class="sub" style="margin-top:18px">ช่องทางติดต่อและพื้นที่ออนไลน์ของ My Ocean Portfolio</p>
+  <div class="panels">
+   <div class="glass panel s7"><div class="label">CONTACT CHANNELS</div><div class="contact">
+    <div class="contact-card"><b>EMAIL</b><a href="mailto:gamhom181154@gmail.com">gamhom181154@gmail.com</a></div>
+    <div class="contact-card"><b>PORTFOLIO</b><span>my ocean portfolio</span></div>
+    <div class="contact-card"><b>INSTAGRAM</b><span>Supitchaya_Butta</span></div>
+    <div class="contact-card"><b>STATUS</b><span style="color:var(--cyan)">● AVAILABLE TO CONNECT</span></div>
+   </div></div>
+   <div class="glass panel s5"><div class="label">SIGNAL MESSAGE</div><div class="quote" style="font-size:21px">ส่งข้อความมาได้เลย<br>แล้วพบกันใต้ผิวน้ำ 🌊</div><div style="margin-top:22px;color:#5f8790;font:8px 'DM Mono'">CHANNEL / OCEAN-LINK</div></div>
   </div>
-</section>
+ </section>
 
-<section class="section" id="thankyou" style="min-height:75vh">
-  <div class="glass thanks">
-    <div class="big-jelly">🪼</div>
-    <div class="kicker" style="justify-content:center;margin-top:24px"><i></i>06 // THANK YOU <i></i></div>
-    <h2>THANK YOU<br><span style="color:transparent;-webkit-text-stroke:1px rgba(232,251,255,.55)">FOR DIVING IN.</span></h2>
-    <p>ขอบคุณที่แวะเข้ามาสำรวจโลกเล็ก ๆ ของฉัน หวังว่าจะได้พบกันอีกครั้งในมุมหนึ่งของมหาสมุทร</p>
-  </div>
-</section>
+ <!-- 06 -->
+ <section class="section" id="thankyou" style="min-height:78vh">
+  <div class="glass thanks"><div><div class="thanks-jelly">🪼</div><div class="kicker" style="justify-content:center;margin-top:22px"><i></i>06 / THANK YOU <i></i></div><h2>THANK YOU<br><span class="outline">FOR DIVING IN.</span></h2><p>ขอบคุณที่แวะเข้ามาสำรวจโลกเล็ก ๆ ของฉัน หวังว่าจะได้พบกันอีกครั้งในมุมหนึ่งของมหาสมุทร</p></div></div>
+ </section>
 </main>
-
 <footer>MY OCEAN / SUPITCHAYA BUTTA / PERSONAL PORTFOLIO / DEEP SEA INTERFACE</footer>
 
 <script>
-/* ---------- LOADER ---------- */
-window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('loader').classList.add('done'),3100);
-});
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 
-/* ---------- MODE ---------- */
-const modeBtn=document.getElementById('modeBtn');
-const saved=localStorage.getItem('myOceanMode');
-if(saved==='night') document.body.classList.add('night');
-function updateMode(){
-  modeBtn.textContent=document.body.classList.contains('night')?'☼':'◐';
-  modeBtn.title=document.body.classList.contains('night')?'Switch to low-light deep sea':'Switch to neon circuit night';
-}
-updateMode();
-modeBtn.addEventListener('click',()=>{
-  document.body.classList.toggle('night');
-  localStorage.setItem('myOceanMode',document.body.classList.contains('night')?'night':'deep');
-  updateMode();
-});
+/* loader bubbles */
+const lb=$("#loaderBubbles");
+for(let i=0;i<45;i++){let b=document.createElement("i");b.className="bubble";let s=2+Math.random()*12;b.style.width=s+"px";b.style.height=s+"px";b.style.left=Math.random()*100+"%";b.style.bottom=(-5-Math.random()*20)+"px";b.style.animationDuration=(6+Math.random()*11)+"s";b.style.animationDelay=(-Math.random()*13)+"s";lb.appendChild(b)}
+addEventListener("load",()=>setTimeout(()=>$("#loader").classList.add("hide"),3400));
 
-/* ---------- PARTICLES + BUBBLES ---------- */
-const bubbles=document.getElementById('bubbles');
-for(let i=0;i<34;i++){
-  const b=document.createElement('i'); b.className='bubble';
-  const s=2+Math.random()*8;
-  b.style.width=s+'px';b.style.height=s+'px';b.style.left=Math.random()*100+'%';
-  b.style.bottom=(-10-Math.random()*40)+'px';
-  b.style.animationDuration=(8+Math.random()*13)+'s';
-  b.style.animationDelay=(-Math.random()*15)+'s';
-  bubbles.appendChild(b);
-}
-for(let i=0;i<70;i++){
-  const p=document.createElement('i');p.className='particle';
-  p.style.left=Math.random()*100+'%';p.style.top=(40+Math.random()*65)+'%';
-  p.style.animationDuration=(10+Math.random()*22)+'s';p.style.animationDelay=(-Math.random()*20)+'s';
-  p.style.opacity=(.12+Math.random()*.4);
-  document.getElementById('ambient').appendChild(p);
-}
+/* ocean bubbles / particles */
+const ocean=$("#bubbles");
+for(let i=0;i<42;i++){let b=document.createElement("i");b.className="bubble";let s=2+Math.random()*9;b.style.width=s+"px";b.style.height=s+"px";b.style.left=Math.random()*100+"%";b.style.bottom=(-5-Math.random()*40)+"px";b.style.animationDuration=(9+Math.random()*18)+"s";b.style.animationDelay=(-Math.random()*20)+"s";ocean.appendChild(b)}
+for(let i=0;i<80;i++){let p=document.createElement("i");p.className="particle";p.style.left=Math.random()*100+"%";p.style.top=(30+Math.random()*70)+"%";p.style.animationDuration=(10+Math.random()*24)+"s";p.style.animationDelay=(-Math.random()*20)+"s";$("#ocean").appendChild(p)}
 
-/* ---------- CURSOR + MOUSE PARALLAX ---------- */
-const cursor=document.getElementById('cursor'),dot=document.getElementById('cursorDot');
-let cx=innerWidth/2,cy=innerHeight/2,tx=cx,ty=cy;
-addEventListener('mousemove',e=>{
-  tx=e.clientX;ty=e.clientY;
-  document.documentElement.style.setProperty('--mx',e.clientX+'px');
-  document.documentElement.style.setProperty('--my',e.clientY+'px');
-});
-function cursorLoop(){
-  cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;
-  cursor.style.left=cx+'px';cursor.style.top=cy+'px';dot.style.left=tx+'px';dot.style.top=ty+'px';
-  requestAnimationFrame(cursorLoop);
-}
-cursorLoop();
-document.querySelectorAll('a,button,.hobby,.glass').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cursor.classList.add('active'));
-  el.addEventListener('mouseleave',()=>cursor.classList.remove('active'));
-});
-document.addEventListener('click',e=>{
-  const r=document.createElement('div');r.className='ripple';r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';document.body.appendChild(r);
-  const b=document.createElement('div');b.className='bubble';b.style.position='fixed';b.style.left=e.clientX+'px';b.style.top=e.clientY+'px';b.style.width='7px';b.style.height='7px';b.style.animationDuration='1s';document.body.appendChild(b);
-  setTimeout(()=>{r.remove();b.remove()},1100);
-});
+/* mode */
+const mode=$("#mode");let saved=localStorage.getItem("myOceanMode");if(saved==="neon")document.body.classList.add("neon");
+function modeText(){mode.textContent=document.body.classList.contains("neon")?"☼":"◐";mode.title=document.body.classList.contains("neon")?"กลับสู่โหมดทะเลแสงน้อย":"เปิดโหมดไซไฟนีออน"}
+modeText();mode.addEventListener("click",()=>{document.body.classList.toggle("neon");localStorage.setItem("myOceanMode",document.body.classList.contains("neon")?"neon":"deep");modeText()});
 
-/* ---------- METEOR / SHOOTING STAR ---------- */
-function meteor(){
-  const m=document.createElement('div');m.className='meteor';
-  m.style.left=(60+Math.random()*38)+'vw';m.style.top=(2+Math.random()*35)+'vh';
-  m.style.transform=`scale(${.65+Math.random()*.8})`;
-  document.body.appendChild(m);setTimeout(()=>m.remove(),1300);
-}
-setInterval(meteor,5200);
-setTimeout(meteor,1500);
+/* cursor + mouse effects */
+const cur=$("#cursor"),dot=$("#dot");let x=innerWidth/2,y=innerHeight/2,tx=x,ty=y;
+addEventListener("mousemove",e=>{tx=e.clientX;ty=e.clientY});
+(function loop(){x+=(tx-x)*.18;y+=(ty-y)*.18;cur.style.left=x+"px";cur.style.top=y+"px";dot.style.left=tx+"px";dot.style.top=ty+"px";requestAnimationFrame(loop)})();
+function bindHot(){ $$("a,button,.hobby,.glass").forEach(el=>{el.addEventListener("mouseenter",()=>cur.classList.add("hot"));el.addEventListener("mouseleave",()=>cur.classList.remove("hot"))})}
+bindHot();
+addEventListener("click",e=>{let r=document.createElement("i");r.className="click-ring";r.style.left=e.clientX+"px";r.style.top=e.clientY+"px";document.body.appendChild(r);setTimeout(()=>r.remove(),850)});
 
-/* ---------- RADAR CLOCK ---------- */
-const rc=document.getElementById('radarCoord');
-setInterval(()=>{
-  const d=new Date();
-  rc.textContent=d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-},1000);
+/* meteor */
+function meteor(){let m=document.createElement("i");m.className="meteor";m.style.left=(55+Math.random()*43)+"vw";m.style.top=(2+Math.random()*32)+"vh";m.style.transform=`scale(${.6+Math.random()*.9})`;document.body.appendChild(m);setTimeout(()=>m.remove(),1300)}
+setInterval(meteor,4800);setTimeout(meteor,1300);
 
-/* ---------- ACTIVE NAV ---------- */
-const links=[...document.querySelectorAll('.nav-links a')];
-const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+entry.target.id));
-    }
-  });
-},{threshold:.38});
-sections.forEach(s=>io.observe(s));
+/* clock */
+setInterval(()=>$("#clock").textContent=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}),1000);
 
-/* ---------- TINY PARALLAX ---------- */
-addEventListener('mousemove',e=>{
-  const x=(e.clientX/innerWidth-.5), y=(e.clientY/innerHeight-.5);
-  document.querySelectorAll('.depth-card,.wreck,.jelly').forEach((el,i)=>{
-    const strength= i%3===0 ? 7 : 3;
-    el.style.translate=`${x*strength}px ${y*strength}px`;
-  });
-});
+/* active nav */
+const nav=$$(".navlinks a"),secs=nav.map(a=>$(a.getAttribute("href"))).filter(Boolean);
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)nav.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id))}),{threshold:.42});secs.forEach(s=>io.observe(s));
+
+/* subtle parallax */
+addEventListener("mousemove",e=>{let px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5);$$(".wreck,.jelly,.depth").forEach((el,i)=>{let k=i%2?3:6;el.style.translate=`${px*k}px ${py*k}px`})});
 </script>
 </body>
 </html>

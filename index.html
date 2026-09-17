@@ -1157,66 +1157,6 @@ main{
 }
 
 /* =========================================================
-   CORAL
-========================================================= */
-
-.coral-zone{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:-5px;
-    height:105px;
-    z-index:-1;
-    pointer-events:none;
-    overflow:hidden;
-    display:flex;
-    align-items:flex-end;
-    gap:10px;
-    padding:0 15px;
-}
-
-.coral{
-    width:20px;
-    height:var(--h);
-    background:
-        linear-gradient(
-            90deg,
-            #032d35,
-            #075e67,
-            #06323c
-        );
-    border-radius:70% 70% 5px 5px;
-    position:relative;
-    filter:drop-shadow(0 0 7px rgba(0,234,255,.08));
-    animation:coralWave 4s ease-in-out infinite alternate;
-}
-
-.coral:before,
-.coral:after{
-    content:"";
-    position:absolute;
-    bottom:60%;
-    width:12px;
-    height:var(--branch);
-    background:#075762;
-    border-radius:20px;
-}
-
-.coral:before{
-    left:-7px;
-    transform:rotate(-25deg);
-}
-
-.coral:after{
-    right:-7px;
-    transform:rotate(25deg);
-}
-
-@keyframes coralWave{
-    to{transform:rotate(3deg)}
-}
-
-/* =========================================================
    CLICK RIPPLE
 ========================================================= */
 
@@ -1615,6 +1555,331 @@ body.night .coral:before,body.night .coral:after{background:#334a83}
     .seabed{height:20vh}
 }
 
+
+/* =========================================================
+   VISUAL OVERHAUL // NATURAL ABYSS + NEON CIRCUIT NIGHT
+   ========================================================= */
+
+/* Remove the old bottom green strip if any legacy styles remain. */
+.coral-zone{display:none!important}
+
+/* --- DAY: real deep ocean --- */
+body:not(.night) .ocean{
+    background:
+        radial-gradient(ellipse at 50% -18%, rgba(255,255,220,.13), transparent 23%),
+        radial-gradient(ellipse at 48% 0%, rgba(35,170,205,.10), transparent 44%),
+        linear-gradient(180deg,#0a3448 0%,#062331 26%,#03151f 57%,#01080e 100%);
+}
+body:not(.night) .ocean::before{
+    background:
+        linear-gradient(106deg,transparent 29%,rgba(255,255,220,.045) 39%,transparent 48%),
+        linear-gradient(78deg,transparent 49%,rgba(110,220,235,.025) 57%,transparent 66%);
+    opacity:.85;
+}
+body:not(.night) .ray{
+    width:140px;
+    opacity:.22;
+    filter:blur(13px);
+    background:linear-gradient(180deg,rgba(255,250,215,.18),rgba(90,205,230,.045),transparent 72%);
+}
+body:not(.night) .seabed{
+    height:27vh;
+    background:
+        radial-gradient(ellipse at 50% 0%,rgba(40,105,105,.16),transparent 48%),
+        linear-gradient(180deg,transparent 0%,rgba(2,19,25,.56) 34%,#02090d 100%);
+}
+body:not(.night) .rock{
+    background:
+        radial-gradient(circle at 30% 20%,rgba(150,185,175,.16),transparent 14%),
+        linear-gradient(145deg,#29464b,#142c33 58%,#07151b);
+    border-color:rgba(120,170,165,.22);
+    box-shadow:0 14px 45px rgba(0,0,0,.28);
+}
+body:not(.night) .shipwreck{
+    filter:grayscale(.25) saturate(.75) drop-shadow(0 18px 25px rgba(0,0,0,.35));
+}
+body:not(.night) .wreck-hull{background:linear-gradient(180deg,#34464a,#0a171c)}
+body:not(.night) .wreck-mast{background:#26383c}
+body:not(.night) .wreck-window{
+    background:rgba(105,190,190,.10);
+    box-shadow:0 0 10px rgba(80,190,190,.12);
+}
+body:not(.night) .seaweed{
+    background:linear-gradient(90deg,#063c38,#15745d,#083f3a);
+    filter:saturate(.7);
+}
+body:not(.night) .anemone{
+    opacity:.72;
+    filter:saturate(.72) drop-shadow(0 0 6px rgba(80,160,150,.12));
+}
+
+/* Soft sun-disc at the surface + realistic depth haze. */
+.sun-moon{
+    position:absolute;
+    width:170px;height:170px;
+    left:50%;top:-105px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:radial-gradient(circle,#fff9d8 0 9%,rgba(255,245,190,.35) 22%,rgba(150,225,240,.08) 48%,transparent 72%);
+    filter:blur(2px);
+    opacity:.52;
+    transition:1s ease;
+}
+.scene::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse at 50% 105%,rgba(0,0,0,.20),transparent 58%);
+    pointer-events:none;
+}
+
+/* --- EMOJI JELLYFISH --- */
+.jelly{
+    width:auto;height:auto;
+    border:0!important;
+    background:none!important;
+    box-shadow:none!important;
+    border-radius:0!important;
+    font-size:clamp(28px,3vw,46px);
+    line-height:1;
+    filter:drop-shadow(0 0 8px rgba(110,220,255,.35));
+    animation:jellyEmojiFloat var(--jdur,9s) ease-in-out infinite;
+}
+.jelly::after{display:none!important}
+@keyframes jellyEmojiFloat{
+    0%,100%{transform:translate3d(0,18px,0) rotate(-4deg);opacity:0}
+    12%{opacity:.62}
+    50%{transform:translate3d(var(--jx,20px),-58px,0) rotate(4deg);opacity:.78}
+    88%{opacity:.42}
+}
+
+/* --- NIGHT: electronic abyss --- */
+body.night{
+    --cyan:#55ffb7;
+    --green:#00ff8a;
+    background:#020b09;
+}
+body.night .ocean{
+    background:
+        radial-gradient(circle at 50% 48%,rgba(0,255,145,.055),transparent 28%),
+        radial-gradient(circle at 20% 75%,rgba(0,255,110,.055),transparent 25%),
+        linear-gradient(180deg,#020b0a 0%,#03130f 42%,#010504 100%);
+}
+body.night .ocean::before{
+    background:
+        repeating-linear-gradient(0deg,transparent 0 23px,rgba(0,255,125,.025) 24px 25px),
+        repeating-linear-gradient(90deg,transparent 0 39px,rgba(0,255,125,.02) 40px 41px);
+    opacity:.9;
+}
+body.night .ocean::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(90deg,transparent 49.8%,rgba(0,255,135,.08) 50%,transparent 50.2%),
+        linear-gradient(0deg,transparent 49.8%,rgba(0,255,135,.05) 50%,transparent 50.2%),
+        radial-gradient(circle at 18% 25%,rgba(0,255,135,.13) 0 1px,transparent 2px),
+        radial-gradient(circle at 82% 68%,rgba(0,255,135,.12) 0 1px,transparent 2px);
+    background-size:auto,auto,155px 155px,190px 190px;
+    animation:circuitDrift 7s linear infinite;
+}
+@keyframes circuitDrift{
+    to{background-position:12px 0,0 14px,155px 155px,-190px 190px}
+}
+body.night .ray{
+    opacity:.06;
+    filter:blur(16px);
+    background:linear-gradient(180deg,rgba(0,255,150,.12),transparent 70%);
+}
+body.night .sun-moon{
+    width:120px;height:120px;
+    top:-82px;
+    background:radial-gradient(circle,rgba(0,255,155,.25),rgba(0,255,155,.06) 35%,transparent 70%);
+    opacity:.18;
+}
+body.night .seabed{
+    background:
+        linear-gradient(180deg,transparent 0%,rgba(0,20,15,.62) 30%,#010604 100%),
+        repeating-linear-gradient(90deg,transparent 0 46px,rgba(0,255,130,.025) 47px 48px);
+}
+body.night .rock{
+    background:linear-gradient(145deg,#10241d,#06130f 65%,#020705);
+    border-color:rgba(0,255,135,.25);
+    box-shadow:0 0 35px rgba(0,255,125,.08), inset 0 0 25px rgba(0,255,125,.025);
+}
+body.night .shipwreck{
+    filter:
+        drop-shadow(0 0 7px rgba(0,255,135,.5))
+        drop-shadow(0 0 25px rgba(0,255,135,.16));
+}
+body.night .wreck-hull{
+    background:linear-gradient(180deg,#18352b,#06100c);
+    border-color:rgba(0,255,135,.3);
+}
+body.night .wreck-mast{background:#0d2b20}
+body.night .wreck-mast:after{border-color:rgba(0,255,135,.5)}
+body.night .wreck-window{
+    background:rgba(0,255,135,.35);
+    border-color:rgba(0,255,170,.65);
+    box-shadow:0 0 10px #00ff8a,0 0 28px rgba(0,255,135,.5);
+}
+body.night .seaweed{
+    background:linear-gradient(90deg,#042b20,#00a968,#063b2b);
+    box-shadow:0 0 10px rgba(0,255,135,.12);
+}
+body.night .anemone:before{
+    background:linear-gradient(90deg,#00ff8a,#7dffca,#00d98b,#a2ffe0);
+    box-shadow:-12px -8px 0 -2px #00ff9d,12px -12px 0 -3px #55ffbd,-20px -20px 0 -6px #00c978,20px -25px 0 -6px #a2ffe0;
+    filter:drop-shadow(0 0 7px #00ff8a);
+}
+body.night .jelly{
+    filter:drop-shadow(0 0 7px #00ff8a) drop-shadow(0 0 18px rgba(0,255,130,.45));
+}
+body.night .jelly::before{
+    content:"";
+    position:absolute;
+    inset:45% -5px auto;
+    height:1px;
+    background:#00ff8a;
+    box-shadow:0 0 8px #00ff8a;
+}
+
+/* Neon circuit overlays, traces, nodes and hex-tech texture. */
+.night-circuit{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .8s ease;
+}
+body.night .night-circuit{opacity:1}
+.night-circuit::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(90deg,transparent 7%,rgba(0,255,140,.08) 7.1%,transparent 7.25%),
+        linear-gradient(0deg,transparent 82%,rgba(0,255,140,.07) 82.1%,transparent 82.25%);
+    background-size:120px 100%,100% 92px;
+    mask-image:linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent);
+}
+.night-trace{
+    position:absolute;
+    width:220px;height:1px;
+    background:linear-gradient(90deg,transparent,#00ff8a,transparent);
+    box-shadow:0 0 9px #00ff8a,0 0 22px rgba(0,255,138,.5);
+    transform-origin:left center;
+}
+.night-trace::after{
+    content:"";
+    position:absolute;
+    right:0;top:-3px;
+    width:7px;height:7px;border-radius:50%;
+    background:#b8ffe0;
+    box-shadow:0 0 8px #00ff8a,0 0 18px #00ff8a;
+}
+.t1{left:4%;top:30%;transform:rotate(8deg)}
+.t2{right:3%;top:58%;transform:rotate(-14deg);width:280px}
+.t3{left:28%;bottom:18%;transform:rotate(-5deg);width:170px}
+
+/* Tech cards and controls become integrated with the night mode. */
+body.night .card,
+body.night .timeline-card,
+body.night .info-box,
+body.night .hobby,
+body.night .contact-console{
+    border-color:rgba(0,255,135,.16);
+    box-shadow:inset 0 0 25px rgba(0,255,130,.018),0 18px 50px rgba(0,0,0,.28);
+}
+body.night .card:hover,
+body.night .hobby:hover,
+body.night .timeline-card:hover{
+    border-color:rgba(0,255,135,.55);
+    box-shadow:0 0 30px rgba(0,255,135,.14),0 25px 55px rgba(0,0,0,.35);
+}
+body.night .section-title .small,
+body.night .system-tag,
+body.night .logo span,
+body.night .timeline-card .year{
+    color:#00ff8a;
+    text-shadow:0 0 10px rgba(0,255,138,.55);
+}
+body.night .btn.primary{
+    background:linear-gradient(90deg,#00794e,#00a867);
+    border-color:#00ff9d;
+    box-shadow:0 0 22px rgba(0,255,135,.15);
+}
+body.night .mode-toggle{
+    color:#dffff0;
+    background:rgba(1,17,12,.78);
+    border-color:rgba(0,255,138,.55);
+    box-shadow:0 0 22px rgba(0,255,138,.14),inset 0 0 14px rgba(0,255,138,.04);
+}
+body.night .mode-icon{filter:drop-shadow(0 0 8px #00ff8a)}
+body.night .radar{
+    background:
+        radial-gradient(circle,rgba(0,255,130,.08) 0 2%,transparent 3% 20%,rgba(0,255,130,.025) 21% 22%,transparent 23% 39%,rgba(0,255,130,.035) 40% 41%,transparent 42% 59%,rgba(0,255,130,.035) 60% 61%,transparent 62%),
+        rgba(0,18,12,.78);
+    border-color:rgba(0,255,138,.5);
+    box-shadow:0 0 30px rgba(0,255,138,.13),inset 0 0 35px rgba(0,255,138,.07);
+}
+body.night .radar-label{color:#00ff8a}
+body.night .radar-dot{background:#00ff8a;box-shadow:0 0 10px #00ff8a}
+body.night .scan{
+    background:linear-gradient(transparent 48%,rgba(0,255,140,.22) 50%,transparent 52%);
+}
+
+/* Make the loader match the premium electronic-night aesthetic. */
+#loader{
+    background:
+        radial-gradient(circle at 50% 45%,rgba(0,255,160,.13),transparent 25%),
+        radial-gradient(circle at 50% 80%,rgba(0,120,255,.08),transparent 38%),
+        linear-gradient(180deg,#000806,#001611 55%,#000504);
+}
+#loader::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        repeating-linear-gradient(90deg,transparent 0 70px,rgba(0,255,145,.022) 71px 72px),
+        repeating-linear-gradient(0deg,transparent 0 42px,rgba(0,255,145,.018) 43px 44px);
+    mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);
+}
+.loader-title{
+    text-shadow:0 0 22px rgba(0,255,170,.22);
+}
+.loader-line{
+    height:3px;
+    border-radius:99px;
+    background:rgba(0,255,160,.08);
+    box-shadow:inset 0 0 8px rgba(0,255,160,.08);
+}
+.loader-progress{
+    background:linear-gradient(90deg,transparent,#00ff8a,#c7ffe7);
+    box-shadow:0 0 14px #00ff8a,0 0 30px rgba(0,255,138,.4);
+}
+.loader-circle{
+    border-color:rgba(0,255,145,.12);
+    box-shadow:0 0 40px rgba(0,255,145,.05);
+}
+.loader-circle:before,.loader-circle:after{
+    border-color:rgba(0,255,145,.09);
+}
+.loader-glow{
+    background:radial-gradient(circle,rgba(0,255,160,.16),rgba(0,100,255,.05) 32%,transparent 70%);
+}
+.loader-jelly{
+    font-size:74px!important;
+    color:#74ffd0!important;
+    text-shadow:0 0 18px #00ff8a;
+}
+
+/* Respect mobile layout. */
+@media(max-width:650px){
+    .night-trace{width:130px}
+    .sun-moon{transform:translateX(-50%) scale(.75)}
+}
+
 </style>
 </head>
 
@@ -1628,7 +1893,7 @@ body.night .coral:before,body.night .coral:after{background:#334a83}
 
     <div class="loader-glow"></div>
     <div class="loader-bubbles" id="loaderBubbles"></div>
-    <div class="loader-jelly">◌</div>
+    <div class="loader-jelly">🪼</div>
     <div class="loader-circle"></div>
 
     <div class="loader-content">
@@ -1676,19 +1941,20 @@ body.night .coral:before,body.night .coral:after{background:#334a83}
 <!-- =====================================================
      CORAL
 ===================================================== -->
-
-<div class="coral-zone" id="coral"></div>
-
-
 <!-- =====================================================
      DAY / NIGHT OCEAN CONTROL
 ===================================================== -->
 <button class="mode-toggle" id="modeToggle" type="button" aria-label="เปลี่ยนโหมดกลางวันกลางคืน">
     <span class="mode-icon">☀</span>
-    <span class="mode-text">DAY OCEAN</span>
+    <span class="mode-text">DAY // NATURAL OCEAN</span>
 </button>
 
 <div class="scene">
+    <div class="night-circuit" aria-hidden="true">
+        <div class="night-trace t1"></div>
+        <div class="night-trace t2"></div>
+        <div class="night-trace t3"></div>
+    </div>
     <div class="sun-moon"></div>
     <div class="seabed">
         <div class="rock rock-1"></div>
@@ -2592,7 +2858,7 @@ function setOceanMode(night){
     isNight = night;
     document.body.classList.toggle("night", night);
     modeIcon.textContent = night ? "☾" : "☀";
-    modeText.textContent = night ? "NIGHT SCI-FI" : "DAY OCEAN";
+    modeText.textContent = night ? "NIGHT // NEON CIRCUIT" : "DAY // NATURAL OCEAN";
     document.documentElement.style.setProperty("--cyan", night ? "#7cfaff" : "#00eaff");
 }
 modeToggle.addEventListener("click",()=>setOceanMode(!isNight));
